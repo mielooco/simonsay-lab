@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <title>Mieloo 造型實驗室 - 完美高光版</title>
+    <style>
+        body { margin: 0; background: #080808; color: #eee; font-family: sans-serif; overflow: hidden; }
+        #ui { position: absolute; top: 20px; left: 20px; background: rgba(15,15,15,0.9); padding: 25px; border-radius: 12px; width: 260px; border: 1px solid #333; z-index: 100; backdrop-filter: blur(10px); box-shadow: 0 10px 40px rgba(0,0,0,0.6); }
+        .control-group { margin-bottom: 20px; }
+        label { display: block; font-size: 11px; margin-bottom: 10px; color: #aaa; text-transform: uppercase; letter-spacing: 2px; }
+        input[type=range] { width: 100%; cursor: pointer; accent-color: #00ffcc; -webkit-appearance: none; background: transparent; }
+        input[type=range]::-webkit-slider-runnable-track { background: #333; height: 6px; border-radius: 3px; }
+        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; background: #00ffcc; width: 16px; height: 16px; border-radius: 50%; margin-top: -5px; box-shadow: 0 0 10px rgba(0,255,204,0.6); }
+        .value { float: right; color: #00ffcc; font-weight: bold; font-family: monospace; font-size: 14px; }
+        h3 { margin: 0 0 5px 0; font-size: 18px; letter-spacing: 1px; color: #fff; }
+        .desc { font-size: 12px; color: #666; margin-bottom: 20px; }
+        .hint { font-size: 11px; line-height: 1.8; color: #aaa; border-top: 1px solid #333; padding-top: 20px; margin-top: 10px; }
+        .hint b { color: #fff; font-size: 12px; }
+    </style>
+</head>
+<body>
+
+<div id="ui">
+    <h3>Mieloo Form Lab</h3>
+    <div class="desc">LEVEL 1：完美洗鍊倒角</div>
+    
+    <div class="control-group">
+        <label>R 角半徑 (Radius) <span id="rVal" class="value">2</span></label>
+        <input type="range" id="radius" min="0" max="40" step="0.5" value="2">
+    </div>
+
+    <div class="control-group">
+        <label>塊體尺寸 (Scale) <span id="sVal" class="value">100</span></label>
+        <input type="range" id="size" min="50" max="150" step="1" value="100">
+    </div>
+
+    <div class="hint">
+        <b>教學觀察重點：</b><br>
+        1. 將 Radius 拉到極小的 <b>0.5 ~ 2</b> 之間。<br>
+        2. 旋轉方塊，觀察邊緣是否出現一條<b>連貫且極細的高光線</b>。<br>
+        3. 完美消除浮邊感，感受真正的工業洗鍊質感。
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/geometries/RoundedBoxGeometry.js"></script>
+
+<script>
+    let scene, camera, renderer, mesh, controls;
+
+    init();
+    animate();
+
+    function init() {
+        scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x0a0a0a);
+
+        camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 1, 1000);
+        camera.position.set(180, 180, 180);
+
+        renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        document.body.appendChild(renderer.domElement);
+
+        controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+
+        // 攝影棚打光，特別強化側邊亮點，用來檢驗小 R 角
+        const keyLight = new THREE.DirectionalLight(0xffffff, 1.5);
+        keyLight.position.set(100, 200, 150);
+        scene.add(keyLight);
+
+        const fillLight = new THREE.DirectionalLight(0x00ffcc, 0.4);
+        fillLight.position.set(-100, -50, 100);
+        scene.add(fillLight);
+
+        scene.add(new THREE.AmbientLight(0x333333));
+
+        updateMesh();
+
+        // UI 監聽
+        document.getElementById('radius').oninput = updateUI;
+        document.getElementById('size').oninput = updateUI;
+
+        window.onresize = () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        };
+    }
+
+    function updateUI() {
+        document.getElementById('rVal').innerText = document.getElementById('radius').value;
+        document.getElementById('sVal').innerText = document.getElementById('size').value;
+        updateMesh();
+    }
+
+    function updateMesh() {
+        if (mesh) {
+            scene.remove(mesh);
+            mesh.geometry.dispose();
+        }
+
+        let r = parseFloat(document.getElementById('radius').value);
+        const size = parseFloat(document.getElementById('size').value);
+        
+        // 防呆機制：真正的圓角算法不允許 R 為 0，給予極小值以維持幾何穩定
+        r = Math.max(0.001, r); 
+        // 防呆機制2：R 角不能大於邊長的一半
+        r = Math.min(r, size / 2);
+
+        // 【核心修改】使用官方 RoundedBoxGeometry
+        // 參數：寬, 高, 深, 圓角的分段數(設為16保證極致平滑), 半徑
+        const segments = 16; 
+        const geometry = new THREE.RoundedBoxGeometry(size, size, size, segments, r);
+
+        // 具備微金屬感的高品質磨砂材質，更能凸顯邊緣高光
+        const material = new THREE.MeshStandardMaterial({
+            color: 0xe0e0e0,
+            roughness: 0.15,
+            metalness: 0.3
+        });
+
+        mesh = new THREE.Mesh(geometry, material);
+        scene.add(mesh);
+    }
+
+    function animate() {
+        requestAnimationFrame(animate);
+        controls.update();
+        renderer.render(scene, camera);
+    }
+</script>
+</body>
+</html>
