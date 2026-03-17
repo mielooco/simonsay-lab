@@ -16,13 +16,17 @@
         .desc { font-size: 12px; color: #666; margin-bottom: 20px; line-height: 1.5; }
         .hint { font-size: 11px; line-height: 1.8; color: #aaa; border-top: 1px solid #333; padding-top: 20px; margin-top: 10px; }
         .hint b { color: #fff; font-size: 12px; }
+        .back-btn { display: flex; align-items: center; gap: 8px; text-decoration: none; color: #00ffcc; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 20px; padding: 10px 14px; border: 1px solid rgba(0,255,204,0.3); border-radius: 8px; background: rgba(0,255,204,0.06); transition: background 0.2s, border-color 0.2s; }
+        .back-btn:hover { background: rgba(0,255,204,0.14); border-color: rgba(0,255,204,0.7); }
+        .back-btn span { font-size: 14px; }
     </style>
 </head>
 <body>
 
 <div id="ui">
+    <a href="../index.html" class="back-btn"><span>←</span> 返回課程首頁</a>
     <h3>Simon Form Lab</h3>
-    <div class="desc">LEVEL 2：不同方向R角的交集碰撞，<br>探討幾何交線與布林邏輯的造型邏輯。</div>
+    <div class="desc">LEVEL 2：不同方向 R 角的交集碰撞，<br>探討幾何交線與布林邏輯的銳利美學。</div>
 
     <div class="control-group">
         <label>頂部 R 角 (Top R) <span id="valTop" class="value">0</span></label>
@@ -48,7 +52,7 @@
         <b>教學觀察重點：</b><br>
         1. <b>純粹布林交集：</b>觀察當 Top R 遠大於 Side R 時，交界處不會產生平滑過渡，而是形成銳利的「交線」並收斂至消失點。<br>
         2. <b>光影檢驗：</b>轉動視角，利用高對比的光影觀察不同曲率相交時產生的硬邊界（Hard Edge）。<br>
-        3. <b>造型氣質：</b>嘗試將頂部設定為大圓角，側邊設定為極小 R 角，感受集合切割不同面向的特徵。
+        3. <b>造型氣質：</b>嘗試將頂部設定為大圓角，側邊設定為極小 R 角，感受充滿工業張力與精密感的幾何特徵。
     </div>
 </div>
 
