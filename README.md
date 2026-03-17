@@ -1,4 +1,4 @@
-# Simon BASIC MODELING  Lab
+# Simon Basic Modeling  Lab
 ### 造型基礎實驗室
 
 > 設計人，尋找造型的老靈魂
