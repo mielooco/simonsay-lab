@@ -3,7 +3,7 @@
 
 > 設計人，尋找造型的老靈魂
 
-**🔗 課程入口 → [mielooco.github.io/SimonSay-lab](https://mielooco.github.io/SimonSay-lab/)**
+**🔗 課程入口 → [https://mielooco.github.io/SimonSay-lab/](https://mielooco.github.io/simonsay-lab/))**
 ---
 
 ## 關於這個課程
