@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <title>Simon Form Lab - LEVEL 2 (Perfect Edge)</title>
+    <style>
+        body { margin: 0; background: #080808; color: #eee; font-family: sans-serif; overflow: hidden; }
+        #ui { position: absolute; top: 20px; left: 20px; background: rgba(15,15,15,0.9); padding: 25px; border-radius: 12px; width: 280px; border: 1px solid #333; z-index: 100; backdrop-filter: blur(10px); box-shadow: 0 10px 40px rgba(0,0,0,0.6); }
+        .control-group { margin-bottom: 20px; }
+        label { display: block; font-size: 11px; margin-bottom: 10px; color: #aaa; text-transform: uppercase; letter-spacing: 2px; }
+        input[type=range] { width: 100%; cursor: pointer; accent-color: #00ffcc; -webkit-appearance: none; background: transparent; }
+        input[type=range]::-webkit-slider-runnable-track { background: #333; height: 6px; border-radius: 3px; }
+        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; background: #00ffcc; width: 16px; height: 16px; border-radius: 50%; margin-top: -5px; box-shadow: 0 0 10px rgba(0,255,204,0.6); }
+        .value { float: right; color: #00ffcc; font-weight: bold; font-family: monospace; font-size: 14px; }
+        h3 { margin: 0 0 5px 0; font-size: 18px; letter-spacing: 1px; color: #fff; }
+        .desc { font-size: 12px; color: #666; margin-bottom: 20px; line-height: 1.5; }
+        .hint { font-size: 11px; line-height: 1.8; color: #aaa; border-top: 1px solid #333; padding-top: 20px; margin-top: 10px; }
+        .hint b { color: #fff; font-size: 12px; }
+    </style>
+</head>
+<body>
+
+<div id="ui">
+    <h3>Simon Form Lab</h3>
+    <div class="desc">LEVEL 2：不同方向R角的交集碰撞，<br>探討幾何交線與布林邏輯的造型邏輯。</div>
+
+    <div class="control-group">
+        <label>頂部 R 角 (Top R) <span id="valTop" class="value">0</span></label>
+        <input type="range" id="rTop" min="0" max="50" step="0.5" value="0">
+    </div>
+
+    <div class="control-group">
+        <label>底部 R 角 (Bottom R) <span id="valBottom" class="value">0</span></label>
+        <input type="range" id="rBottom" min="0" max="50" step="0.5" value="0">
+    </div>
+
+    <div class="control-group">
+        <label>垂直邊 R 角 (Side R) <span id="valSide" class="value">0</span></label>
+        <input type="range" id="rSide" min="0" max="50" step="0.5" value="0">
+    </div>
+
+    <div class="control-group">
+        <label>塊體尺寸 (Scale) <span id="valSize" class="value">100</span></label>
+        <input type="range" id="size" min="60" max="150" step="1" value="100">
+    </div>
+
+    <div class="hint">
+        <b>教學觀察重點：</b><br>
+        1. <b>純粹布林交集：</b>觀察當 Top R 遠大於 Side R 時，交界處不會產生平滑過渡，而是形成銳利的「交線」並收斂至消失點。<br>
+        2. <b>光影檢驗：</b>轉動視角，利用高對比的光影觀察不同曲率相交時產生的硬邊界（Hard Edge）。<br>
+        3. <b>造型氣質：</b>嘗試將頂部設定為大圓角，側邊設定為極小 R 角，感受集合切割不同面向的特徵。
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+
+<script>
+    let scene, camera, renderer, mesh, controls, baseGeometry;
+
+    init();
+    animate();
+
+    function init() {
+        scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x0a0a0a);
+
+        camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 1, 1000);
+        camera.position.set(150, 200, 250);
+
+        renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        document.body.appendChild(renderer.domElement);
+
+        controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+
+        const keyLight = new THREE.DirectionalLight(0xffffff, 2.0);
+        keyLight.position.set(100, 200, 150);
+        scene.add(keyLight);
+
+        const rimLight = new THREE.DirectionalLight(0x00ffcc, 1.2);
+        rimLight.position.set(-150, 50, -100);
+        scene.add(rimLight);
+
+        const fillLight = new THREE.DirectionalLight(0xffa500, 0.4);
+        fillLight.position.set(100, -50, -100);
+        scene.add(fillLight);
+
+        scene.add(new THREE.AmbientLight(0x222222));
+
+        // 【強勢回歸】使用高密度的 BoxGeometry，解決邊緣鋸齒問題
+        baseGeometry = new THREE.BoxGeometry(1, 1, 1, 150, 150, 150);
+
+        mesh = new THREE.Mesh(
+            baseGeometry.clone(),
+            new THREE.MeshStandardMaterial({
+                color: 0xcccccc,
+                roughness: 0.18,
+                metalness: 0.4
+            })
+        );
+        scene.add(mesh);
+
+        document.getElementById('rTop').oninput    = () => { document.getElementById('valTop').innerText    = document.getElementById('rTop').value;    updateMesh(); };
+        document.getElementById('rBottom').oninput = () => { document.getElementById('valBottom').innerText = document.getElementById('rBottom').value; updateMesh(); };
+        document.getElementById('rSide').oninput   = () => { document.getElementById('valSide').innerText   = document.getElementById('rSide').value;   updateMesh(); };
+        document.getElementById('size').oninput    = () => { document.getElementById('valSize').innerText   = document.getElementById('size').value;    updateMesh(); };
+
+        window.onresize = () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        };
+
+        updateMesh();
+    }
+
+    // 【修復核心】避開 NaN 的數學黑洞
+    function getIntersectT(d1, d2, R, S_half) {
+        d1 = Math.abs(d1);
+        d2 = Math.abs(d2);
+
+        // 防禦：如果兩個方向都是 0，直接回傳無限大
+        if (d1 === 0 && d2 === 0) return Infinity;
+
+        if (R <= 0.001) {
+            const t1 = d1 > 0 ? S_half / d1 : Infinity;
+            const t2 = d2 > 0 ? S_half / d2 : Infinity;
+            return Math.min(t1, t2);
+        }
+
+        const c = S_half - R;
+
+        // 防禦 0 * Infinity 的 NaN 產生
+        if (d1 > 0) {
+            const t1 = S_half / d1;
+            if (d2 === 0 || d2 * t1 <= c) return t1;
+        }
+
+        if (d2 > 0) {
+            const t2 = S_half / d2;
+            if (d1 === 0 || d1 * t2 <= c) return t2;
+        }
+
+        const a = d1*d1 + d2*d2;
+        const b = -2 * c * (d1 + d2);
+        const k = 2 * c*c - R*R;
+        const D = b*b - 4*a*k;
+
+        if (D >= 0) return (-b + Math.sqrt(D)) / (2*a);
+        return Infinity;
+    }
+
+    function updateMesh() {
+        const S = parseFloat(document.getElementById('size').value);
+        const S_half = S / 2;
+
+        let rT = Math.min(parseFloat(document.getElementById('rTop').value),    S_half);
+        let rB = Math.min(parseFloat(document.getElementById('rBottom').value), S_half);
+        let rS = Math.min(parseFloat(document.getElementById('rSide').value),   S_half);
+
+        const basePos   = baseGeometry.attributes.position;
+        const targetPos = mesh.geometry.attributes.position;
+
+        for (let i = 0; i < basePos.count; i++) {
+            let x = basePos.getX(i);
+            let y = basePos.getY(i);
+            let z = basePos.getZ(i);
+
+            const len = Math.sqrt(x*x + y*y + z*z);
+            if (len === 0) continue; // 避開絕對原點
+
+            let dx = x / len;
+            let dy = y / len;
+            let dz = z / len;
+
+            const rY = dy > 0 ? rT : rB;
+
+            const t_x = getIntersectT(dy, dz, rY, S_half);
+            const t_z = getIntersectT(dx, dy, rY, S_half);
+            const t_y = getIntersectT(dx, dz, rS, S_half);
+
+            const t = Math.min(t_x, t_y, t_z);
+
+            if (isFinite(t)) {
+                targetPos.setXYZ(i, dx * t, dy * t, dz * t);
+            }
+        }
+
+        targetPos.needsUpdate = true;
+        mesh.geometry.computeVertexNormals();
+    }
+
+    function animate() {
+        requestAnimationFrame(animate);
+        controls.update();
+        renderer.render(scene, camera);
+    }
+</script>
+</body>
+</html>
