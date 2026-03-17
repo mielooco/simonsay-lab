@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <title>Mieloo 造型實驗室 - LEVEL 2</title>
+    <style>
+        body { margin: 0; background: #080808; color: #eee; font-family: 'PingFang TC', sans-serif; overflow: hidden; }
+        #ui { 
+            position: absolute; top: 20px; left: 20px; background: rgba(15,15,15,0.9); 
+            padding: 25px; border-radius: 12px; width: 260px; border: 1px solid #333; 
+            z-index: 100; backdrop-filter: blur(10px); box-shadow: 0 10px 40px rgba(0,0,0,0.6); 
+        }
+        .control-group { margin-bottom: 20px; }
+        label { display: block; font-size: 11px; margin-bottom: 10px; color: #aaa; text-transform: uppercase; letter-spacing: 1px; }
+        input[type=range] { width: 100%; cursor: pointer; }
+        
+        /* 客製化滑桿視覺 */
+        input[type=range] { -webkit-appearance: none; background: transparent; }
+        input[type=range]::-webkit-slider-runnable-track { background: #333; height: 6px; border-radius: 3px; }
+        input[type=range]::-webkit-slider-thumb { 
+            -webkit-appearance: none; background: #00ffcc; width: 16px; height: 16px; 
+            border-radius: 50%; margin-top: -5px; box-shadow: 0 0 10px rgba(0,255,204,0.6); 
+            transition: transform 0.1s;
+        }
+        input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.2); }
+        
+        .value { float: right; color: #00ffcc; font-weight: bold; font-family: monospace; font-size: 14px; }
+        h3 { margin: 0 0 5px 0; font-size: 18px; letter-spacing: 1px; color: #fff; }
+        .desc { font-size: 12px; color: #666; margin-bottom: 20px; font-weight: 300; }
+        .hint { font-size: 12px; line-height: 1.8; color: #999; border-top: 1px solid #333; padding-top: 20px; margin-top: 10px; }
+        .hint b { color: #fff; }
+    </style>
+</head>
+<body>
+
+<div id="ui">
+    <h3>SIMON Form Lab</h3>
+    <div class="desc">LEVEL 2：方向性 R 角與幾何塊體</div>
+
+    <div class="control-group">
+        <label>頂部 R 角 (Top Radius) <span id="tRVal" class="value">10</span></label>
+        <input type="range" id="topR" min="0" max="50" step="0.5" value="10">
+    </div>
+
+    <div class="control-group">
+        <label>底部 R 角 (Bottom Radius) <span id="bRVal" class="value">2</span></label>
+        <input type="range" id="botR" min="0" max="50" step="0.5" value="2">
+    </div>
+
+    <div class="control-group">
+        <label>垂直邊 R 角 (Side Radius) <span id="sRVal" class="value">15</span></label>
+        <input type="range" id="sideR" min="0" max="50" step="0.5" value="15">
+    </div>
+
+    <div class="control-group">
+        <label>塊體尺寸 (Scale) <span id="scaleVal" class="value">100</span></label>
+        <input type="range" id="scale" min="50" max="150" step="1" value="100">
+    </div>
+
+    <div class="hint">
+        <b>教學觀察重點：</b><br>
+        1. 嘗試將 Top R 與 Side R 設為不同數值，觀察頂角的漸變過渡面。<br>
+        2. 將 Bottom R 壓至極低 (例: 1)，感受真實產品的<b>貼地感與分模線</b>狀態。<br>
+        3. 轉動視角，檢視高光線在非對稱 R 角上的流暢度。
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/utils/BufferGeometryUtils.js"></script>
+
+<script>
+    let scene, camera, renderer, mesh, controls;
+
+    // 高質感物理材質設定
+    const material = new THREE.MeshPhysicalMaterial({
+        color: 0xdcdcdc,
+        metalness: 0.3,
+        roughness: 0.15,
+        clearcoat: 0.8,         // 增加透明漆面效果
+        clearcoatRoughness: 0.1,
+        flatShading: false
+    });
+
+    init();
+    animate();
+
+    function init() {
+        scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x0a0a0a);
+
+        camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 1, 1000);
+        camera.position.set(200, 180, 200);
+
+        renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // 優化高解析度螢幕效能
+        document.body.appendChild(renderer.domElement);
+
+        controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.05;
+
+        // --- 攝影棚打光設定 (強化曲面高光) ---
+        scene.add(new THREE.AmbientLight(0x2a2a2a));
+
+        const mainLight = new THREE.DirectionalLight(0xffffff, 1.2);
+        mainLight.position.set(100, 200, 150);
+        scene.add(mainLight);
+
+        const fillLight = new THREE.DirectionalLight(0x00ffcc, 0.6);
+        fillLight.position.set(-100, -50, 100);
+        scene.add(fillLight);
+
+        const rimLight = new THREE.DirectionalLight(0xff00cc, 0.3); // 背側輪廓光
+        rimLight.position.set(100, -100, -200);
+        scene.add(rimLight);
+
+        updateMesh();
+
+        // UI 事件綁定
+        const inputs = ['topR', 'botR', 'sideR', 'scale'];
+        inputs.forEach(id => {
+            document.getElementById(id).addEventListener('input', updateUI);
+        });
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    }
+
+    function updateUI() {
+        document.getElementById('tRVal').innerText = document.getElementById('topR').value;
+        document.getElementById('bRVal').innerText = document.getElementById('botR').value;
+        document.getElementById('sRVal').innerText = document.getElementById('sideR').value;
+        document.getElementById('scaleVal').innerText = document.getElementById('scale').value;
+        updateMesh();
+    }
+
+    function updateMesh() {
+        if (mesh) {
+            scene.remove(mesh);
+            mesh.geometry.dispose();
+        }
+
+        const topR = parseFloat(document.getElementById('topR').value);
+        const botR = parseFloat(document.getElementById('botR').value);
+        const sideR = parseFloat(document.getElementById('sideR').value);
+        const size = parseFloat(document.getElementById('scale').value);
+
+        const geometry = createVariableRoundedBox(size, topR, botR, sideR);
+        mesh = new THREE.Mesh(geometry, material);
+        scene.add(mesh);
+    }
+
+    // 核心演算法：生成可獨立控制各軸半徑的圓角方塊 (完美修復 0 R角捏角破圖)
+    function createVariableRoundedBox(size, topR, botR, sideR) {
+        // 網格密度 48 能兼顧順暢度與高光極致平滑
+        const seg = 48; 
+        let geometry = new THREE.BoxGeometry(size, size, size, seg, seg, seg);
+        const pos = geometry.attributes.position;
+        const hw = size / 2;
+
+        // 【關鍵修復 1】：移除 0.001 的限制，允許真實的 0 半徑
+        const safeTopR = Math.max(0, Math.min(topR, hw));
+        const safeBotR = Math.max(0, Math.min(botR, hw));
+        const safeSideR = Math.max(0, Math.min(sideR, hw));
+
+        for (let i = 0; i < pos.count; i++) {
+            let x = pos.getX(i);
+            let y = pos.getY(i);
+            let z = pos.getZ(i);
+
+            let signX = Math.sign(x) || 1;
+            let signY = Math.sign(y) || 1;
+            let signZ = Math.sign(z) || 1;
+
+            let ax = Math.abs(x);
+            let ay = Math.abs(y);
+            let az = Math.abs(z);
+
+            let rY = y > 0 ? safeTopR : safeBotR;
+            let rX = safeSideR;
+            let rZ = safeSideR;
+
+            let cx = hw - rX;
+            let cy = hw - rY;
+            let cz = hw - rZ;
+
+            let dx = Math.max(0, ax - cx);
+            let dy = Math.max(0, ay - cy);
+            let dz = Math.max(0, az - cz);
+
+            // 【關鍵修復 2】：當半徑為 0 時，歸一化距離強制為 0
+            // 這會讓 3D 球化公式完美退化為 2D 圓柱(Fillet)公式或 1D 直角
+            let nx = rX <= 0 ? 0 : dx / rX;
+            let ny = rY <= 0 ? 0 : dy / rY;
+            let nz = rZ <= 0 ? 0 : dz / rZ;
+
+            // 加入 Math.max(0, ...) 防止浮點數誤差導致的 NaN 破面
+            let mapX = nx * Math.sqrt(Math.max(0, 1 - (ny*ny)/2 - (nz*nz)/2 + (ny*ny*nz*nz)/3));
+            let mapY = ny * Math.sqrt(Math.max(0, 1 - (nx*nx)/2 - (nz*nz)/2 + (nx*nx*nz*nz)/3));
+            let mapZ = nz * Math.sqrt(Math.max(0, 1 - (nx*nx)/2 - (ny*ny)/2 + (nx*nx*ny*ny)/3));
+
+            let finalX = Math.min(ax, cx) + mapX * rX;
+            let finalY = Math.min(ay, cy) + mapY * rY;
+            let finalZ = Math.min(az, cz) + mapZ * rZ;
+
+            pos.setXYZ(i, finalX * signX, finalY * signY, finalZ * signZ);
+        }
+
+        pos.needsUpdate = true;
+        
+        // 縫合頂點並重新計算平滑法線
+        geometry = THREE.BufferGeometryUtils.mergeVertices(geometry);
+        geometry.computeVertexNormals();
+
+        return geometry;
+    }
+
+    function animate() {
+        requestAnimationFrame(animate);
+        controls.update();
+        renderer.render(scene, camera);
+    }
+</script>
+</body>
+</html>
