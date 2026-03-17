@@ -34,4 +34,4 @@
 
 ---
 
-*Simon Form Lab © 2026*
+*Simon BASIC MODELING Lab © 2026*
