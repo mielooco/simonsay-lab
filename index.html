@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simon BASIC MODELING Lab — 造型基礎實驗室</title>
+    <title>Simon Form Lab — 造型基礎實驗室</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Noto+Sans+TC:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
@@ -170,6 +170,10 @@
         .level-card:nth-child(4) { animation-delay: 0.75s; }
         .level-card:nth-child(5) { animation-delay: 0.85s; }
         .level-card:nth-child(6) { animation-delay: 0.95s; }
+        .level-card:nth-child(7) { animation-delay: 1.05s; }
+        .level-card:nth-child(8) { animation-delay: 1.15s; }
+        .level-card:nth-child(9) { animation-delay: 1.25s; }
+        .level-card:nth-child(10) { animation-delay: 1.35s; }
 
         /* 數字 */
         .level-num {
@@ -221,15 +225,19 @@
             letter-spacing: 1px;
         }
 
-        /* 箭頭 */
+        /* 三角形箭頭 */
         .level-arrow {
-            font-size: 18px;
-            color: var(--muted);
-            transition: color 0.2s, transform 0.2s;
+            width: 0;
+            height: 0;
+            border-top: 7px solid transparent;
+            border-bottom: 7px solid transparent;
+            border-left: 11px solid var(--muted);
+            transition: border-left-color 0.2s, transform 0.2s;
+            flex-shrink: 0;
         }
 
         .level-card:hover .level-arrow {
-            color: var(--accent);
+            border-left-color: var(--accent);
             transform: translateX(4px);
         }
 
@@ -270,14 +278,7 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* 已完成章節光點 */
-        .status-dot {
-            width: 6px; height: 6px;
-            border-radius: 50%;
-            background: var(--accent);
-            box-shadow: 0 0 8px var(--accent);
-            flex-shrink: 0;
-        }
+
 
         @media (max-width: 600px) {
             .level-card { padding: 20px; gap: 16px; }
@@ -292,10 +293,10 @@
 
 <div class="container">
     <header>
-        <div class="lab-label">Simon BASIC MODELING Lab ／ 造型基礎實驗室</div>
+        <div class="lab-label">Simon Form Lab ／ 造型基礎實驗室</div>
         <h1>從塊體中<br>尋找造型的<span>靈魂</span></h1>
         <p class="subtitle">
-            給正在學習造型設計的互動造型課程。<br>
+            給工業設計學生的互動造型課程。<br>
             每個 Level 都是一個可以動手玩的 3D 實驗室，從 R 角開始，理解形體的語言。
         </p>
     </header>
@@ -316,8 +317,8 @@
                     <span class="tag">VOLUME</span>
                 </div>
             </div>
-            <div class="status-dot"></div>
-            <div class="level-arrow">→</div>
+
+            <div class="level-arrow"></div>
         </a>
 
         <!-- LEVEL 2 -->
@@ -332,8 +333,8 @@
                     <span class="tag">INTERSECTION</span>
                 </div>
             </div>
-            <div class="status-dot"></div>
-            <div class="level-arrow">→</div>
+
+            <div class="level-arrow"></div>
         </a>
 
         <!-- LEVEL 3 -->
@@ -348,19 +349,25 @@
                     <span class="tag">CLEARCOAT</span>
                 </div>
             </div>
-            <div class="status-dot"></div>
-            <div class="level-arrow">→</div>
+
+            <div class="level-arrow"></div>
         </a>
 
-        <!-- LEVEL 4 鎖定 -->
-        <div class="level-card locked">
+        <!-- LEVEL 4 -->
+        <a href="level-4/index.html" class="level-card">
             <div class="level-num">LEVEL 04</div>
             <div class="level-content">
-                <div class="level-title">Coming Soon</div>
-                <div class="level-desc">即將推出⋯</div>
+                <div class="level-title">長寬高比例與造型張力</div>
+                <div class="level-desc">突破正方體的限制，獨立控制 X、Y、Z 三軸尺寸。感受相同 R 角在不同比例下的視覺佔比，從遙控器到電視盒，探索量體感的差異。</div>
+                <div class="level-tags">
+                    <span class="tag">PROPORTION</span>
+                    <span class="tag">ASPECT RATIO</span>
+                    <span class="tag">VOLUME</span>
+                </div>
             </div>
-            <div class="lock-icon">🔒</div>
-        </div>
+
+            <div class="level-arrow"></div>
+        </a>
 
         <!-- LEVEL 5 鎖定 -->
         <div class="level-card locked">
@@ -382,10 +389,50 @@
             <div class="lock-icon">🔒</div>
         </div>
 
+        <!-- LEVEL 7 鎖定 -->
+        <div class="level-card locked">
+            <div class="level-num">LEVEL 07</div>
+            <div class="level-content">
+                <div class="level-title">Coming Soon</div>
+                <div class="level-desc">即將推出⋯</div>
+            </div>
+            <div class="lock-icon">🔒</div>
+        </div>
+
+        <!-- LEVEL 8 鎖定 -->
+        <div class="level-card locked">
+            <div class="level-num">LEVEL 08</div>
+            <div class="level-content">
+                <div class="level-title">Coming Soon</div>
+                <div class="level-desc">即將推出⋯</div>
+            </div>
+            <div class="lock-icon">🔒</div>
+        </div>
+
+        <!-- LEVEL 9 鎖定 -->
+        <div class="level-card locked">
+            <div class="level-num">LEVEL 09</div>
+            <div class="level-content">
+                <div class="level-title">Coming Soon</div>
+                <div class="level-desc">即將推出⋯</div>
+            </div>
+            <div class="lock-icon">🔒</div>
+        </div>
+
+        <!-- LEVEL 10 鎖定 -->
+        <div class="level-card locked">
+            <div class="level-num">LEVEL 10</div>
+            <div class="level-content">
+                <div class="level-title">Coming Soon</div>
+                <div class="level-desc">即將推出⋯</div>
+            </div>
+            <div class="lock-icon">🔒</div>
+        </div>
+
     </div>
 
     <footer>
-        <span class="footer-label">SIMON BASIC MODELING LAB © 2026</span>
+        <span class="footer-label">SIMON FORM LAB © 2026</span>
         <span class="footer-tag">小方的造型基礎實驗室</span>
     </footer>
 </div>
