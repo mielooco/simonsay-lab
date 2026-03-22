@@ -70,7 +70,7 @@
 
     <div class="stage-box active-1">
         <div class="stage-title"><b>STEP 01</b> 用R決定角造型方向 R1</div>
-        <input type="range" class="r1-slider" id="radius1" min="0" max="150" step="0.5" value="56">
+        <input type="range" class="r1-slider" id="radius1" min="0" max="200" step="0.5" value="56">
         <span id="r1Val" class="value r1-val">56.0</span>
     </div>
 
@@ -136,7 +136,7 @@
         let r3 = parseFloat(document.getElementById('radius3').value);
 
         // 級聯限制：S01 >= S02 >= S03，S04 隱藏並與 S03 同步
-        const safeR1 = Math.max(0, Math.min(r1, h/2 - 0.1, d/2 - 0.1));
+        const safeR1 = Math.max(0, Math.min(r1, h - 0.1, d/2 - 0.1));
         const safeRB = Math.max(0, Math.min(rb, safeR1, w/2 - 0.1, d/2 - 0.1));
         const safeR3 = Math.max(0, Math.min(r3, safeRB > 0 ? safeRB : safeR1, w/2 - 0.1));
         const safeR4 = safeR3; // S04 與 S03 強制同步
