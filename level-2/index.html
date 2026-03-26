@@ -2,57 +2,134 @@
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>SIMON基礎造型實驗室-LEVEL2</title>
     <style>
-        body { margin: 0; background: #080808; color: #eee; font-family: sans-serif; overflow: hidden; }
-        #ui { position: absolute; top: 20px; left: 20px; background: rgba(15,15,15,0.9); padding: 25px; border-radius: 12px; width: 280px; border: 1px solid #333; z-index: 100; backdrop-filter: blur(10px); box-shadow: 0 10px 40px rgba(0,0,0,0.6); }
-        .control-group { margin-bottom: 20px; }
-        label { display: block; font-size: 11px; margin-bottom: 10px; color: #aaa; text-transform: uppercase; letter-spacing: 2px; }
-        input[type=range] { width: 100%; cursor: pointer; accent-color: #00ffcc; -webkit-appearance: none; background: transparent; }
-        input[type=range]::-webkit-slider-runnable-track { background: #333; height: 6px; border-radius: 3px; }
-        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; background: #00ffcc; width: 16px; height: 16px; border-radius: 50%; margin-top: -5px; box-shadow: 0 0 10px rgba(0,255,204,0.6); }
-        .value { float: right; color: #00ffcc; font-weight: bold; font-family: monospace; font-size: 14px; }
-        h3 { margin: 0 0 5px 0; font-size: 18px; letter-spacing: 1px; color: #fff; }
-        .desc { font-size: 12px; color: #666; margin-bottom: 20px; line-height: 1.5; }
-        .hint { font-size: 11px; line-height: 1.8; color: #aaa; border-top: 1px solid #333; padding-top: 20px; margin-top: 10px; }
-        .hint b { color: #fff; font-size: 12px; }
-        .back-btn { display: flex; align-items: center; gap: 8px; text-decoration: none; color: #00ffcc; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 20px; padding: 10px 14px; border: 1px solid rgba(0,255,204,0.3); border-radius: 8px; background: rgba(0,255,204,0.06); transition: background 0.2s, border-color 0.2s; }
-        .back-btn:hover { background: rgba(0,255,204,0.14); border-color: rgba(0,255,204,0.7); }
-        .back-btn span { font-size: 14px; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #080808; color: #eee; font-family: 'PingFang TC', sans-serif; overflow: hidden; height: 100dvh; width: 100dvw; }
+        #canvas-container { position: fixed; inset: 0; z-index: 0; }
+
+        /* ══ DESKTOP ══ */
+        #ui-desktop {
+            display: none; position: absolute; top: 20px; left: 20px;
+            background: rgba(15,15,15,0.9); padding: 25px; border-radius: 12px;
+            width: 280px; border: 1px solid #333; z-index: 100;
+            backdrop-filter: blur(10px); box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+        }
+        @media (min-width: 769px) and (hover: hover) and (pointer: fine) {
+            #ui-desktop { display: block; }
+            #ui-mobile   { display: none !important; }
+        }
+        #ui-desktop label { display: block; font-size: 11px; margin-bottom: 10px; color: #aaa; text-transform: uppercase; letter-spacing: 2px; }
+        #ui-desktop input[type=range] { width: 100%; cursor: pointer; -webkit-appearance: none; background: transparent; }
+        #ui-desktop input[type=range]::-webkit-slider-runnable-track { background: #333; height: 6px; border-radius: 3px; }
+        #ui-desktop input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; background: #00ffcc; width: 16px; height: 16px; border-radius: 50%; margin-top: -5px; box-shadow: 0 0 10px rgba(0,255,204,0.6); }
+        #ui-desktop .value { float: right; color: #00ffcc; font-weight: bold; font-family: monospace; font-size: 14px; }
+        #ui-desktop h3 { margin: 0 0 5px 0; font-size: 18px; letter-spacing: 1px; color: #fff; }
+        #ui-desktop .desc { font-size: 12px; color: #666; margin-bottom: 20px; line-height: 1.5; }
+        #ui-desktop .hint { font-size: 11px; line-height: 1.8; color: #aaa; border-top: 1px solid #333; padding-top: 20px; margin-top: 10px; }
+        #ui-desktop .hint b { color: #fff; font-size: 12px; }
+        #ui-desktop .control-group { margin-bottom: 20px; }
+        #ui-desktop .back-btn { display: flex; align-items: center; gap: 8px; text-decoration: none; color: #00ffcc; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 20px; padding: 10px 14px; border: 1px solid rgba(0,255,204,0.3); border-radius: 8px; background: rgba(0,255,204,0.06); }
+
+        /* ══ MOBILE ══ */
+        #ui-mobile { position: fixed; bottom: 0; left: 0; right: 0; z-index: 200; background: rgba(10,10,10,0.96); border-top: 1px solid #222; border-radius: 16px 16px 0 0; backdrop-filter: blur(24px); padding: 0 18px; padding-bottom: env(safe-area-inset-bottom, 0px); }
+        .drag-handle { width: 32px; height: 4px; background: #2a2a2a; border-radius: 2px; margin: 10px auto 0; }
+        .mobile-header { display: flex; align-items: center; gap: 10px; padding: 10px 0; }
+        .back-btn-mobile { display: flex; align-items: center; justify-content: center; width: 30px; height: 30px; border: 1px solid rgba(0,255,204,0.25); border-radius: 7px; background: rgba(0,255,204,0.06); color: #00ffcc; font-size: 15px; text-decoration: none; flex-shrink: 0; -webkit-tap-highlight-color: transparent; }
+        .mobile-title-block { flex: 1; min-width: 0; }
+        .mobile-level-tag { font-size: 9px; font-family: monospace; color: #00ffcc; letter-spacing: 2px; opacity: 0.6; display: block; margin-bottom: 1px; }
+        .mobile-title { font-size: 12px; font-weight: 600; color: #ccc; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .hint-toggle-btn { display: flex; align-items: center; gap: 4px; background: none; border: 1px solid #2a2a2a; border-radius: 7px; color: #555; font-size: 10px; letter-spacing: 1px; padding: 5px 9px; cursor: pointer; flex-shrink: 0; -webkit-tap-highlight-color: transparent; transition: border-color 0.2s, color 0.2s; }
+        .hint-toggle-btn.active { border-color: rgba(0,255,204,0.3); color: #00ffcc; }
+        .hint-toggle-btn .arrow { font-size: 7px; transition: transform 0.3s; display: inline-block; }
+        .hint-toggle-btn.active .arrow { transform: rotate(180deg); }
+        .controls-area { padding-bottom: 14px; }
+        .control-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+        .control-row:last-child { margin-bottom: 0; }
+        .control-label { font-size: 9px; color: #555; text-transform: uppercase; letter-spacing: 1.5px; white-space: nowrap; width: 48px; flex-shrink: 0; }
+        input[type=range] { flex: 1; -webkit-appearance: none; background: transparent; cursor: pointer; touch-action: pan-x; }
+        input[type=range]::-webkit-slider-runnable-track { background: #222; height: 6px; border-radius: 3px; }
+        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; background: #00ffcc; width: 22px; height: 22px; border-radius: 50%; margin-top: -8px; box-shadow: 0 0 10px rgba(0,255,204,0.4); }
+        .control-value { font-size: 13px; font-weight: 700; font-family: monospace; color: #00ffcc; width: 34px; text-align: right; flex-shrink: 0; }
+        .hint-area { overflow: hidden; max-height: 0; transition: max-height 0.32s cubic-bezier(0.4,0,0.2,1); }
+        .hint-area.is-open { max-height: 180px; }
+        .hint-inner { border-top: 1px solid #1c1c1c; padding: 10px 0 14px; font-size: 11px; line-height: 1.75; color: #5a5a5a; overflow-y: auto; max-height: 160px; }
+        .hint-inner b { color: #888; }
     </style>
 </head>
 <body>
 
-<div id="ui">
+<div id="canvas-container"></div>
+
+<!-- DESKTOP -->
+<div id="ui-desktop">
     <a href="../index.html" class="back-btn"><span>←</span> 返回課程首頁</a>
     <h3>Simon Form Lab</h3>
     <div class="desc">LEVEL 2：不同方向 R 角的交集碰撞，<br>探討幾何交線與布林邏輯的銳利美學。</div>
-
     <div class="control-group">
-        <label>頂部 R 角 (Top R) <span id="valTop" class="value">0</span></label>
-        <input type="range" id="rTop" min="0" max="50" step="0.5" value="0">
+        <label>頂部 R 角 (Top R) <span id="valTop-d" class="value">0</span></label>
+        <input type="range" id="rTop-d" min="0" max="50" step="0.5" value="0">
     </div>
-
     <div class="control-group">
-        <label>底部 R 角 (Bottom R) <span id="valBottom" class="value">0</span></label>
-        <input type="range" id="rBottom" min="0" max="50" step="0.5" value="0">
+        <label>底部 R 角 (Bottom R) <span id="valBottom-d" class="value">0</span></label>
+        <input type="range" id="rBottom-d" min="0" max="50" step="0.5" value="0">
     </div>
-
     <div class="control-group">
-        <label>垂直邊 R 角 (Side R) <span id="valSide" class="value">0</span></label>
-        <input type="range" id="rSide" min="0" max="50" step="0.5" value="0">
+        <label>垂直邊 R 角 (Side R) <span id="valSide-d" class="value">0</span></label>
+        <input type="range" id="rSide-d" min="0" max="50" step="0.5" value="0">
     </div>
-
     <div class="control-group">
-        <label>塊體尺寸 (Scale) <span id="valSize" class="value">100</span></label>
-        <input type="range" id="size" min="60" max="150" step="1" value="100">
+        <label>塊體尺寸 (Scale) <span id="valSize-d" class="value">100</span></label>
+        <input type="range" id="size-d" min="60" max="150" step="1" value="100">
     </div>
-
     <div class="hint">
         <b>教學觀察重點：</b><br>
-        1. <b>純粹布林交集：</b>觀察當 Top R 遠大於 Side R 時，交界處不會產生平滑過渡，而是形成銳利的「交線」並收斂至消失點。<br>
-        2. <b>光影檢驗：</b>轉動視角，利用高對比的光影觀察不同曲率相交時產生的硬邊界（Hard Edge）。<br>
-        3. <b>造型氣質：</b>嘗試將頂部設定為大圓角，側邊設定為極小 R 角，感受充滿工業張力與精密感的幾何特徵。
+        1. <b>純粹布林交集：</b>Top R 遠大於 Side R 時，交界形成銳利「交線」。<br>
+        2. <b>光影檢驗：</b>轉動視角，觀察不同曲率相交產生的硬邊界 (Hard Edge)。<br>
+        3. <b>造型氣質：</b>頂部大圓角＋側邊極小 R，感受工業張力與精密感。
+    </div>
+</div>
+
+<!-- MOBILE -->
+<div id="ui-mobile">
+    <div class="drag-handle"></div>
+    <div class="mobile-header">
+        <a href="../index.html" class="back-btn-mobile">←</a>
+        <div class="mobile-title-block">
+            <span class="mobile-level-tag">LEVEL 02</span>
+            <span class="mobile-title">布林運算的邏輯</span>
+        </div>
+        <button class="hint-toggle-btn" id="hintToggle">提示 <span class="arrow">▲</span></button>
+    </div>
+    <div class="controls-area">
+        <div class="control-row">
+            <span class="control-label">Top R</span>
+            <input type="range" id="rTop-m" min="0" max="50" step="0.5" value="0">
+            <span class="control-value" id="valTop-m">0</span>
+        </div>
+        <div class="control-row">
+            <span class="control-label">Bot R</span>
+            <input type="range" id="rBottom-m" min="0" max="50" step="0.5" value="0">
+            <span class="control-value" id="valBottom-m">0</span>
+        </div>
+        <div class="control-row">
+            <span class="control-label">Side R</span>
+            <input type="range" id="rSide-m" min="0" max="50" step="0.5" value="0">
+            <span class="control-value" id="valSide-m">0</span>
+        </div>
+        <div class="control-row">
+            <span class="control-label">Scale</span>
+            <input type="range" id="size-m" min="60" max="150" step="1" value="100">
+            <span class="control-value" id="valSize-m">100</span>
+        </div>
+    </div>
+    <div class="hint-area" id="hintArea">
+        <div class="hint-inner">
+            1. <b>布林交集：</b>Top R 遠大於 Side R → 銳利交線收斂至消失點。<br>
+            2. 轉動視角，觀察不同曲率相交的 Hard Edge。<br>
+            3. 頂部大圓角＋側邊極小 R → 工業張力與精密感。
+        </div>
     </div>
 </div>
 
@@ -61,147 +138,96 @@
 
 <script>
     let scene, camera, renderer, mesh, controls, baseGeometry;
+    init3D(); animate();
 
-    init();
-    animate();
-
-    function init() {
+    function init3D() {
         scene = new THREE.Scene();
         scene.background = new THREE.Color(0x0a0a0a);
-
         camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 1, 1000);
         camera.position.set(150, 200, 250);
-
         renderer = new THREE.WebGLRenderer({ antialias: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(window.devicePixelRatio);
-        document.body.appendChild(renderer.domElement);
-
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        document.getElementById('canvas-container').appendChild(renderer.domElement);
         controls = new THREE.OrbitControls(camera, renderer.domElement);
         controls.enableDamping = true;
 
-        const keyLight = new THREE.DirectionalLight(0xffffff, 2.0);
-        keyLight.position.set(100, 200, 150);
-        scene.add(keyLight);
-
-        const rimLight = new THREE.DirectionalLight(0x00ffcc, 1.2);
-        rimLight.position.set(-150, 50, -100);
-        scene.add(rimLight);
-
-        const fillLight = new THREE.DirectionalLight(0xffa500, 0.4);
-        fillLight.position.set(100, -50, -100);
-        scene.add(fillLight);
-
+        const kl = new THREE.DirectionalLight(0xffffff, 2.0); kl.position.set(100,200,150); scene.add(kl);
+        const rl = new THREE.DirectionalLight(0x00ffcc, 1.2); rl.position.set(-150,50,-100); scene.add(rl);
+        const fl = new THREE.DirectionalLight(0xffa500, 0.4); fl.position.set(100,-50,-100); scene.add(fl);
         scene.add(new THREE.AmbientLight(0x222222));
 
-        // 【強勢回歸】使用高密度的 BoxGeometry，解決邊緣鋸齒問題
         baseGeometry = new THREE.BoxGeometry(1, 1, 1, 150, 150, 150);
-
-        mesh = new THREE.Mesh(
-            baseGeometry.clone(),
-            new THREE.MeshStandardMaterial({
-                color: 0xcccccc,
-                roughness: 0.18,
-                metalness: 0.4
-            })
-        );
+        mesh = new THREE.Mesh(baseGeometry.clone(), new THREE.MeshStandardMaterial({ color: 0xcccccc, roughness: 0.18, metalness: 0.4 }));
         scene.add(mesh);
 
-        document.getElementById('rTop').oninput    = () => { document.getElementById('valTop').innerText    = document.getElementById('rTop').value;    updateMesh(); };
-        document.getElementById('rBottom').oninput = () => { document.getElementById('valBottom').innerText = document.getElementById('rBottom').value; updateMesh(); };
-        document.getElementById('rSide').oninput   = () => { document.getElementById('valSide').innerText   = document.getElementById('rSide').value;   updateMesh(); };
-        document.getElementById('size').oninput    = () => { document.getElementById('valSize').innerText   = document.getElementById('size').value;    updateMesh(); };
-
-        window.onresize = () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        };
-
+        window.addEventListener('resize', () => { camera.aspect = window.innerWidth / window.innerHeight; camera.updateProjectionMatrix(); renderer.setSize(window.innerWidth, window.innerHeight); });
         updateMesh();
     }
 
-    // 【修復核心】避開 NaN 的數學黑洞
     function getIntersectT(d1, d2, R, S_half) {
-        d1 = Math.abs(d1);
-        d2 = Math.abs(d2);
-
-        // 防禦：如果兩個方向都是 0，直接回傳無限大
+        d1 = Math.abs(d1); d2 = Math.abs(d2);
         if (d1 === 0 && d2 === 0) return Infinity;
-
-        if (R <= 0.001) {
-            const t1 = d1 > 0 ? S_half / d1 : Infinity;
-            const t2 = d2 > 0 ? S_half / d2 : Infinity;
-            return Math.min(t1, t2);
-        }
-
+        if (R <= 0.001) { return Math.min(d1>0?S_half/d1:Infinity, d2>0?S_half/d2:Infinity); }
         const c = S_half - R;
-
-        // 防禦 0 * Infinity 的 NaN 產生
-        if (d1 > 0) {
-            const t1 = S_half / d1;
-            if (d2 === 0 || d2 * t1 <= c) return t1;
-        }
-
-        if (d2 > 0) {
-            const t2 = S_half / d2;
-            if (d1 === 0 || d1 * t2 <= c) return t2;
-        }
-
-        const a = d1*d1 + d2*d2;
-        const b = -2 * c * (d1 + d2);
-        const k = 2 * c*c - R*R;
-        const D = b*b - 4*a*k;
-
+        if (d1 > 0) { const t1 = S_half/d1; if (d2===0||d2*t1<=c) return t1; }
+        if (d2 > 0) { const t2 = S_half/d2; if (d1===0||d1*t2<=c) return t2; }
+        const a=d1*d1+d2*d2, b=-2*c*(d1+d2), k=2*c*c-R*R, D=b*b-4*a*k;
         if (D >= 0) return (-b + Math.sqrt(D)) / (2*a);
         return Infinity;
     }
 
+    function getVal(name) {
+        const mob = window.innerWidth <= 768 || !window.matchMedia('(hover:hover) and (pointer:fine)').matches;
+        return parseFloat(document.getElementById(name + (mob ? '-m' : '-d')).value);
+    }
+
     function updateMesh() {
-        const S = parseFloat(document.getElementById('size').value);
-        const S_half = S / 2;
-
-        let rT = Math.min(parseFloat(document.getElementById('rTop').value),    S_half);
-        let rB = Math.min(parseFloat(document.getElementById('rBottom').value), S_half);
-        let rS = Math.min(parseFloat(document.getElementById('rSide').value),   S_half);
-
-        const basePos   = baseGeometry.attributes.position;
+        const S = getVal('size'), S_half = S / 2;
+        const rT = Math.min(getVal('rTop'), S_half);
+        const rB = Math.min(getVal('rBottom'), S_half);
+        const rS = Math.min(getVal('rSide'), S_half);
+        const basePos = baseGeometry.attributes.position;
         const targetPos = mesh.geometry.attributes.position;
-
         for (let i = 0; i < basePos.count; i++) {
-            let x = basePos.getX(i);
-            let y = basePos.getY(i);
-            let z = basePos.getZ(i);
-
-            const len = Math.sqrt(x*x + y*y + z*z);
-            if (len === 0) continue; // 避開絕對原點
-
-            let dx = x / len;
-            let dy = y / len;
-            let dz = z / len;
-
+            let x=basePos.getX(i), y=basePos.getY(i), z=basePos.getZ(i);
+            const len = Math.sqrt(x*x+y*y+z*z);
+            if (len === 0) continue;
+            let dx=x/len, dy=y/len, dz=z/len;
             const rY = dy > 0 ? rT : rB;
-
-            const t_x = getIntersectT(dy, dz, rY, S_half);
-            const t_z = getIntersectT(dx, dy, rY, S_half);
-            const t_y = getIntersectT(dx, dz, rS, S_half);
-
-            const t = Math.min(t_x, t_y, t_z);
-
-            if (isFinite(t)) {
-                targetPos.setXYZ(i, dx * t, dy * t, dz * t);
-            }
+            const t = Math.min(getIntersectT(dy,dz,rY,S_half), getIntersectT(dx,dy,rY,S_half), getIntersectT(dx,dz,rS,S_half));
+            if (isFinite(t)) targetPos.setXYZ(i, dx*t, dy*t, dz*t);
         }
-
         targetPos.needsUpdate = true;
         mesh.geometry.computeVertexNormals();
     }
 
-    function animate() {
-        requestAnimationFrame(animate);
-        controls.update();
-        renderer.render(scene, camera);
+    function animate() { requestAnimationFrame(animate); controls.update(); renderer.render(scene, camera); }
+
+    // 同步函數
+    function syncAndUpdate(nameBase, value, valIdMob, valIdDesk) {
+        document.getElementById(nameBase+'-m').value = value;
+        document.getElementById(nameBase+'-d').value = value;
+        document.getElementById(valIdMob).textContent = value;
+        document.getElementById(valIdDesk).textContent = value;
+        updateMesh();
     }
+
+    ['rTop','rBottom','rSide','size'].forEach(name => {
+        const pairs = { rTop:['valTop-m','valTop-d'], rBottom:['valBottom-m','valBottom-d'], rSide:['valSide-m','valSide-d'], size:['valSize-m','valSize-d'] };
+        ['-m','-d'].forEach(suffix => {
+            document.getElementById(name+suffix).addEventListener('input', function() {
+                syncAndUpdate(name, this.value, pairs[name][0], pairs[name][1]);
+            });
+        });
+    });
+
+    const hintToggle = document.getElementById('hintToggle');
+    const hintArea   = document.getElementById('hintArea');
+    hintToggle.addEventListener('click', () => {
+        const open = hintArea.classList.toggle('is-open');
+        hintToggle.classList.toggle('active', open);
+    });
 </script>
 </body>
 </html>
