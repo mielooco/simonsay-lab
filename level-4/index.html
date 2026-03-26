@@ -2,267 +2,403 @@
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>SIMON基礎造型實驗室-LEVEL4</title>
     <style>
-        body { margin: 0; background: #080808; color: #eee; font-family: 'PingFang TC', sans-serif; overflow: hidden; }
-        #ui { 
-            position: absolute; top: 20px; left: 20px; background: rgba(15,15,15,0.9); 
-            padding: 25px; border-radius: 12px; width: 280px; border: 1px solid #333; 
-            z-index: 100; backdrop-filter: blur(10px); box-shadow: 0 10px 40px rgba(0,0,0,0.6); 
-            max-height: 90vh; overflow-y: auto; /* 避免螢幕太小時超出範圍 */
-        }
-        /* 自訂卷軸 */
-        #ui::-webkit-scrollbar { width: 6px; }
-        #ui::-webkit-scrollbar-track { background: transparent; }
-        #ui::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #080808; color: #eee; font-family: 'PingFang TC', sans-serif; overflow: hidden; height: 100dvh; width: 100dvw; }
+        #canvas-container { position: fixed; inset: 0; z-index: 0; }
 
-        .control-group { margin-bottom: 18px; }
-        label { display: block; font-size: 11px; margin-bottom: 8px; color: #aaa; text-transform: uppercase; letter-spacing: 1px; }
-        input[type=range] { width: 100%; cursor: pointer; }
-        
-        /* 客製化滑桿視覺 */
-        input[type=range] { -webkit-appearance: none; background: transparent; }
-        input[type=range]::-webkit-slider-runnable-track { background: #333; height: 6px; border-radius: 3px; }
-        input[type=range]::-webkit-slider-thumb { 
-            -webkit-appearance: none; background: #00ffcc; width: 16px; height: 16px; 
-            border-radius: 50%; margin-top: -5px; box-shadow: 0 0 10px rgba(0,255,204,0.6); 
-            transition: transform 0.1s;
+        /* ══ DESKTOP ══ */
+        #ui-desktop {
+            display: none; position: absolute; top: 20px; left: 20px;
+            background: rgba(15,15,15,0.95); padding: 25px; border-radius: 12px;
+            width: clamp(260px, 22vw, 360px); border: 1px solid #333; z-index: 100;
+            backdrop-filter: blur(10px); box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+            max-height: 90vh; overflow-y: auto;
         }
-        input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.2); }
-        
-        /* 比例滑桿使用不同顏色以作區別 */
-        .prop-slider::-webkit-slider-thumb { background: #ffaa00 !important; box-shadow: 0 0 10px rgba(255,170,0,0.6) !important; }
-        
-        .value { float: right; color: #00ffcc; font-weight: bold; font-family: monospace; font-size: 14px; }
-        .prop-val { color: #ffaa00; }
+        #ui-desktop::-webkit-scrollbar { width: 4px; }
+        #ui-desktop::-webkit-scrollbar-thumb { background: #333; border-radius: 2px; }
 
-        h3 { margin: 0 0 5px 0; font-size: 18px; letter-spacing: 1px; color: #fff; }
-        .desc { font-size: 12px; color: #666; margin-bottom: 20px; font-weight: 300; }
-        .hint { font-size: 12px; line-height: 1.8; color: #999; border-top: 1px solid #333; padding-top: 20px; margin-top: 15px; }
-        .hint b { color: #fff; }
-        .back-btn { display: flex; align-items: center; gap: 8px; text-decoration: none; color: #00ffcc; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 20px; padding: 10px 14px; border: 1px solid rgba(0,255,204,0.3); border-radius: 8px; background: rgba(0,255,204,0.06); transition: background 0.2s, border-color 0.2s; }
-        .back-btn:hover { background: rgba(0,255,204,0.14); border-color: rgba(0,255,204,0.7); }
-        .back-btn span { font-size: 14px; }
-        .divider { height: 1px; background: #333; margin: 20px 0; }
+        @media (min-width: 769px) and (hover: hover) and (pointer: fine) {
+            #ui-desktop { display: block; }
+            #ui-mobile   { display: none !important; }
+        }
+
+        #ui-desktop .cg { margin-bottom: 14px; }
+        #ui-desktop label { display: block; font-size: 11px; margin-bottom: 8px; color: #aaa; text-transform: uppercase; letter-spacing: 1px; }
+        #ui-desktop input[type=range] { width: 100%; cursor: pointer; -webkit-appearance: none; background: transparent; }
+        #ui-desktop input[type=range]::-webkit-slider-runnable-track { background: #333; height: 4px; border-radius: 2px; }
+        #ui-desktop input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; border-radius: 50%; margin-top: -5px; background: #00ffcc; transition: transform .1s; }
+        #ui-desktop input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.2); }
+        #ui-desktop .prop-slider::-webkit-slider-thumb { background: #ffaa00 !important; box-shadow: 0 0 8px rgba(255,170,0,0.4) !important; }
+        #ui-desktop .seg-slider::-webkit-slider-thumb  { background: #555 !important; box-shadow: none !important; }
+        #ui-desktop .v   { float: right; font-weight: bold; font-family: monospace; font-size: 14px; color: #00ffcc; }
+        #ui-desktop .pv  { color: #ffaa00; }
+        #ui-desktop h3   { margin: 0 0 5px; font-size: 18px; letter-spacing: 1px; color: #fff; }
+        #ui-desktop .desc { font-size: 12px; color: #666; margin-bottom: 16px; font-weight: 300; }
+        #ui-desktop .section-title { font-size: 10px; color: #444; margin: 16px 0 10px; border-bottom: 1px solid #1e1e1e; padding-bottom: 6px; text-transform: uppercase; letter-spacing: 2px; }
+        #ui-desktop .back { display: flex; align-items: center; gap: 8px; text-decoration: none; color: #00ffcc; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 20px; padding: 10px 14px; border: 1px solid rgba(0,255,204,.3); border-radius: 8px; background: rgba(0,255,204,.06); transition: background .2s, border-color .2s; }
+        #ui-desktop .back:hover { background: rgba(0,255,204,.14); border-color: rgba(0,255,204,.7); }
+        #ui-desktop .hint { font-size: 12px; line-height: 1.8; color: #999; border-top: 1px solid #333; padding-top: 18px; margin-top: 16px; }
+        #ui-desktop .hint b { color: #fff; }
+
+        /* ══ MOBILE ══ */
+        #ui-mobile { position: fixed; bottom: 0; left: 0; right: 0; z-index: 200; background: rgba(10,10,10,0.96); border-top: 1px solid #222; border-radius: 16px 16px 0 0; backdrop-filter: blur(24px); padding: 0 18px; padding-bottom: env(safe-area-inset-bottom, 0px); }
+        .drag-handle { width: 32px; height: 4px; background: #2a2a2a; border-radius: 2px; margin: 10px auto 0; }
+        .mobile-header { display: flex; align-items: center; gap: 10px; padding: 10px 0; }
+        .back-btn-mobile { display: flex; align-items: center; justify-content: center; width: 30px; height: 30px; border: 1px solid rgba(0,255,204,0.25); border-radius: 7px; background: rgba(0,255,204,0.06); color: #00ffcc; font-size: 15px; text-decoration: none; flex-shrink: 0; -webkit-tap-highlight-color: transparent; }
+        .mobile-title-block { flex: 1; min-width: 0; }
+        .mobile-level-tag { font-size: 9px; font-family: monospace; color: #00ffcc; letter-spacing: 2px; opacity: 0.6; display: block; margin-bottom: 1px; }
+        .mobile-title { font-size: 12px; font-weight: 600; color: #ccc; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .hint-toggle-btn { display: flex; align-items: center; gap: 4px; background: none; border: 1px solid #2a2a2a; border-radius: 7px; color: #555; font-size: 10px; letter-spacing: 1px; padding: 5px 9px; cursor: pointer; flex-shrink: 0; -webkit-tap-highlight-color: transparent; transition: border-color 0.2s, color 0.2s; }
+        .hint-toggle-btn.active { border-color: rgba(0,255,204,0.3); color: #00ffcc; }
+        .hint-toggle-btn .arrow { font-size: 7px; transition: transform 0.3s; display: inline-block; }
+        .hint-toggle-btn.active .arrow { transform: rotate(180deg); }
+
+        .controls-area { padding-bottom: 14px; }
+        .control-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+        .control-row:last-child { margin-bottom: 0; }
+        .control-label { font-size: 9px; text-transform: uppercase; letter-spacing: 1px; white-space: nowrap; width: 52px; flex-shrink: 0; color: #555; }
+        .control-label.prop { color: #7a5a2a; }
+        .control-label.seg  { color: #3a3a3a; }
+
+        input[type=range] { flex: 1; -webkit-appearance: none; background: transparent; cursor: pointer; touch-action: pan-x; }
+        input[type=range]::-webkit-slider-runnable-track { background: #222; height: 6px; border-radius: 3px; }
+        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 22px; height: 22px; border-radius: 50%; margin-top: -8px; background: #00ffcc; box-shadow: 0 0 10px rgba(0,255,204,0.4); }
+        input.prop-slider::-webkit-slider-thumb { background: #ffaa00; box-shadow: 0 0 8px rgba(255,170,0,0.35); }
+        input.seg-slider::-webkit-slider-thumb  { background: #444; box-shadow: none; }
+
+        .control-value { font-size: 13px; font-weight: 700; font-family: monospace; width: 36px; text-align: right; flex-shrink: 0; color: #00ffcc; }
+        .control-value.prop { color: #ffaa00; }
+        .control-value.seg  { color: #444; }
+
+        .mobile-divider { height: 1px; background: #1e1e1e; margin: 8px 0; }
+
+        .hint-area { overflow: hidden; max-height: 0; transition: max-height 0.32s cubic-bezier(0.4,0,0.2,1); }
+        .hint-area.is-open { max-height: 220px; }
+        .hint-inner { border-top: 1px solid #1c1c1c; padding: 10px 0 14px; font-size: 11px; line-height: 1.75; color: #5a5a5a; overflow-y: auto; max-height: 200px; }
+        .hint-inner b { color: #888; }
     </style>
 </head>
 <body>
 
-<div id="ui">
-    <a href="../index.html" class="back-btn"><span>←</span> 返回課程首頁</a>
+<div id="canvas-container"></div>
+
+<!-- ══ DESKTOP ══ -->
+<div id="ui-desktop">
+    <a href="../index.html" class="back"><span>←</span> 返回課程首頁</a>
     <h3>SIMON Form Lab</h3>
-    <div class="desc">LEVEL 4：長寬高比例不同，如何影響造型風格</div>
+    <div class="desc">LEVEL 4：幾何精確 Fillet — 弧線掃描建構</div>
 
-    <div class="control-group">
-        <label>寬度 (Width - X) <span id="wVal" class="value prop-val">120</span></label>
-        <input type="range" class="prop-slider" id="width" min="20" max="250" step="1" value="120">
-    </div>
+    <div class="section-title">尺寸控制 · Dimensions</div>
+    <div class="cg"><label>寬度 (W) <span id="wV-d" class="v pv">220</span></label>
+        <input type="range" class="prop-slider" id="W-d" min="100" max="400" value="220"></div>
+    <div class="cg"><label>高度 (H) <span id="hV-d" class="v pv">110</span></label>
+        <input type="range" class="prop-slider" id="H-d" min="50" max="300" value="110"></div>
+    <div class="cg"><label>深度 (D) <span id="dV-d" class="v pv">160</span></label>
+        <input type="range" class="prop-slider" id="D-d" min="100" max="400" value="160"></div>
 
-    <div class="control-group">
-        <label>高度 (Height - Y) <span id="hVal" class="value prop-val">40</span></label>
-        <input type="range" class="prop-slider" id="height" min="10" max="250" step="1" value="40">
-    </div>
+    <div class="section-title">圓角控制 · R-Angles</div>
+    <div class="cg"><label>頂部 R 角 (R_top) <span id="rhtV-d" class="v">20.0</span></label>
+        <input type="range" id="RH_TOP-d" min="0.1" max="100" step="0.5" value="20"></div>
+    <div class="cg"><label>底部 R 角 (R_bot) <span id="rhbV-d" class="v">10.0</span></label>
+        <input type="range" id="RH_BOTTOM-d" min="0.1" max="100" step="0.5" value="10"></div>
+    <div class="cg"><label>垂直 R 角 (R_vert) <span id="rvV-d" class="v">30.0</span></label>
+        <input type="range" id="RV-d" min="0.1" max="100" step="0.5" value="30"></div>
 
-    <div class="control-group">
-        <label>深度 (Depth - Z) <span id="dVal" class="value prop-val">180</span></label>
-        <input type="range" class="prop-slider" id="depth" min="20" max="250" step="1" value="180">
-    </div>
-
-    <div class="divider"></div>
-
-    <div class="control-group">
-        <label>頂部 R 角 (Top Radius) <span id="tRVal" class="value">10</span></label>
-        <input type="range" id="topR" min="0" max="50" step="0.5" value="10">
-    </div>
-
-    <div class="control-group">
-        <label>底部 R 角 (Bottom Radius) <span id="bRVal" class="value">2</span></label>
-        <input type="range" id="botR" min="0" max="50" step="0.5" value="2">
-    </div>
-
-    <div class="control-group">
-        <label>垂直邊 R 角 (Side Radius) <span id="sRVal" class="value">15</span></label>
-        <input type="range" id="sideR" min="0" max="50" step="0.5" value="15">
-    </div>
+    <div class="section-title">精度控制 · Mesh</div>
+    <div class="cg"><label>細分精度 (Segments) <span id="sV-d" class="v" style="color:#555">16</span></label>
+        <input type="range" class="seg-slider" id="S-d" min="8" max="48" step="1" value="16"></div>
 
     <div class="hint">
         <b>教學觀察重點：</b><br>
-        1. <b>量體感差異：</b>將比例拉成細長的遙控器或扁平的電視盒，觀察相同的 R 角數值在不同體積下的視覺佔比。<br>
-        2. <b>曲面張力：</b>當長寬差異極大時，Side R 會影響立面的俐落度；試著在扁平物件上加強 Top R，感受曲面的飽滿度。<br>
-        3. <b>極限防護：</b>演算法已設定防呆，當厚度(Y)小於 R 角時，R 角會自動適應最大極限，觀察這種「逼近極限」的收口變化。
+        1. <b>高度連動：</b>R_top + R_bot 之和不能超過總高 H，縮小 H 時兩者自動等比縮減。<br>
+        2. <b>垂直 R 角上限：</b>R_vert 受寬度與深度的最小值限制，感受角落圓度與整體比例的關係。<br>
+        3. <b>不對稱頂底：</b>頂部設大 R、底部設小 R，觀察量體「重心」的視覺偏移。<br>
+        4. <b>Segments：</b>調低至 8 感受低模稜角感，調高至 48 感受工業曲面的細膩。
+    </div>
+</div>
+
+<!-- ══ MOBILE ══ -->
+<div id="ui-mobile">
+    <div class="drag-handle"></div>
+    <div class="mobile-header">
+        <a href="../index.html" class="back-btn-mobile">←</a>
+        <div class="mobile-title-block">
+            <span class="mobile-level-tag">LEVEL 04</span>
+            <span class="mobile-title">幾何精確 Fillet</span>
+        </div>
+        <button class="hint-toggle-btn" id="hintToggle">提示 <span class="arrow">▲</span></button>
+    </div>
+
+    <div class="controls-area">
+        <div class="control-row">
+            <span class="control-label prop">Width</span>
+            <input type="range" class="prop-slider" id="W-m" min="100" max="400" value="220">
+            <span class="control-value prop" id="wV-m">220</span>
+        </div>
+        <div class="control-row">
+            <span class="control-label prop">Height</span>
+            <input type="range" class="prop-slider" id="H-m" min="50" max="300" value="110">
+            <span class="control-value prop" id="hV-m">110</span>
+        </div>
+        <div class="control-row">
+            <span class="control-label prop">Depth</span>
+            <input type="range" class="prop-slider" id="D-m" min="100" max="400" value="160">
+            <span class="control-value prop" id="dV-m">160</span>
+        </div>
+        <div class="mobile-divider"></div>
+        <div class="control-row">
+            <span class="control-label">R Top</span>
+            <input type="range" id="RH_TOP-m" min="0.1" max="100" step="0.5" value="20">
+            <span class="control-value" id="rhtV-m">20.0</span>
+        </div>
+        <div class="control-row">
+            <span class="control-label">R Bot</span>
+            <input type="range" id="RH_BOTTOM-m" min="0.1" max="100" step="0.5" value="10">
+            <span class="control-value" id="rhbV-m">10.0</span>
+        </div>
+        <div class="control-row">
+            <span class="control-label">R Vert</span>
+            <input type="range" id="RV-m" min="0.1" max="100" step="0.5" value="30">
+            <span class="control-value" id="rvV-m">30.0</span>
+        </div>
+        <div class="mobile-divider"></div>
+        <div class="control-row">
+            <span class="control-label seg">Segs</span>
+            <input type="range" class="seg-slider" id="S-m" min="8" max="48" step="1" value="16">
+            <span class="control-value seg" id="sV-m">16</span>
+        </div>
+    </div>
+
+    <div class="hint-area" id="hintArea">
+        <div class="hint-inner">
+            1. <b>高度連動：</b>R_top + R_bot 之和不能超過總高 H，縮小 H 時自動等比縮減。<br>
+            2. <b>垂直 R 角：</b>受寬深最小值限制，感受角落圓度與比例的關係。<br>
+            3. <b>不對稱頂底：</b>頂部大 R + 底部小 R，觀察量體「重心」的視覺偏移。<br>
+            4. <b>Segments：</b>8 = 低模稜角感，48 = 工業曲面細膩。
+        </div>
     </div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/utils/BufferGeometryUtils.js"></script>
 
 <script>
     let scene, camera, renderer, mesh, controls;
 
-    const material = new THREE.MeshPhysicalMaterial({
-        color: 0xdcdcdc,
-        metalness: 0.3,
-        roughness: 0.15,
-        clearcoat: 0.8,         
-        clearcoatRoughness: 0.1,
-        flatShading: false
+    const mat = new THREE.MeshPhysicalMaterial({
+        color: 0x99aacc, metalness: 0.15, roughness: 0.2,
+        clearcoat: 1.0, clearcoatRoughness: 0.05,
+        flatShading: false, side: THREE.FrontSide
     });
 
-    init();
-    animate();
+    init(); animate();
 
     function init() {
         scene = new THREE.Scene();
         scene.background = new THREE.Color(0x0a0a0a);
-
-        camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 1, 1000);
-        camera.position.set(250, 200, 250);
-
+        camera = new THREE.PerspectiveCamera(30, innerWidth / innerHeight, 1, 5000);
+        camera.position.set(500, 400, 500);
         renderer = new THREE.WebGLRenderer({ antialias: true });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); 
-        document.body.appendChild(renderer.domElement);
-
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.setSize(innerWidth, innerHeight);
+        document.getElementById('canvas-container').appendChild(renderer.domElement);
         controls = new THREE.OrbitControls(camera, renderer.domElement);
         controls.enableDamping = true;
-        controls.dampingFactor = 0.05;
 
-        // 打光設定保持不變，強化曲面高光
+        /* ── 燈光：對齊 L4–L6 ── */
         scene.add(new THREE.AmbientLight(0x2a2a2a));
-
-        const mainLight = new THREE.DirectionalLight(0xffffff, 1.2);
-        mainLight.position.set(100, 200, 150);
-        scene.add(mainLight);
-
-        const fillLight = new THREE.DirectionalLight(0x00ffcc, 0.6);
-        fillLight.position.set(-100, -50, 100);
-        scene.add(fillLight);
-
-        const rimLight = new THREE.DirectionalLight(0xff00cc, 0.3); 
-        rimLight.position.set(100, -100, -200);
-        scene.add(rimLight);
-
-        updateMesh();
-
-        // 綁定 6 個滑桿的 UI 事件
-        const inputs = ['width', 'height', 'depth', 'topR', 'botR', 'sideR'];
-        inputs.forEach(id => {
-            document.getElementById(id).addEventListener('input', updateUI);
-        });
+        const ml = new THREE.DirectionalLight(0xffffff, 1.2); ml.position.set(100, 200, 150); scene.add(ml);
+        const fl = new THREE.DirectionalLight(0x00ffcc, 0.6); fl.position.set(-100, -50, 100); scene.add(fl);
+        const rl = new THREE.DirectionalLight(0xff00cc, 0.3); rl.position.set(100, -100, -200); scene.add(rl);
 
         window.addEventListener('resize', () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.aspect = innerWidth / innerHeight;
             camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setSize(innerWidth, innerHeight);
+        });
+
+        ['W','H','D','RH_TOP','RH_BOTTOM','RV','S'].forEach(name => {
+            ['-d','-m'].forEach(s => {
+                const el = document.getElementById(name + s);
+                if (el) el.addEventListener('input', function() {
+                    const other = s === '-d' ? '-m' : '-d';
+                    const otherEl = document.getElementById(name + other);
+                    if (otherEl) otherEl.value = this.value;
+                    go();
+                });
+            });
+        });
+
+        go();
+    }
+
+    function isMob() {
+        return !window.matchMedia('(min-width:769px) and (hover:hover) and (pointer:fine)').matches;
+    }
+
+    function gv(name) {
+        return parseFloat(document.getElementById(name + (isMob() ? '-m' : '-d')).value);
+    }
+
+    function sv(name, val) {
+        ['-d','-m'].forEach(s => {
+            const el = document.getElementById(name + s);
+            if (el) el.value = val;
         });
     }
 
-    function updateUI() {
-        document.getElementById('wVal').innerText = document.getElementById('width').value;
-        document.getElementById('hVal').innerText = document.getElementById('height').value;
-        document.getElementById('dVal').innerText = document.getElementById('depth').value;
-        document.getElementById('tRVal').innerText = document.getElementById('topR').value;
-        document.getElementById('bRVal').innerText = document.getElementById('botR').value;
-        document.getElementById('sRVal').innerText = document.getElementById('sideR').value;
-        updateMesh();
+    function go() {
+        const w = gv('W'), h = gv('H'), d = gv('D');
+        let rht = gv('RH_TOP'), rhb = gv('RH_BOTTOM'), rv = gv('RV');
+        const seg = gv('S');
+
+        // 原版級聯限制完整保留
+        const maxRV = Math.min(w, d) / 2 - 1;
+        if (rv > maxRV) { rv = maxRV; sv('RV', rv); }
+        if ((rht + rhb) > h) {
+            const factor = h / (rht + rhb);
+            rht *= factor; rhb *= factor;
+            sv('RH_TOP', rht); sv('RH_BOTTOM', rhb);
+        }
+        if (rht > rv) { rht = rv; sv('RH_TOP', rht); }
+        if (rhb > rv) { rhb = rv; sv('RH_BOTTOM', rhb); }
+
+        // 更新滑桿上限（兩側同步）
+        ['-d','-m'].forEach(s => {
+            const rvEl  = document.getElementById('RV' + s);
+            const rhtEl = document.getElementById('RH_TOP' + s);
+            const rhbEl = document.getElementById('RH_BOTTOM' + s);
+            if (rvEl)  rvEl.max  = maxRV.toFixed(1);
+            if (rhtEl) rhtEl.max = rv.toFixed(1);
+            if (rhbEl) rhbEl.max = rv.toFixed(1);
+        });
+
+        // Desktop 顯示
+        document.getElementById('wV-d').innerText   = w;
+        document.getElementById('hV-d').innerText   = h;
+        document.getElementById('dV-d').innerText   = d;
+        document.getElementById('rhtV-d').innerText = rht.toFixed(1);
+        document.getElementById('rhbV-d').innerText = rhb.toFixed(1);
+        document.getElementById('rvV-d').innerText  = rv.toFixed(1);
+        document.getElementById('sV-d').innerText   = seg;
+
+        // Mobile 顯示
+        document.getElementById('wV-m').innerText   = w;
+        document.getElementById('hV-m').innerText   = h;
+        document.getElementById('dV-m').innerText   = d;
+        document.getElementById('rhtV-m').innerText = rht.toFixed(1);
+        document.getElementById('rhbV-m').innerText = rhb.toFixed(1);
+        document.getElementById('rvV-m').innerText  = rv.toFixed(1);
+        document.getElementById('sV-m').innerText   = seg;
+
+        buildMesh(w, h, d, rht, rhb, rv, seg);
     }
 
-    function updateMesh() {
-        if (mesh) {
-            scene.remove(mesh);
-            mesh.geometry.dispose();
+    function buildMesh(w, h, d, rht, rhb, rv, segments) {
+        if (mesh) { scene.remove(mesh); mesh.geometry.dispose(); }
+        const hw=w/2, hh=h/2, hd=d/2, vertices=[], eps=0.001;
+
+        const arcTop=[], arcBot=[], arcV=[];
+        for (let i=0; i<=segments; i++) {
+            const a = (i/segments) * (Math.PI/2);
+            arcTop.push({ ox: rht - rht*Math.cos(a), oy: rht - rht*Math.sin(a) });
+            arcBot.push({ ox: rhb - rhb*Math.cos(a), oy: rhb - rhb*Math.sin(a) });
+            arcV.push({ x: rv - rv*Math.cos(a), z: rv - rv*Math.sin(a) });
         }
 
-        const w = parseFloat(document.getElementById('width').value);
-        const h = parseFloat(document.getElementById('height').value);
-        const d = parseFloat(document.getElementById('depth').value);
-        
-        const topR = parseFloat(document.getElementById('topR').value);
-        const botR = parseFloat(document.getElementById('botR').value);
-        const sideR = parseFloat(document.getElementById('sideR').value);
+        function getPt(sx, sz, hIdx, vIdx, isBottom=false) {
+            const ph = isBottom ? arcBot[hIdx] : arcTop[hIdx];
+            const pv = arcV[vIdx];
+            const x = sx * (hw - pv.x - ph.ox * (rv - pv.x) / rv);
+            const z = sz * (hd - pv.z - ph.ox * (rv - pv.z) / rv);
+            const y = isBottom ? (-hh + ph.oy) : (hh - ph.oy);
+            return new THREE.Vector3(x, y, z);
+        }
 
-        const geometry = createVariableRoundedBox(w, h, d, topR, botR, sideR);
-        mesh = new THREE.Mesh(geometry, material);
+        function addQuad(p1,p2,p3,p4) {
+            if (p1.distanceTo(p2)>eps && p2.distanceTo(p3)>eps && p1.distanceTo(p3)>eps)
+                vertices.push(p1.x,p1.y,p1.z, p2.x,p2.y,p2.z, p3.x,p3.y,p3.z);
+            if (p1.distanceTo(p3)>eps && p3.distanceTo(p4)>eps && p1.distanceTo(p4)>eps)
+                vertices.push(p1.x,p1.y,p1.z, p3.x,p3.y,p3.z, p4.x,p4.y,p4.z);
+        }
+
+        function addTri(p1,p2,p3) {
+            if (p1.distanceTo(p2)<eps || p2.distanceTo(p3)<eps || p1.distanceTo(p3)<eps) return;
+            vertices.push(p1.x,p1.y,p1.z, p2.x,p2.y,p2.z, p3.x,p3.y,p3.z);
+        }
+
+        const sidePairs = [
+            {s1:[-1,1],s2:[1,1],vi:segments},
+            {s1:[1,1],s2:[1,-1],vi:0},
+            {s1:[1,-1],s2:[-1,-1],vi:segments},
+            {s1:[-1,-1],s2:[-1,1],vi:0}
+        ];
+
+        sidePairs.forEach(side => {
+            const s1=side.s1, s2=side.s2, vi=side.vi, step=(vi===segments)?-1:1, start=side.vi;
+            addQuad(getPt(s1[0],s1[1],0,vi,true),getPt(s2[0],s2[1],0,vi,true),getPt(s2[0],s2[1],0,vi,false),getPt(s1[0],s1[1],0,vi,false));
+            for (let v=0; v<segments; v++) {
+                const vA=start+v*step, vB=start+(v+1)*step;
+                addQuad(getPt(s2[0],s2[1],0,vA,true),getPt(s2[0],s2[1],0,vB,true),getPt(s2[0],s2[1],0,vB,false),getPt(s2[0],s2[1],0,vA,false));
+            }
+            for (let i=0; i<segments; i++) {
+                addQuad(getPt(s1[0],s1[1],i,vi,false),getPt(s2[0],s2[1],i,vi,false),getPt(s2[0],s2[1],i+1,vi,false),getPt(s1[0],s1[1],i+1,vi,false));
+                addQuad(getPt(s1[0],s1[1],i,vi,true),getPt(s1[0],s1[1],i+1,vi,true),getPt(s2[0],s2[1],i+1,vi,true),getPt(s2[0],s2[1],i,vi,true));
+                for (let v=0; v<segments; v++) {
+                    const vA=start+v*step, vB=start+(v+1)*step;
+                    addQuad(getPt(s2[0],s2[1],i,vA,false),getPt(s2[0],s2[1],i,vB,false),getPt(s2[0],s2[1],i+1,vB,false),getPt(s2[0],s2[1],i+1,vA,false));
+                    addQuad(getPt(s2[0],s2[1],i,vA,true),getPt(s2[0],s2[1],i+1,vA,true),getPt(s2[0],s2[1],i+1,vB,true),getPt(s2[0],s2[1],i,vB,true));
+                }
+            }
+        });
+
+        const last=segments;
+        const iTL=getPt(-1,1,last,segments,false), iTR=getPt(1,1,last,segments,false);
+        const iBR=getPt(1,-1,last,segments,false), iBL=getPt(-1,-1,last,segments,false);
+        addQuad(iTL,iTR,iBR,iBL);
+        addQuad(getPt(-1,1,last,segments,false),getPt(1,1,last,segments,false),iTR,iTL);
+        addQuad(iTR,getPt(1,1,last,0,false),getPt(1,-1,last,0,false),iBR);
+        addQuad(iBL,iBR,getPt(1,-1,last,segments,false),getPt(-1,-1,last,segments,false));
+        addQuad(getPt(-1,1,last,0,false),iTL,iBL,getPt(-1,-1,last,0,false));
+        for (let v=0; v<segments; v++) {
+            addTri(iTR,getPt(1,1,last,v+1,false),getPt(1,1,last,v,false));
+            addTri(iBR,getPt(1,-1,last,v,false),getPt(1,-1,last,v+1,false));
+            addTri(iBL,getPt(-1,-1,last,v+1,false),getPt(-1,-1,last,v,false));
+            addTri(iTL,getPt(-1,1,last,v,false),getPt(-1,1,last,v+1,false));
+        }
+
+        const jTL=getPt(-1,1,last,segments,true), jTR=getPt(1,1,last,segments,true);
+        const jBR=getPt(1,-1,last,segments,true), jBL=getPt(-1,-1,last,segments,true);
+        addQuad(jBL,jBR,jTR,jTL);
+        addQuad(jTL,jTR,getPt(1,1,last,segments,true),getPt(-1,1,last,segments,true));
+        addQuad(jBR,jBL,getPt(-1,-1,last,segments,true),getPt(1,-1,last,segments,true));
+        addQuad(jTR,jBR,getPt(1,-1,last,0,true),getPt(1,1,last,0,true));
+        addQuad(jBL,jTL,getPt(-1,1,last,0,true),getPt(-1,-1,last,0,true));
+        for (let v=0; v<segments; v++) {
+            addTri(jTR,getPt(1,1,last,v,true),getPt(1,1,last,v+1,true));
+            addTri(jBR,getPt(1,-1,last,v+1,true),getPt(1,-1,last,v,true));
+            addTri(jBL,getPt(-1,-1,last,v,true),getPt(-1,-1,last,v+1,true));
+            addTri(jTL,getPt(-1,1,last,v+1,true),getPt(-1,1,last,v,true));
+        }
+
+        const geo = new THREE.BufferGeometry();
+        geo.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
+        geo.computeVertexNormals();
+        mesh = new THREE.Mesh(geo, mat);
         scene.add(mesh);
     }
 
-    // 升級版演算法：支援獨立長寬高，並動態限制 R 角極限
-    function createVariableRoundedBox(w, h, d, topR, botR, sideR) {
-        // 為了在極度細長的比例下依然保持網格平滑，將基礎分段數維持在 48，
-        // 實務上若有效能考量，可依比例 (w, h, d) 動態給予不同的 segX, segY, segZ。
-        const seg = 48; 
-        let geometry = new THREE.BoxGeometry(w, h, d, seg, seg, seg);
-        const pos = geometry.attributes.position;
-        
-        // 取得各軸向的半徑限制
-        let hx = w / 2;
-        let hy = h / 2;
-        let hz = d / 2;
+    function animate() { requestAnimationFrame(animate); controls.update(); renderer.render(scene, camera); }
 
-        // 【關鍵邏輯升級】：R 角的極限值必須受到該軸向尺寸的限制
-        // Side R (垂直邊) 會受限於 X 寬度與 Z 深度
-        const safeSideR = Math.max(0, Math.min(sideR, hx, hz));
-        // Top / Bot R (上下緣) 會受限於 Y 高度，同時也不能超過 X 與 Z，否則球化會變形
-        const safeTopR = Math.max(0, Math.min(topR, hx, hy, hz));
-        const safeBotR = Math.max(0, Math.min(botR, hx, hy, hz));
-
-        for (let i = 0; i < pos.count; i++) {
-            let x = pos.getX(i);
-            let y = pos.getY(i);
-            let z = pos.getZ(i);
-
-            let signX = Math.sign(x) || 1;
-            let signY = Math.sign(y) || 1;
-            let signZ = Math.sign(z) || 1;
-
-            let ax = Math.abs(x);
-            let ay = Math.abs(y);
-            let az = Math.abs(z);
-
-            let rY = y > 0 ? safeTopR : safeBotR;
-            let rX = safeSideR;
-            let rZ = safeSideR;
-
-            // 定義未倒角前「內部直角方塊」的邊界
-            let cx = hx - rX;
-            let cy = hy - rY;
-            let cz = hz - rZ;
-
-            let dx = Math.max(0, ax - cx);
-            let dy = Math.max(0, ay - cy);
-            let dz = Math.max(0, az - cz);
-
-            let nx = rX <= 0 ? 0 : dx / rX;
-            let ny = rY <= 0 ? 0 : dy / rY;
-            let nz = rZ <= 0 ? 0 : dz / rZ;
-
-            // 球面映射演算法 (不變，因為它是基於歸一化比例運算)
-            let mapX = nx * Math.sqrt(Math.max(0, 1 - (ny*ny)/2 - (nz*nz)/2 + (ny*ny*nz*nz)/3));
-            let mapY = ny * Math.sqrt(Math.max(0, 1 - (nx*nx)/2 - (nz*nz)/2 + (nx*nx*nz*nz)/3));
-            let mapZ = nz * Math.sqrt(Math.max(0, 1 - (nx*nx)/2 - (ny*ny)/2 + (nx*nx*ny*ny)/3));
-
-            // 推算回真實的三維坐標
-            let finalX = Math.min(ax, cx) + mapX * rX;
-            let finalY = Math.min(ay, cy) + mapY * rY;
-            let finalZ = Math.min(az, cz) + mapZ * rZ;
-
-            pos.setXYZ(i, finalX * signX, finalY * signY, finalZ * signZ);
-        }
-
-        pos.needsUpdate = true;
-        
-        geometry = THREE.BufferGeometryUtils.mergeVertices(geometry);
-        geometry.computeVertexNormals();
-
-        return geometry;
-    }
-
-    function animate() {
-        requestAnimationFrame(animate);
-        controls.update();
-        renderer.render(scene, camera);
-    }
+    const hintToggle = document.getElementById('hintToggle');
+    const hintArea   = document.getElementById('hintArea');
+    hintToggle.addEventListener('click', () => {
+        const open = hintArea.classList.toggle('is-open');
+        hintToggle.classList.toggle('active', open);
+    });
 </script>
 </body>
 </html>
