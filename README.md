@@ -1,5 +1,5 @@
 # Simon Fundamental Design Lab
-### 造型基礎實驗室
+### 造型基本設計實驗室
 
 > 設計人，尋找造型的老靈魂
 
