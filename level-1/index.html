@@ -2,49 +2,297 @@
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>SIMON基礎造型實驗室-LEVEL1</title>
     <style>
-        body { margin: 0; background: #080808; color: #eee; font-family: sans-serif; overflow: hidden; }
-        #ui { position: absolute; top: 20px; left: 20px; background: rgba(15,15,15,0.9); padding: 25px; border-radius: 12px; width: 260px; border: 1px solid #333; z-index: 100; backdrop-filter: blur(10px); box-shadow: 0 10px 40px rgba(0,0,0,0.6); }
-        .control-group { margin-bottom: 20px; }
-        label { display: block; font-size: 11px; margin-bottom: 10px; color: #aaa; text-transform: uppercase; letter-spacing: 2px; }
-        input[type=range] { width: 100%; cursor: pointer; accent-color: #00ffcc; -webkit-appearance: none; background: transparent; }
-        input[type=range]::-webkit-slider-runnable-track { background: #333; height: 6px; border-radius: 3px; }
-        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; background: #00ffcc; width: 16px; height: 16px; border-radius: 50%; margin-top: -5px; box-shadow: 0 0 10px rgba(0,255,204,0.6); }
-        .value { float: right; color: #00ffcc; font-weight: bold; font-family: monospace; font-size: 14px; }
-        h3 { margin: 0 0 5px 0; font-size: 18px; letter-spacing: 1px; color: #fff; }
-        .desc { font-size: 12px; color: #666; margin-bottom: 20px; }
-        .hint { font-size: 11px; line-height: 1.8; color: #aaa; border-top: 1px solid #333; padding-top: 20px; margin-top: 10px; }
-        .hint b { color: #fff; font-size: 12px; }
-        .back-btn { display: flex; align-items: center; gap: 8px; text-decoration: none; color: #00ffcc; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 20px; padding: 10px 14px; border: 1px solid rgba(0,255,204,0.3); border-radius: 8px; background: rgba(0,255,204,0.06); transition: background 0.2s, border-color 0.2s; }
-        .back-btn:hover { background: rgba(0,255,204,0.14); border-color: rgba(0,255,204,0.7); }
-        .back-btn span { font-size: 14px; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: #080808;
+            color: #eee;
+            font-family: 'PingFang TC', sans-serif;
+            overflow: hidden;
+            height: 100dvh;
+            width: 100dvw;
+        }
+
+        #canvas-container {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+        }
+
+        /* ══ DESKTOP（>768px）側邊欄 ══ */
+        #ui-desktop {
+            display: none;
+            position: absolute;
+            top: 20px; left: 20px;
+            background: rgba(15,15,15,0.9);
+            padding: 25px;
+            border-radius: 12px;
+            width: 260px;
+            border: 1px solid #333;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+        }
+
+        /* 桌機：寬度夠 AND 有滑鼠（非觸控裝置）才用側欄 */
+        @media (min-width: 769px) and (hover: hover) and (pointer: fine) {
+            #ui-desktop { display: block; }
+            #ui-mobile   { display: none !important; }
+        }
+
+        /* ══ MOBILE 底部 UI ══ */
+        #ui-mobile {
+            position: fixed;
+            bottom: 0; left: 0; right: 0;
+            z-index: 200;
+            background: rgba(10,10,10,0.96);
+            border-top: 1px solid #222;
+            border-radius: 16px 16px 0 0;
+            backdrop-filter: blur(24px);
+            padding: 0 18px;
+            padding-bottom: env(safe-area-inset-bottom, 0px);
+        }
+
+        /* 頂部拖曳把手 */
+        .drag-handle {
+            width: 32px; height: 4px;
+            background: #2a2a2a;
+            border-radius: 2px;
+            margin: 10px auto 0;
+        }
+
+        /* header row：返回 + 標題 + 提示開關 */
+        .mobile-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 0 10px;
+        }
+
+        .back-btn-mobile {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px; height: 30px;
+            border: 1px solid rgba(0,255,204,0.25);
+            border-radius: 7px;
+            background: rgba(0,255,204,0.06);
+            color: #00ffcc;
+            font-size: 15px;
+            text-decoration: none;
+            flex-shrink: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .mobile-title-block {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .mobile-level-tag {
+            font-size: 9px;
+            font-family: monospace;
+            color: #00ffcc;
+            letter-spacing: 2px;
+            opacity: 0.6;
+            display: block;
+            margin-bottom: 1px;
+        }
+
+        .mobile-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: #ccc;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* 提示展開按鈕 */
+        .hint-toggle-btn {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            background: none;
+            border: 1px solid #2a2a2a;
+            border-radius: 7px;
+            color: #555;
+            font-size: 10px;
+            letter-spacing: 1px;
+            padding: 5px 9px;
+            cursor: pointer;
+            flex-shrink: 0;
+            -webkit-tap-highlight-color: transparent;
+            transition: border-color 0.2s, color 0.2s;
+        }
+
+        .hint-toggle-btn.active {
+            border-color: rgba(0,255,204,0.3);
+            color: #00ffcc;
+        }
+
+        .hint-toggle-btn .arrow {
+            font-size: 7px;
+            transition: transform 0.3s;
+            display: inline-block;
+        }
+
+        .hint-toggle-btn.active .arrow { transform: rotate(180deg); }
+
+        /* ── 控制區：永遠可見 ── */
+        .controls-area {
+            padding-bottom: 14px;
+        }
+
+        .control-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+
+        .control-row:last-child { margin-bottom: 0; }
+
+        .control-label {
+            font-size: 9px;
+            color: #555;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            white-space: nowrap;
+            width: 48px;
+            flex-shrink: 0;
+        }
+
+        input[type=range] {
+            flex: 1;
+            -webkit-appearance: none;
+            background: transparent;
+            cursor: pointer;
+            touch-action: pan-x;
+        }
+
+        input[type=range]::-webkit-slider-runnable-track {
+            background: #222;
+            height: 6px;
+            border-radius: 3px;
+        }
+
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            background: #00ffcc;
+            width: 22px; height: 22px;
+            border-radius: 50%;
+            margin-top: -8px;
+            box-shadow: 0 0 10px rgba(0,255,204,0.4);
+        }
+
+        .control-value {
+            font-size: 13px;
+            font-weight: 700;
+            font-family: monospace;
+            color: #00ffcc;
+            width: 34px;
+            text-align: right;
+            flex-shrink: 0;
+        }
+
+        /* ── 提示區：可收合 ── */
+        .hint-area {
+            overflow: hidden;
+            max-height: 0;
+            transition: max-height 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .hint-area.is-open { max-height: 160px; }
+
+        .hint-inner {
+            border-top: 1px solid #1c1c1c;
+            padding: 10px 0 14px;
+            font-size: 11px;
+            line-height: 1.75;
+            color: #5a5a5a;
+        }
+
+        .hint-inner b { color: #888; }
+
+        /* ══ DESKTOP 樣式 ══ */
+        #ui-desktop label { display: block; font-size: 11px; margin-bottom: 10px; color: #aaa; text-transform: uppercase; letter-spacing: 2px; }
+        #ui-desktop input[type=range] { width: 100%; cursor: pointer; -webkit-appearance: none; background: transparent; }
+        #ui-desktop input[type=range]::-webkit-slider-runnable-track { background: #333; height: 6px; border-radius: 3px; }
+        #ui-desktop input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; background: #00ffcc; width: 16px; height: 16px; border-radius: 50%; margin-top: -5px; box-shadow: 0 0 10px rgba(0,255,204,0.6); }
+        #ui-desktop .value { float: right; color: #00ffcc; font-weight: bold; font-family: monospace; font-size: 14px; }
+        #ui-desktop h3 { margin: 0 0 5px 0; font-size: 18px; letter-spacing: 1px; color: #fff; }
+        #ui-desktop .desc { font-size: 12px; color: #666; margin-bottom: 20px; }
+        #ui-desktop .hint { font-size: 11px; line-height: 1.8; color: #aaa; border-top: 1px solid #333; padding-top: 20px; margin-top: 10px; }
+        #ui-desktop .hint b { color: #fff; font-size: 12px; }
+        #ui-desktop .control-group { margin-bottom: 20px; }
+        #ui-desktop .back-btn { display: flex; align-items: center; gap: 8px; text-decoration: none; color: #00ffcc; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 20px; padding: 10px 14px; border: 1px solid rgba(0,255,204,0.3); border-radius: 8px; background: rgba(0,255,204,0.06); }
     </style>
 </head>
 <body>
 
-<div id="ui">
+<div id="canvas-container"></div>
+
+<!-- DESKTOP -->
+<div id="ui-desktop">
     <a href="../index.html" class="back-btn"><span>←</span> 返回課程首頁</a>
     <h3>Simon Form Lab</h3>
-    <div class="desc">LEVEL 1：R角與正方體幾何的關係，<br>
-                               從塊體中尋找造型的靈魂</div>
-    
+    <div class="desc">LEVEL 1：R角與正方體幾何的關係，<br>從塊體中尋找造型的靈魂</div>
     <div class="control-group">
-        <label>R角半徑 (Radius) <span id="rVal" class="value">2</span></label>
-        <input type="range" id="radius" min="0" max="40" step="0.5" value="2">
+        <label>R角半徑 (Radius) <span id="rVal-d" class="value">2</span></label>
+        <input type="range" id="radius-d" min="0" max="40" step="0.5" value="2">
     </div>
-
     <div class="control-group">
-        <label>塊體尺寸 (Scale) <span id="sVal" class="value">100</span></label>
-        <input type="range" id="size" min="50" max="150" step="1" value="100">
+        <label>塊體尺寸 (Scale) <span id="sVal-d" class="value">100</span></label>
+        <input type="range" id="size-d" min="50" max="150" step="1" value="100">
     </div>
-
     <div class="hint">
         <b>教學觀察重點：</b><br>
-        1. 從「塊體」出發，透過邊緣(R角)處理來演變造型。 <br>
-        2. 將 Radius 拉到極小的 <b>0.5 ~ 2</b> 之間。<br>
-        2. 旋轉方塊，觀察方塊的「體感」與「量體感」。<br>
-        3. 透過R角（Fillet） 的參數演變，我們能定義一個量體的氣質：當 R 角擴張，立方體趨向圓潤與親和；當 R 角收斂，造型展現出洗鍊與精準的張力。<br>
+        1. 從「塊體」出發，透過邊緣(R角)處理來演變造型。<br>
+        2. 將 Radius 拉到 <b>0.5 ~ 2</b> 之間。<br>
+        3. 旋轉方塊，觀察「體感」與「量體感」。<br>
+        4. R角擴張→圓潤親和；R角收斂→洗鍊精準。
+    </div>
+</div>
+
+<!-- MOBILE -->
+<div id="ui-mobile">
+    <div class="drag-handle"></div>
+
+    <div class="mobile-header">
+        <a href="../index.html" class="back-btn-mobile">←</a>
+        <div class="mobile-title-block">
+            <span class="mobile-level-tag">LEVEL 01</span>
+            <span class="mobile-title">R角與正方體幾何的關係</span>
+        </div>
+        <button class="hint-toggle-btn" id="hintToggle">
+            提示 <span class="arrow">▲</span>
+        </button>
+    </div>
+
+    <!-- 控制滑桿：永遠顯示 -->
+    <div class="controls-area">
+        <div class="control-row">
+            <span class="control-label">Radius</span>
+            <input type="range" id="radius-m" min="0" max="40" step="0.5" value="2">
+            <span class="control-value" id="rVal-m">2.0</span>
+        </div>
+        <div class="control-row">
+            <span class="control-label">Scale</span>
+            <input type="range" id="size-m" min="50" max="150" step="1" value="100">
+            <span class="control-value" id="sVal-m">100</span>
+        </div>
+    </div>
+
+    <!-- 提示：點「提示」按鈕展開 -->
+    <div class="hint-area" id="hintArea">
+        <div class="hint-inner">
+            1. 將 Radius 拉到 <b>0.5–2</b>，旋轉方塊感受「量體感」。<br>
+            2. R角擴張 → 圓潤親和；R角收斂 → 洗鍊精準。
+        </div>
     </div>
 </div>
 
@@ -54,90 +302,80 @@
 
 <script>
     let scene, camera, renderer, mesh, controls;
-
-    init();
+    init3D();
     animate();
 
-    function init() {
+    function init3D() {
         scene = new THREE.Scene();
         scene.background = new THREE.Color(0x0a0a0a);
-
         camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 1, 1000);
         camera.position.set(180, 180, 180);
-
         renderer = new THREE.WebGLRenderer({ antialias: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(window.devicePixelRatio);
-        document.body.appendChild(renderer.domElement);
-
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        document.getElementById('canvas-container').appendChild(renderer.domElement);
         controls = new THREE.OrbitControls(camera, renderer.domElement);
         controls.enableDamping = true;
-
-        // 攝影棚打光，特別強化側邊亮點，用來檢驗小 R 角
-        const keyLight = new THREE.DirectionalLight(0xffffff, 1.5);
-        keyLight.position.set(100, 200, 150);
-        scene.add(keyLight);
-
-        const fillLight = new THREE.DirectionalLight(0x00ffcc, 0.4);
-        fillLight.position.set(-100, -50, 100);
-        scene.add(fillLight);
-
+        controls.dampingFactor = 0.08;
+        const kl = new THREE.DirectionalLight(0xffffff, 1.5); kl.position.set(100, 200, 150); scene.add(kl);
+        const fl = new THREE.DirectionalLight(0x00ffcc, 0.4); fl.position.set(-100, -50, 100); scene.add(fl);
         scene.add(new THREE.AmbientLight(0x333333));
-
         updateMesh();
-
-        // UI 監聽
-        document.getElementById('radius').oninput = updateUI;
-        document.getElementById('size').oninput = updateUI;
-
-        window.onresize = () => {
+        window.addEventListener('resize', () => {
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
             renderer.setSize(window.innerWidth, window.innerHeight);
-        };
-    }
-
-    function updateUI() {
-        document.getElementById('rVal').innerText = document.getElementById('radius').value;
-        document.getElementById('sVal').innerText = document.getElementById('size').value;
-        updateMesh();
+        });
     }
 
     function updateMesh() {
-        if (mesh) {
-            scene.remove(mesh);
-            mesh.geometry.dispose();
-        }
-
-        let r = parseFloat(document.getElementById('radius').value);
-        const size = parseFloat(document.getElementById('size').value);
-        
-        // 防呆機制：真正的圓角算法不允許 R 為 0，給予極小值以維持幾何穩定
-        r = Math.max(0.001, r); 
-        // 防呆機制2：R 角不能大於邊長的一半
-        r = Math.min(r, size / 2);
-
-        // 【核心修改】使用官方 RoundedBoxGeometry
-        // 參數：寬, 高, 深, 圓角的分段數(設為16保證極致平滑), 半徑
-        const segments = 16; 
-        const geometry = new THREE.RoundedBoxGeometry(size, size, size, segments, r);
-
-        // 具備微金屬感的高品質磨砂材質，更能凸顯邊緣高光
-        const material = new THREE.MeshStandardMaterial({
-            color: 0xe0e0e0,
-            roughness: 0.15,
-            metalness: 0.3
-        });
-
-        mesh = new THREE.Mesh(geometry, material);
+        if (mesh) { scene.remove(mesh); mesh.geometry.dispose(); }
+        const isMob = window.innerWidth <= 768;
+        let r  = parseFloat(document.getElementById(isMob ? 'radius-m' : 'radius-d').value);
+        const sz = parseFloat(document.getElementById(isMob ? 'size-m' : 'size-d').value);
+        r = Math.max(0.001, Math.min(r, sz / 2));
+        const geo = new THREE.RoundedBoxGeometry(sz, sz, sz, 16, r);
+        mesh = new THREE.Mesh(geo, new THREE.MeshStandardMaterial({ color: 0xe0e0e0, roughness: 0.15, metalness: 0.3 }));
         scene.add(mesh);
     }
 
-    function animate() {
-        requestAnimationFrame(animate);
-        controls.update();
-        renderer.render(scene, camera);
-    }
+    function animate() { requestAnimationFrame(animate); controls.update(); renderer.render(scene, camera); }
+
+    // Desktop
+    document.getElementById('radius-d').addEventListener('input', function() {
+        document.getElementById('rVal-d').textContent = this.value;
+        document.getElementById('radius-m').value = this.value;
+        document.getElementById('rVal-m').textContent = parseFloat(this.value).toFixed(1);
+        updateMesh();
+    });
+    document.getElementById('size-d').addEventListener('input', function() {
+        document.getElementById('sVal-d').textContent = this.value;
+        document.getElementById('size-m').value = this.value;
+        document.getElementById('sVal-m').textContent = this.value;
+        updateMesh();
+    });
+
+    // Mobile
+    document.getElementById('radius-m').addEventListener('input', function() {
+        document.getElementById('rVal-m').textContent = parseFloat(this.value).toFixed(1);
+        document.getElementById('radius-d').value = this.value;
+        document.getElementById('rVal-d').textContent = this.value;
+        updateMesh();
+    });
+    document.getElementById('size-m').addEventListener('input', function() {
+        document.getElementById('sVal-m').textContent = this.value;
+        document.getElementById('size-d').value = this.value;
+        document.getElementById('sVal-d').textContent = this.value;
+        updateMesh();
+    });
+
+    // 提示 toggle
+    const hintToggle = document.getElementById('hintToggle');
+    const hintArea   = document.getElementById('hintArea');
+    hintToggle.addEventListener('click', function() {
+        const open = hintArea.classList.toggle('is-open');
+        hintToggle.classList.toggle('active', open);
+    });
 </script>
 </body>
 </html>
