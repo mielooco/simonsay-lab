@@ -115,6 +115,8 @@
         .hint-area.is-open { max-height: 220px; }
         .hint-inner { border-top: 1px solid #1c1c1c; padding: 10px 0 14px; font-size: 11px; line-height: 1.75; color: #5a5a5a; overflow-y: auto; max-height: 200px; }
         .hint-inner b { color: #888; }
+    /* Keep controls usable in landscape while reserving model space. */
+        #ui-mobile { max-height: 55dvh; overflow-y: auto; }
     </style>
 </head>
 <body>
@@ -456,5 +458,68 @@
         hintToggle.classList.toggle('active', open);
     });
 </script>
+
+<script>
+// Keep the model inside the visible space above the mobile controls.
+// Inline so each lesson remains a standalone HTML file.
+(() => {
+    const desktopQuery = matchMedia('(min-width:769px) and (hover:hover) and (pointer:fine)');
+    const panel = document.getElementById('ui-mobile');
+    const originalDistance = camera.position.distanceTo(controls.target);
+    let previousFit = '';
+    let wasMobile = false;
+    let pending = false;
+
+    function frameModel() {
+        pending = false;
+        const mobile = !desktopQuery.matches;
+        const width = window.innerWidth;
+        const height = mobile
+            ? Math.max(1, Math.floor(panel.getBoundingClientRect().top))
+            : window.innerHeight;
+        const canvas = renderer.domElement;
+        canvas.style.position = 'absolute';
+        canvas.style.top = '0';
+        canvas.style.left = '0';
+        renderer.setSize(width, height);
+        camera.aspect = width / height;
+
+        if (mobile && mesh) {
+            mesh.geometry.computeBoundingBox();
+            const box = mesh.geometry.boundingBox;
+            const size = box.getSize(new THREE.Vector3());
+            // A bounding sphere fits every orbit angle, including narrow screens.
+            const radius = Math.max(size.length() / 2, 1);
+            const vertical = THREE.MathUtils.degToRad(camera.fov / 2);
+            const limitingAngle = Math.min(vertical, Math.atan(Math.tan(vertical) * camera.aspect));
+            const distance = radius / Math.sin(limitingAngle) * 1.12;
+            const signature = [width, height, ...size.toArray().map(n => n.toFixed(1))].join(':');
+            if (signature !== previousFit) {
+                const direction = camera.position.clone().sub(controls.target).normalize();
+                camera.position.copy(controls.target).addScaledVector(direction, distance);
+                previousFit = signature;
+            }
+            camera.far = Math.max(camera.far, distance + radius * 3);
+        } else if (wasMobile) {
+            const direction = camera.position.clone().sub(controls.target).normalize();
+            camera.position.copy(controls.target).addScaledVector(direction, originalDistance);
+            previousFit = '';
+        }
+        wasMobile = mobile;
+        camera.updateProjectionMatrix();
+        controls.update();
+    }
+
+    function scheduleFrame() {
+        if (!pending) { pending = true; requestAnimationFrame(frameModel); }
+    }
+    document.addEventListener('input', scheduleFrame);
+    window.addEventListener('resize', scheduleFrame);
+    desktopQuery.addEventListener('change', scheduleFrame);
+    new ResizeObserver(scheduleFrame).observe(panel);
+    frameModel();
+})();
+</script>
+
 </body>
 </html>

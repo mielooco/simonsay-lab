@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SIMON基礎造型實驗室 — LEVEL 07 截面與輪廓</title>
+<style>
+:root { color-scheme:dark; --bg:#080808; --panel:rgba(15,15,15,.95); --fg:#eee; --muted:#999; --line:#333; --mint:#00ffcc; }
+* { box-sizing:border-box; }
+body { margin:0; background:var(--bg); color:var(--fg); font-family:'PingFang TC','Noto Sans TC',sans-serif; }
+button,input,a { -webkit-tap-highlight-color:transparent; }
+button,a { touch-action:manipulation; }
+button { font:inherit; cursor:pointer; }
+a { color:var(--mint); text-decoration:none; }
+a:hover { text-decoration:underline; }
+button:focus-visible,a:focus-visible,input:focus-visible { outline:2px solid var(--mint); outline-offset:5px; }
+[hidden] { display:none !important; }
+.intro { max-width:1060px; padding:32px 28px 56px; margin:auto; }
+.topbar { display:flex; justify-content:space-between; gap:20px; align-items:center; margin-bottom:56px; font-size:13px; }
+.brand,.eyebrow { font-family:monospace; letter-spacing:2px; color:var(--mint); }
+.eyebrow { font-size:12px; margin:0 0 16px; }
+h1 { font-size:clamp(28px,5vw,46px); font-weight:500; margin:0 0 20px; }
+.lead { color:var(--muted); line-height:1.9; max-width:660px; margin:0; }
+.lead strong { color:var(--fg); font-weight:500; }
+.steps { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:28px; margin:38px 0 30px; }
+.step-card { border-top:1px solid var(--line); padding-top:18px; }
+.step-number { color:var(--mint); font-family:monospace; font-size:12px; }
+h2 { font-weight:500; font-size:20px; margin:10px 0; }
+.step-card p { color:var(--muted); font-size:14px; line-height:1.8; margin:12px 0 0; }
+.sketch { width:100%; height:180px; display:block; }
+.solid { fill:rgba(0,255,204,.06); stroke:var(--fg); stroke-width:1.6; }
+.ring { fill:none; stroke:var(--mint); stroke-width:1.7; }
+.cut { fill:none; stroke:var(--mint); stroke-width:1.4; stroke-dasharray:4 4; }
+.intro-footer { border-top:1px solid var(--line); padding-top:24px; display:flex; align-items:center; justify-content:space-between; gap:24px; }
+.intro-footer p { margin:0; font-size:14px; color:var(--muted); line-height:1.8; }
+.primary { background:var(--mint); color:#08271e; border:0; border-radius:8px; padding:14px 24px; min-height:48px; font-weight:600; white-space:nowrap; }
+.secondary { background:transparent; color:var(--mint); border:1px solid var(--line); border-radius:7px; padding:10px 14px; min-height:44px; }
+#course { height:100dvh; display:flex; }
+#controls { width:330px; flex-shrink:0; padding:28px 24px; background:var(--panel); border-right:1px solid var(--line); overflow-y:auto; }
+.course-nav { display:flex; justify-content:space-between; align-items:center; gap:10px; font-size:12px; margin-bottom:32px; }
+.course-nav button { font-size:12px; }
+#controls h1 { font-size:24px; line-height:1.5; margin-bottom:24px; }
+.stages { display:flex; gap:6px; margin:0 0 24px; }
+.stages button { border:1px solid var(--line); background:transparent; color:var(--muted); border-radius:6px; padding:10px 6px; flex:1; min-height:44px; font-size:13px; }
+.stages button[aria-pressed="true"] { background:var(--mint); color:#08271e; border-color:var(--mint); }
+#stage-title { font-size:18px; margin-bottom:10px; }
+#stage-copy { color:var(--muted); font-size:14px; line-height:1.8; margin:0 0 24px; }
+.fixed { color:var(--muted); font-size:12px; line-height:1.8; margin:22px 0; border-top:1px solid var(--line); padding-top:16px; }
+.height-group { margin-top:20px; }
+.range-label { display:flex; justify-content:space-between; gap:12px; margin-bottom:12px; font-size:14px; }
+output { font-family:monospace; color:var(--mint); }
+input[type=range] { width:100%; min-height:44px; accent-color:var(--mint); cursor:ew-resize; }
+#next { margin-top:24px; width:100%; }
+#stage-note { font-size:12px; line-height:1.8; color:var(--muted); margin:16px 0 0; }
+#view { position:relative; flex:1; min-width:0; min-height:0; }
+#view canvas { display:block; width:100%; height:100%; touch-action:none; }
+.view-caption { position:absolute; bottom:18px; left:12px; right:12px; text-align:center; font-size:12px; color:var(--muted); pointer-events:none; }
+#error { position:absolute; inset:20%; display:grid; place-content:center; text-align:center; line-height:1.8; }
+@media(max-width:760px),(hover:none) {
+.intro { padding:22px 22px 36px; }
+.topbar { margin-bottom:36px; }
+.brand { font-size:11px; }
+.steps { grid-template-columns:1fr; gap:24px; }
+.step-card { display:grid; grid-template-columns:140px minmax(0,1fr); column-gap:16px; align-items:center; }
+.step-card .sketch { grid-column:1; grid-row:1/4; height:140px; }
+.step-card .step-number,.step-card h2,.step-card p { grid-column:2; }
+.step-card h2 { font-size:19px; margin:6px 0; }
+.step-card p { margin:0; }
+.intro-footer { align-items:stretch; flex-direction:column; gap:18px; }
+#course { flex-direction:column-reverse; }
+#controls { width:100%; max-height:53dvh; padding:16px 20px 20px; padding-bottom:max(20px,env(safe-area-inset-bottom)); border-right:0; border-top:1px solid var(--line); }
+.course-nav { margin-bottom:12px; }
+#controls .eyebrow { display:none; }
+#controls h1 { font-size:18px; margin-bottom:14px; }
+.stages { margin-bottom:14px; }
+#stage-copy { margin-bottom:12px; }
+#stage-title { font-size:16px; }
+.fixed { margin:12px 0; padding-top:10px; }
+#next { margin-top:12px; }
+}
+@media(max-width:360px) { .step-card { grid-template-columns:105px minmax(0,1fr); gap:12px; } }
+
+/* Match the established L04–L06 controls and rendering palette. */
+.primary { background:rgba(0,255,204,.06); color:#00ffcc; border:1px solid rgba(0,255,204,.3); font-size:12px; font-weight:400; letter-spacing:1px; }
+.primary:hover,.secondary:hover { background:rgba(0,255,204,.14); border-color:rgba(0,255,204,.7); }
+.secondary { border-color:#2a2a2a; color:#999; font-size:11px; min-height:34px; padding:6px 9px; }
+body:has(#course:not([hidden])) { overflow:hidden; }
+#course { position:fixed; inset:0; display:block; height:100dvh; }
+#controls { position:absolute; top:20px; left:20px; width:clamp(260px,22vw,360px); max-height:90dvh; padding:25px; border:1px solid #333; border-radius:12px; background:rgba(15,15,15,.95); backdrop-filter:blur(10px); box-shadow:0 10px 40px rgba(0,0,0,.6); z-index:2; overflow-y:auto; }
+#controls::-webkit-scrollbar { width:4px; }
+#controls::-webkit-scrollbar-thumb { background:#333; border-radius:2px; }
+.course-nav { margin-bottom:18px; flex-wrap:wrap; gap:10px; }
+.course-nav a { display:flex; align-items:center; gap:8px; width:100%; color:#00ffcc; border:1px solid rgba(0,255,204,.3); border-radius:8px; padding:10px 14px; background:rgba(0,255,204,.06); font-size:11px; letter-spacing:2px; }
+.course-nav button { margin-left:auto; font-size:10px; }
+.course-brand { color:#fff; font-size:18px; letter-spacing:1px; margin:0 0 5px; font-weight:600; }
+#controls h1 { font-size:12px; line-height:1.6; color:#888; margin:0 0 20px; font-weight:300; }
+.stages { gap:5px; margin-bottom:18px; }
+.stages button { font-size:11px; padding:8px 4px; min-height:38px; border-color:#2a2a2a; }
+.stages button[aria-pressed="true"] { background:rgba(0,255,204,.06); border-color:rgba(0,255,204,.3); color:#00ffcc; }
+.stages button[data-stage="2"][aria-pressed="true"] { background:rgba(255,68,170,.06); border-color:rgba(255,68,170,.3); color:#ff44aa; }
+#stage-title { font-size:12px; color:#ccc; margin:0 0 8px; }
+#stage-copy { font-size:12px; line-height:1.8; margin-bottom:18px; }
+#range-group { border-left:3px solid #00ffcc; padding:10px 0 8px 12px; margin-bottom:18px; background:rgba(0,255,204,.03); border-radius:0 6px 6px 0; }
+#course[data-stage="2"] #range-group { border-color:#ff44aa; background:rgba(255,68,170,.03); }
+.height-group { margin-top:18px; }
+.range-label { color:#aaa; font-size:11px; letter-spacing:1px; margin-bottom:8px; align-items:center; }
+output { font-size:14px; font-weight:700; }
+#height-value { color:#ffaa00; }
+#course[data-stage="2"] #section-value { color:#ff44aa; }
+input[type=range] { -webkit-appearance:none; appearance:none; display:block; width:100%; min-width:0; min-height:24px; margin:0; background:transparent; touch-action:pan-x; }
+input[type=range]::-webkit-slider-runnable-track { height:4px; background:#333; border-radius:2px; }
+input[type=range]::-webkit-slider-thumb { -webkit-appearance:none; height:14px; width:14px; margin-top:-5px; border-radius:50%; background:#00ffcc; box-shadow:0 0 8px rgba(0,255,204,.4); }
+input[type=range]::-moz-range-track { height:4px; background:#333; border-radius:2px; }
+input[type=range]::-moz-range-thumb { height:14px; width:14px; border:0; border-radius:50%; background:#00ffcc; }
+#height::-webkit-slider-thumb { background:#ffaa00; box-shadow:0 0 8px rgba(255,170,0,.3); }
+#height::-moz-range-thumb { background:#ffaa00; }
+#course[data-stage="2"] #section-size::-webkit-slider-thumb { background:#ff44aa; box-shadow:0 0 8px rgba(255,68,170,.4); }
+#course[data-stage="2"] #section-size::-moz-range-thumb { background:#ff44aa; }
+.fixed { font-size:11px; line-height:1.8; margin:18px 0 12px; padding-top:16px; }
+#next { margin-top:12px; padding:10px; min-height:40px; white-space:normal; }
+#stage-note { font-size:11px; line-height:1.8; margin-top:12px; }
+#reset { width:100%; margin-top:10px; min-height:40px; color:#aaa; }
+#tangent-group { margin:12px 0 18px; }
+#tangent-free { width:100%; min-height:40px; color:#aaa; }
+#tangent-free[aria-pressed="true"] { color:#ff44aa; border-color:rgba(255,68,170,.4); background:rgba(255,68,170,.06); }
+#tangent-note { color:#999; font-size:11px; line-height:1.8; margin:8px 0 0; }
+#guide-toggle { position:absolute; top:18px; right:18px; z-index:3; color:#aaa; background:rgba(15,15,15,.9); min-height:40px; }
+#guide-toggle[aria-pressed="true"] { color:#ffaa00; border-color:rgba(255,170,0,.35); }
+.guide-legend { display:block; margin-top:5px; color:#aaa; }
+.guide-legend .tangent-key { color:#ffaa00; }
+#view { position:absolute; top:0; right:0; bottom:0; left:calc(clamp(260px,22vw,360px) + 40px); }
+.view-caption { font-size:11px; color:#777; }
+.mobile-title-block,.drag-handle { display:none; }
+@media(max-width:768px),(hover:none),(pointer:coarse) {
+#controls { position:absolute; top:auto; bottom:0; left:0; width:100%; max-height:55dvh; padding:0 18px 14px; padding-bottom:max(14px,env(safe-area-inset-bottom)); border:0; border-top:1px solid #222; border-radius:16px 16px 0 0; background:rgba(10,10,10,.96); backdrop-filter:blur(24px); box-shadow:none; }
+.drag-handle { display:block; width:32px; height:4px; background:#2a2a2a; border-radius:2px; margin:10px auto 0; }
+.course-nav { flex-wrap:nowrap; gap:10px; padding:10px 0; margin-bottom:6px; }
+.course-nav a { width:30px; height:30px; flex-shrink:0; padding:0; display:flex; justify-content:center; border-radius:7px; font-size:15px; letter-spacing:0; }
+.back-text { display:none; }
+.mobile-title-block { display:block; flex:1; min-width:0; }
+.mobile-level-tag { display:block; font-family:monospace; color:#00ffcc; font-size:9px; opacity:.6; letter-spacing:2px; margin-bottom:1px; }
+.mobile-title { display:block; color:#ccc; font-size:12px; font-weight:600; }
+.course-nav button { flex-shrink:0; font-size:10px; }
+.course-brand,#controls h1 { display:none; }
+.stages { margin-bottom:12px; }
+.stages button { min-height:38px; }
+#stage-title { font-size:11px; margin-bottom:5px; }
+#stage-copy { font-size:11px; margin-bottom:12px; }
+#range-group { padding:8px 0 8px 10px; margin-bottom:10px; }
+.height-group { margin-top:10px; }
+.range-label { font-size:10px; margin-bottom:5px; }
+input[type=range] { min-height:28px; }
+input[type=range]::-webkit-slider-runnable-track { height:6px; border-radius:3px; background:#222; }
+input[type=range]::-webkit-slider-thumb { height:22px; width:22px; margin-top:-8px; }
+input[type=range]::-moz-range-thumb { height:22px; width:22px; }
+.fixed { font-size:11px; margin:10px 0; padding-top:10px; }
+#next { min-height:40px; margin-top:6px; }
+#view { top:0; right:0; left:0; }
+}
+
+</style>
+</head>
+<body>
+<main id="intro" class="intro">
+  <nav class="topbar" aria-label="課程導覽"><a href="../index.html">← 返回課程首頁</a><span class="brand">SIMON FORM LAB</span></nav>
+  <p class="eyebrow">LEVEL 07 · 課前說明</p>
+  <h1>截面與輪廓</h1>
+  <p class="lead">想像把花瓶橫切成一片片，<strong>每一片的外形就是「截面」</strong>。<br>改變不同高度的截面大小，再把它們連起來，整個形體的姿態就會改變。</p>
+  <section class="steps" aria-label="本課三個操作步驟">
+    <article class="step-card">
+      <span class="step-number">STEP 01</span><h2>先做直筒</h2>
+      <svg class="sketch" viewBox="0 0 200 180" role="img" aria-label="上、中、下三層截面相同，連成直筒">
+        <path class="solid" d="M55 30 L55 150 A45 14 0 0 0 145 150 L145 30 A45 14 0 0 0 55 30 Z"/>
+        <ellipse class="ring" cx="100" cy="30" rx="45" ry="14"/><ellipse class="cut" cx="100" cy="90" rx="45" ry="14"/>
+        <path class="cut" d="M55 150 A45 14 0 0 1 145 150"/>
+      </svg>
+      <p>上、中、下截面一樣大，先建立比較的基準。</p>
+    </article>
+    <article class="step-card">
+      <span class="step-number">STEP 02</span><h2>只縮小頂部</h2>
+      <svg class="sketch" viewBox="0 0 200 180" role="img" aria-label="底部不變，頂部縮小，輪廓形成上窄下寬的收分">
+        <path class="solid" d="M75 30 L55 150 A45 14 0 0 0 145 150 L125 30 A25 8 0 0 0 75 30 Z"/>
+        <ellipse class="ring" cx="100" cy="30" rx="25" ry="8"/><ellipse class="cut" cx="100" cy="90" rx="35" ry="11"/>
+        <path class="cut" d="M55 150 A45 14 0 0 1 145 150"/>
+      </svg>
+      <p>先保持高度不變、底部固定，觀察上窄下寬的「收分」。</p>
+    </article>
+    <article class="step-card">
+      <span class="step-number">STEP 03</span><h2>再改中間</h2>
+      <svg class="sketch" viewBox="0 0 240 180" role="img" aria-label="不限制端部切線的示意：左邊中段放大形成鼓肚，右邊中段縮小形成收腰，頂底相同">
+        <path class="solid" d="M28 30 Q-2 90 28 150 A28 9 0 0 0 84 150 Q114 90 84 30 A28 9 0 0 0 28 30 Z"/>
+        <ellipse class="ring" cx="56" cy="30" rx="28" ry="9"/><ellipse class="cut" cx="56" cy="90" rx="43" ry="14"/>
+        <path class="solid" d="M155 30 Q187 90 155 150 A28 9 0 0 0 211 150 Q179 90 211 30 A28 9 0 0 0 155 30 Z"/>
+        <ellipse class="ring" cx="183" cy="30" rx="28" ry="9"/><ellipse class="cut" cx="183" cy="90" rx="12" ry="4"/>
+      </svg>
+      <p>保留頂部設定，調整中段鼓收。開啟「不限制端部切線」，比較圖中的圓鼓輪廓；回到 0 即還原直線。</p>
+    </article>
+  </section>
+  <footer class="intro-footer"><p>每次只改一個變數，看清楚形體為什麼改變。高度也可獨立調整。<br>進入後，可隨時重看這段說明。</p><button class="primary" id="start" type="button">開始實驗 →</button></footer>
+</main>
+<section id="course" data-stage="0" aria-label="Level 07 截面實驗" hidden>
+  <aside id="controls" aria-label="實驗控制面板">
+    <div class="drag-handle" aria-hidden="true"></div>
+    <nav class="course-nav"><a href="../index.html"><span>←</span><span class="back-text"> 返回課程首頁</span></a><div class="mobile-title-block"><span class="mobile-level-tag">LEVEL 07</span><span class="mobile-title">截面與輪廓</span></div><button class="secondary" id="review" type="button">重看說明</button></nav>
+    <h3 class="course-brand">SIMON Form Lab</h3><h1 tabindex="-1" id="course-title">LEVEL 7：截面與輪廓</h1>
+    <div class="stages" role="group" aria-label="操作步驟"><button type="button" data-stage="0" aria-pressed="true">1 直筒</button><button type="button" data-stage="1" aria-pressed="false">2 收分</button><button type="button" data-stage="2" aria-pressed="false">3 鼓肚／收腰</button></div>
+    <div aria-live="polite"><h2 id="stage-title">先觀察直筒</h2><p id="stage-copy">上、中、下截面都是 100%。旋轉模型，看看三層截面如何連成一個形體。</p></div>
+    <div id="range-group" hidden><label class="range-label" for="section-size"><span id="range-name">頂部截面直徑</span><output id="section-value" for="section-size">70%</output></label><input id="section-size" type="range" min="35" max="100" step="1" value="70"></div>
+    <div id="tangent-group" hidden>
+      <button class="secondary" id="tangent-free" type="button" aria-pressed="false" aria-describedby="tangent-note">不限制端部切線：關</button>
+      <p id="tangent-note" aria-live="polite">保留上下端切線；頂底同尺寸時為垂直。</p>
+    </div>
+    <div class="height-group"><label class="range-label" for="height"><span>高度（相對值）</span><output id="height-value" for="height">130</output></label><input id="height" type="range" min="50" max="220" step="1" value="130"></div>
+    <p class="fixed" id="fixed-note">底部截面直徑固定為 100%；高度可獨立調整。<br>三條環線依序標示：頂部、中段、底部。</p>
+    <button class="primary" id="next" type="button">下一步：縮小頂部 →</button>
+    <button class="secondary" id="reset" type="button">重置</button>
+    <p id="stage-note">收分保持直線；中段鼓收回到 0 可還原。重置會恢復全部預設值。</p>
+  </aside>
+  <div id="view" role="group" aria-label="3D 模型與切線示意"><button class="secondary" id="guide-toggle" type="button" aria-pressed="true" aria-describedby="guide-legend">顯示切線虛線：開</button><div id="error" role="alert" hidden>3D 元件尚未載入，請重新整理頁面後再試。</div><div class="view-caption">拖曳旋轉 · 滾輪／雙指縮放<span class="guide-legend" id="guide-legend">白色虛線：縱向輪廓 · <span class="tangent-key">橘色虛線：切線方向</span></span></div></div>
+</section>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script>
+(() => {
+    const intro=document.getElementById('intro'), course=document.getElementById('course');
+    const view=document.getElementById('view'), input=document.getElementById('section-size');
+    const start=document.getElementById('start'), review=document.getElementById('review');
+    let scene,camera,renderer,controls,model,material,ringMaterial,guideGroup,guideMaterial,profileMaterial,markerMaterial,stage=0,top=100,middleOffset=0,height=130,freeTangents=false,showGuides=true,ready=false,rendering=false;
+    const steps=[
+      ['先觀察直筒','上、中、下截面都是 100%。旋轉模型，看看三層截面如何連成一個形體。'],
+      ['只縮小頂部','底部固定，只調整頂部，輪廓保持直線。切回這一步會清除中段鼓收，保留頂部與高度。'],
+      ['只改中段','沿用上一步的直線輪廓，保留頂部與高度。正值向外鼓、負值向內收；回到 0 就還原直線。']
+    ];
+    start.addEventListener('click',()=>{
+        intro.hidden=true; course.hidden=false; window.scrollTo(0,0);
+        if(!ready) init();
+        if(ready) { resize(); animate(); }
+        document.getElementById('course-title').focus();
+    });
+    review.addEventListener('click',()=>{
+        course.hidden=true; intro.hidden=false; window.scrollTo(0,0); start.focus({preventScroll:true});
+    });
+    document.querySelectorAll('.stages [data-stage]').forEach(button=>button.addEventListener('click',()=>setStage(Number(button.dataset.stage))));
+    document.getElementById('next').addEventListener('click',()=>setStage((stage+1)%3));
+    input.addEventListener('input',()=>{
+        if(stage===1) top=Number(input.value);
+        if(stage===2) middleOffset=Number(input.value);
+        updateSectionValue();
+        rebuild();
+    });
+    document.getElementById('height').addEventListener('input',event=>{
+        height=Number(event.target.value);
+        document.getElementById('height-value').value=String(height);
+        rebuild();
+    });
+    function setStage(value) {
+        stage=value; course.dataset.stage=String(stage);
+        // Step 2 is the straight reference; Step 3 adds a reversible offset to it.
+        if(stage===1) middleOffset=0;
+        document.querySelectorAll('.stages [data-stage]').forEach(button=>button.setAttribute('aria-pressed',String(Number(button.dataset.stage)===stage)));
+        document.getElementById('stage-title').textContent=steps[stage][0];
+        document.getElementById('stage-copy').textContent=steps[stage][1];
+        document.getElementById('range-group').hidden=stage===0;
+        document.getElementById('tangent-group').hidden=stage!==2;
+        document.getElementById('range-name').textContent=stage===1?'頂部截面直徑':'中段鼓收（0 = 直線）';
+        input.min=stage===1?'35':'-60'; input.max=stage===1?'100':'60'; input.value=stage===1?top:middleOffset;
+        updateSectionValue();
+        document.getElementById('next').textContent=['下一步：縮小頂部 →','下一步：改變中段 →','回到直筒，重新比較 ↺'][stage];
+        rebuild();
+    }
+    document.getElementById('tangent-free').addEventListener('click',()=>{
+        freeTangents=!freeTangents;
+        rebuild();
+    });
+    function updateTangentControl() {
+        const button=document.getElementById('tangent-free');
+        button.setAttribute('aria-pressed',String(freeTangents));
+        button.textContent='不限制端部切線：'+(freeTangents?'開':'關');
+        document.getElementById('tangent-note').textContent=freeTangents
+            ?'自由模式：端部可向外鼓或向內收；鼓收為 0 時仍是直線。'
+            :top===100?'保留上下端的垂直切線，端部不隨中段鼓收傾斜。'
+            :'保留原收分的端部切線；頂底同尺寸時，切線為垂直。';
+    }
+    document.getElementById('guide-toggle').addEventListener('click',()=>{
+        showGuides=!showGuides;
+        updateGuideVisibility();
+    });
+    function updateGuideVisibility() {
+        const available=stage===2;
+        if(guideGroup) guideGroup.visible=available && showGuides;
+        const button=document.getElementById('guide-toggle');
+        button.hidden=!available;
+        button.setAttribute('aria-pressed',String(showGuides));
+        button.textContent='顯示切線虛線：'+(showGuides?'開':'關');
+        document.getElementById('guide-legend').hidden=!available || !showGuides;
+    }
+    function updateSectionValue() {
+        const value=Number(input.value);
+        document.getElementById('section-value').value=stage===1?value+'%':(value>0?'+':'')+value+'%';
+    }
+    document.getElementById('reset').addEventListener('click',()=>{
+        top=100; middleOffset=0; height=130; freeTangents=false; showGuides=true;
+        document.getElementById('height').value=String(height);
+        document.getElementById('height-value').value=String(height);
+        setStage(0);
+        if(ready) {
+            controls.reset(); controls.target.set(0,0,0);
+            camera.position.set(220,150,260); resize();
+        }
+    });
+    function init() {
+        if(!window.THREE || !THREE.OrbitControls) { document.getElementById('error').hidden=false; return; }
+        try { renderer=new THREE.WebGLRenderer({antialias:true}); }
+        catch(error) { document.getElementById('error').textContent='無法啟動 3D 顯示，請使用支援 WebGL 的瀏覽器。'; document.getElementById('error').hidden=false; return; }
+        scene=new THREE.Scene(); scene.background=new THREE.Color(0x0a0a0a);
+        camera=new THREE.PerspectiveCamera(35,1,1,5000); camera.position.set(220,150,260);
+        renderer.setPixelRatio(Math.min(devicePixelRatio,2)); view.prepend(renderer.domElement);
+        renderer.domElement.setAttribute('role','img');
+        renderer.domElement.setAttribute('aria-label','可拖曳旋轉的截面造型模型，含縱向輪廓與切線方向虛線');
+        controls=new THREE.OrbitControls(camera,renderer.domElement); controls.enableDamping=true; controls.enablePan=false;
+        scene.add(new THREE.AmbientLight(0x2a2a2a));
+        const key=new THREE.DirectionalLight(0xffffff,1.2); key.position.set(100,200,150); scene.add(key);
+        const fill=new THREE.DirectionalLight(0x00ffcc,.6); fill.position.set(-100,-50,100); scene.add(fill);
+        const rim=new THREE.DirectionalLight(0xff00cc,.3); rim.position.set(100,-100,-200); scene.add(rim);
+        material=new THREE.MeshStandardMaterial({color:0xcccccc,roughness:.18,metalness:.4,side:THREE.DoubleSide});
+        ringMaterial=[0x00ffcc,0xff44aa,0xcccccc].map(color=>new THREE.LineBasicMaterial({color,transparent:true,opacity:.55}));
+        guideMaterial=new THREE.MeshBasicMaterial({color:0xffaa00,depthTest:false,transparent:true,opacity:.95});
+        profileMaterial=new THREE.LineDashedMaterial({color:0xeeeeee,dashSize:2,gapSize:1.7,depthTest:false,transparent:true,opacity:.65});
+        markerMaterial=new THREE.MeshBasicMaterial({color:0xffaa00,depthTest:false});
+        ready=true; rebuild(); new ResizeObserver(resize).observe(view);
+        new ResizeObserver(resize).observe(document.getElementById('controls'));
+        window.addEventListener('resize',resize);
+    }
+    function radius(t) {
+        if(stage===0) return 45;
+        const straight=100+(top-100)*t;
+        // Zero offset reproduces the exact same line as Step 2 at every height.
+        // Fixed: the deformation has zero derivative at both ends.
+        // Free: the endpoints stay in place, but their tangent directions may change.
+        const weight=freeTangents?4*t*(1-t):Math.sin(Math.PI*t)**2;
+        const offset=stage===2?middleOffset*weight:0;
+        return 45*(straight+offset)/100;
+    }
+    function radiusSlope(t) {
+        if(stage===0)return 0;
+        const weightSlope=freeTangents?4*(1-2*t):Math.PI*Math.sin(2*Math.PI*t);
+        return .45*((top-100)+(stage===2?middleOffset*weightSlope:0))/height;
+    }
+    function addTangentGuides() {
+        guideGroup=new THREE.Group();
+        const length=Math.min(44,height*.42);
+        [-1,1].forEach(side=>{
+            const outline=[];
+            for(let i=0;i<=160;i++) {
+                const t=i/160;
+                outline.push(new THREE.Vector3(side*(radius(t)+.6),-height/2+height*t,0));
+            }
+            const profile=new THREE.Line(new THREE.BufferGeometry().setFromPoints(outline),profileMaterial);
+            profile.computeLineDistances(); profile.renderOrder=10; guideGroup.add(profile);
+            [0,.5,1].forEach(t=>{
+                const anchor=new THREE.Vector3(side*(radius(t)+.6),-height/2+height*t,0);
+                const direction=new THREE.Vector3(side*radiusSlope(t),1,0).normalize();
+                // Short cylinders keep dashes legible on WebGL implementations limited to 1px lines.
+                for(let start=0;start<length;start+=5) {
+                    const dashLength=Math.min(3,length-start);
+                    const dash=new THREE.Mesh(new THREE.CylinderGeometry(.18,.18,dashLength,6),guideMaterial);
+                    dash.position.copy(anchor).addScaledVector(direction,-length/2+start+dashLength/2);
+                    dash.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),direction);
+                    dash.renderOrder=11; guideGroup.add(dash);
+                }
+                const marker=new THREE.Mesh(new THREE.SphereGeometry(.6,8,6),markerMaterial);
+                marker.position.copy(anchor); marker.renderOrder=12; guideGroup.add(marker);
+            });
+        });
+        model.add(guideGroup);
+        alignTangentGuides(); updateGuideVisibility();
+    }
+    function alignTangentGuides() {
+        if(guideGroup) {
+            // Place the meridian on the visible silhouette as the camera orbits.
+            const direction=camera.position.clone().sub(controls.target);
+            guideGroup.rotation.y=Math.atan2(direction.x,direction.z);
+        }
+    }
+    function rebuild() {
+        updateTangentControl();
+        const visibleTop=stage===0?100:top, visibleMiddle=stage===0?100:(100+top)/2+(stage===2?middleOffset:0);
+        document.getElementById('fixed-note').textContent=
+            `底部 100% · 頂部 ${visibleTop}% · 中段 ${visibleMiddle}% · 高度 ${height}。`;
+        if(!ready)return;
+        if(model) { scene.remove(model); model.traverse(object=>{ if(object.geometry)object.geometry.dispose(); }); }
+        model=new THREE.Group();
+        const points=[];
+        for(let i=0;i<=80;i++)points.push(new THREE.Vector2(radius(i/80),-height/2+height*i/80));
+        model.add(new THREE.Mesh(new THREE.LatheGeometry(points,96),material));
+        // Separate planar caps preserve the flat top/bottom highlights.
+        [0,1].forEach(t=>{
+            const cap=new THREE.Mesh(new THREE.CircleGeometry(radius(t),96),material);
+            cap.rotation.x=t===1?-Math.PI/2:Math.PI/2;
+            cap.position.y=-height/2+height*t;
+            model.add(cap);
+        });
+        [0,.5,1].forEach((t,index)=>{
+            const r=radius(t)+.35, y=-height/2+height*t, points=[];
+            for(let i=0;i<128;i++) { const angle=i/128*Math.PI*2; points.push(new THREE.Vector3(r*Math.cos(angle),y,r*Math.sin(angle))); }
+            model.add(new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints(points),ringMaterial[index]));
+        });
+        addTangentGuides();
+        scene.add(model);
+    }
+    function resize() {
+        if(!ready || course.hidden)return;
+        const mobile=!matchMedia('(min-width:769px) and (hover:hover) and (pointer:fine)').matches;
+        view.style.bottom=mobile?document.getElementById('controls').getBoundingClientRect().height+'px':'0px';
+        const width=view.clientWidth,height=view.clientHeight;
+        if(!width||!height)return;
+        renderer.setSize(width,height); camera.aspect=width/height;
+        // Frame the maximum height once, so changing height preserves a consistent visual scale.
+        const sphereRadius=Math.hypot(94,132), halfFov=THREE.MathUtils.degToRad(camera.fov/2);
+        const halfAngle=Math.min(halfFov,Math.atan(Math.tan(halfFov)*camera.aspect));
+        const distance=sphereRadius/Math.sin(halfAngle)*1.12;
+        camera.position.sub(controls.target).normalize().multiplyScalar(distance).add(controls.target);
+        controls.minDistance=distance*.55; controls.maxDistance=distance*2.5;
+        camera.updateProjectionMatrix(); controls.update();
+    }
+    function animate() {
+        if(rendering)return;
+        rendering=true;
+        function frame() {
+            if(course.hidden) { rendering=false; return; }
+            controls.update(); alignTangentGuides(); renderer.render(scene,camera); requestAnimationFrame(frame);
+        }
+        frame();
+    }
+})();
+</script>
+</body>
+</html>

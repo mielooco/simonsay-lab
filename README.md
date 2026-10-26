@@ -27,7 +27,7 @@
 | [Level 04](https://mielooco.github.io/SimonSay-lab/level-4/) | 幾何精確建構 — 弧線掃描建構 | Arc Sweep / Exact Fillet / Segments |
 | [Level 05](https://mielooco.github.io/SimonSay-lab/level-5/) | 複合路徑倒角與建模順序的邏輯 | Feature Order / Compound Fillet / Boolean |
 | [Level 06](https://mielooco.github.io/SimonSay-lab/level-6/) | Chamfer — 斜角截面的造型語言 | Chamfer / Cross Section / Hard Edge |
-| Level 07 | 即將推出 | — |
+| [Level 07](https://mielooco.github.io/simonsay-lab/level-7/) | 截面與輪廓：直筒、收分、鼓肚與收腰 | Section / Taper / Silhouette |
 | Level 08 | 即將推出 | — |
 | Level 09 | 即將推出 | — |
 | Level 10 | 即將推出 | — |
@@ -43,6 +43,7 @@ L03 比例與方向性     → 不同比例容器裡 R角在的視覺重量
 L04 幾何精確        → 從近似升級為 CAD 真實邏輯
 L05 複合路徑        → 建模順序如何決定造型氣質
 L06 斜角截面        → Chamfer 的面積消長與交界協商
+L07 截面與輪廓      → 固定底部，依序觀察頂部與中段截面的影響；高度可獨立調整
 ```
 
 ---
@@ -55,6 +56,12 @@ L06 斜角截面        → Chamfer 的面積消長與交界協商
 - **手機 / 平板**：底部抽屜 UI，自動偵測觸控裝置切換
 
 ---
+
+Level 07 先顯示三步課前簡圖，點「開始實驗」進入操作，也可隨時「重看說明」。中段鼓收以直線為基準，回到 0 或切回收分可還原直線；「重置」恢復直筒、頂部 100%、中段鼓收 0、高度 130 與初始視角。
+
+中段操作另有「不限制端部切線」開關：預設保留原收分的端部切線（頂底同尺寸時為垂直），開啟後端部方向可隨鼓收改變；兩種模式在鼓收為 0 時均還原直線，重置會關閉此開關。
+
+第 3 步的 3D 視圖預設顯示切線虛線（第 1、2 步自動隱藏）：白色標示縱向輪廓，橘色標示上下端與中段的切線方向。標示隨模型參數與旋轉視角更新，可使用視圖右上方按鈕隱藏。
 
 ## 技術規格
 
