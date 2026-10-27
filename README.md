@@ -28,7 +28,7 @@
 | [Level 05](https://mielooco.github.io/simonsay-lab/level-5/) | 複合圓角 | 建模順序與造型變化 |
 | [Level 06](https://mielooco.github.io/simonsay-lab/level-6/) | 斜角與切面 | 面的消長關係 |
 | [Level 07](https://mielooco.github.io/simonsay-lab/level-7/) | 截面與輪廓 | 直筒、收分、鼓肚與收腰 |
-| Level 08 | 即將推出 | — |
+| [Level 08](https://mielooco.github.io/simonsay-lab/level-8/) | 挖與切 | 球面挖凹、平面切削與多向堆疊 |
 | Level 09 | 即將推出 | — |
 | Level 10 | 即將推出 | — |
 
@@ -44,6 +44,7 @@ L04 幾何精確        → 從近似升級為 CAD 真實邏輯
 L05 複合路徑        → 建模順序如何決定造型氣質
 L06 斜角截面        → Chamfer 的面積消長與交界協商
 L07 截面與輪廓      → 固定底部，依序觀察頂部與中段截面的影響；高度可獨立調整
+L08 挖與切          → 比較球面挖凹與平面切削，再從不同角落疊加最多三刀
 ```
 
 ---
@@ -74,3 +75,5 @@ Level 07 先顯示三步課前簡圖，點「開始實驗」進入操作，也�
 ---
 
 *Simon Fundamental Design Lab © 2026*
+
+第 08 課使用 Evan Wallace 的 MIT 授權 csg.js 進行幾何布林運算；原始授權見 `level-8/CSG-LICENSE.txt`。

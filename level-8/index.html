@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>挖與切｜Level 08 — Simon Form Lab</title>
+<style>
+:root { color-scheme:dark; --bg:#080808; --mint:#00ffcc; --pink:#ff44aa; --orange:#ffaa00; }
+* { box-sizing:border-box; }
+body { margin:0; min-height:100dvh; background:var(--bg); color:#eee; font-family:'PingFang TC','Noto Sans TC',sans-serif; }
+button,input,select { font:inherit; }
+button,input,select,a { -webkit-tap-highlight-color:transparent; }
+button { cursor:pointer; }
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible { outline:2px solid var(--mint); outline-offset:4px; }
+[hidden] { display:none!important; }
+#view { position:absolute; top:0; right:0; bottom:0; left:360px; }
+canvas { display:block; touch-action:none; }
+#panel { position:absolute; z-index:2; left:20px; top:20px; width:320px; max-height:calc(100dvh - 40px); padding:24px; border:1px solid #333; border-radius:12px; background:rgba(15,15,15,.95); backdrop-filter:blur(10px); box-shadow:0 10px 40px rgba(0,0,0,.6); overflow:auto; }
+#panel::-webkit-scrollbar { width:4px; } #panel::-webkit-scrollbar-thumb { background:#333; border-radius:2px; }
+.back { display:flex; padding:10px 14px; border:1px solid rgba(0,255,204,.3); border-radius:8px; color:var(--mint); text-decoration:none; background:rgba(0,255,204,.06); font-size:11px; letter-spacing:2px; margin-bottom:20px; }
+.brand { font-size:18px; letter-spacing:1px; margin:0 0 8px; }
+.level { font:10px monospace; letter-spacing:2px; color:var(--mint); margin:0 0 6px; }
+h1 { font-size:17px; margin:0 0 8px; font-weight:600; }
+.subtitle { color:#999; font-size:12px; line-height:1.8; margin:0 0 18px; }
+.section-title { font-size:10px; letter-spacing:2px; text-transform:uppercase; color:#888; margin:18px 0 10px; }
+.row { display:flex; gap:6px; }
+.row button { flex:1; border:1px solid #333; border-radius:6px; padding:9px 4px; background:transparent; color:#aaa; font-size:11px; min-height:38px; }
+.row button[aria-pressed=true] { color:var(--mint); border-color:rgba(0,255,204,.4); background:rgba(0,255,204,.06); }
+#tool-tabs button[aria-pressed=true] { border-color:var(--tool-color); color:var(--tool-color); background:rgba(255,255,255,.025); }
+#tool-controls { border-left:3px solid var(--tool-color); padding:12px 0 2px 12px; margin-top:12px; }
+#tool-name { color:var(--tool-color); font-size:12px; margin:0 0 10px; }
+.check { display:flex; align-items:center; gap:8px; color:#aaa; font-size:12px; margin:10px 0; min-height:26px; }
+input[type=checkbox] { accent-color:var(--mint); width:16px; height:16px; }
+.field-label { display:flex; justify-content:space-between; align-items:center; gap:8px; color:#aaa; font-size:11px; margin:16px 0 6px; }
+output { font:700 14px monospace; color:var(--tool-color); }
+select { width:100%; color:#ddd; background:#151515; border:1px solid #333; border-radius:6px; padding:9px 8px; min-height:38px; font-size:12px; }
+input[type=range] { display:block; width:100%; min-height:28px; margin:0; appearance:none; -webkit-appearance:none; background:transparent; cursor:ew-resize; touch-action:pan-x; }
+input[type=range]::-webkit-slider-runnable-track { height:4px; background:#333; border-radius:2px; }
+input[type=range]::-webkit-slider-thumb { -webkit-appearance:none; width:16px; height:16px; border-radius:50%; background:var(--tool-color); margin-top:-6px; box-shadow:0 0 8px color-mix(in srgb,var(--tool-color) 35%,transparent); }
+input[type=range]::-moz-range-track { height:4px; background:#333; }
+input[type=range]::-moz-range-thumb { background:var(--tool-color); width:16px; height:16px; border-radius:50%; border:0; }
+.hint { color:#999; font-size:11px; line-height:1.8; margin:16px 0; border-top:1px solid #333; padding-top:14px; }
+#summary { color:#ccc; font-size:12px; line-height:1.7; margin:10px 0; }
+.reset { width:100%; min-height:40px; margin-top:8px; border:1px solid rgba(0,255,204,.3); border-radius:7px; color:var(--mint); background:rgba(0,255,204,.06); font-size:12px; }
+.caption { position:absolute; bottom:15px; left:12px; right:12px; text-align:center; color:#888; font-size:11px; line-height:1.8; pointer-events:none; }
+#busy { position:absolute; top:18px; right:18px; color:#aaa; font-size:11px; background:rgba(15,15,15,.8); padding:8px 12px; border-radius:6px; }
+#message { position:absolute; inset:20%; color:#ddd; font-size:14px; line-height:1.8; text-align:center; }
+#handle { display:none; }
+@media(max-width:768px),(hover:none),(pointer:coarse) {
+#panel { top:auto; bottom:0; left:0; width:100%; max-height:53dvh; padding:0 18px 18px; padding-bottom:max(18px,env(safe-area-inset-bottom)); border:0; border-top:1px solid #222; border-radius:16px 16px 0 0; background:rgba(10,10,10,.96); }
+#handle { display:block; width:32px; height:4px; border-radius:2px; background:#2a2a2a; margin:10px auto; }
+.back { margin-bottom:10px; padding:8px 10px; width:fit-content; }
+.brand { display:none; }
+h1 { font-size:15px; } .subtitle { font-size:11px; margin-bottom:12px; }
+#view { left:0; } .section-title { margin-top:12px; }
+input[type=range] { min-height:32px; }
+input[type=range]::-webkit-slider-thumb { width:22px; height:22px; margin-top:-9px; }
+input[type=checkbox] { width:20px; height:20px; } .check { min-height:34px; }
+}
+
+body.is-operating { overflow:hidden; height:100dvh; }
+#course { position:fixed; inset:0; }
+.intro { max-width:1060px; padding:32px 28px 56px; margin:0 auto; }
+.intro-nav { display:flex; align-items:center; justify-content:space-between; gap:18px; margin-bottom:48px; }
+.intro-nav a { color:var(--mint); text-decoration:none; font-size:12px; }
+.intro-brand { color:var(--mint); font:12px monospace; letter-spacing:2px; }
+.intro h1 { font-size:clamp(30px,5vw,46px); font-weight:500; margin:12px 0 16px; }
+.intro .lead { color:#aaa; font-size:15px; line-height:1.9; max-width:720px; margin:0; }
+.intro strong { color:#eee; font-weight:500; }
+.intro-grid { display:grid; grid-template-columns:1fr 1fr; gap:44px; margin:34px 0 28px; }
+.intro-card { border-top:1px solid #333; padding-top:20px; }
+.intro-card h2 { margin:8px 0; font-size:23px; font-weight:500; }
+.intro-card .kind { color:var(--mint); font:11px monospace; letter-spacing:2px; }
+.intro-card.cut-card .kind { color:var(--pink); }
+.intro-card p { font-size:14px; line-height:1.8; color:#aaa; margin:6px 0; }
+.intro-sketch { width:100%; height:210px; display:block; }
+.intro-sketch .remaining { fill:rgba(255,255,255,.06); stroke:#ddd; stroke-width:1.6; stroke-linejoin:round; }
+.intro-sketch .original { fill:none; stroke:#777; stroke-width:1; stroke-dasharray:4 4; }
+.intro-sketch .dig-tool { fill:none; stroke:var(--mint); stroke-width:1.4; stroke-dasharray:5 4; }
+.intro-sketch .plane-tool { fill:none; stroke:var(--pink); stroke-width:1.4; stroke-dasharray:5 4; }
+.intro-sketch .dug { fill:rgba(0,255,204,.13); stroke:none; }
+.intro-sketch .sliced { fill:rgba(255,68,170,.13); stroke:none; }
+.intro-labels { display:flex; gap:16px; flex-wrap:wrap; color:#999; font-size:12px; margin-top:10px; }
+.intro-footer { display:flex; align-items:center; justify-content:space-between; gap:24px; border-top:1px solid #333; padding-top:24px; }
+.intro-footer p { margin:0; color:#aaa; font-size:13px; line-height:1.9; }
+#start { min-height:48px; padding:12px 24px; border:1px solid rgba(0,255,204,.4); border-radius:8px; color:var(--mint); background:rgba(0,255,204,.06); white-space:nowrap; font-size:13px; }
+#start:hover { background:rgba(0,255,204,.12); }
+#review { display:block; margin:-8px 0 16px auto; min-height:34px; padding:6px 10px; color:#aaa; font-size:11px; background:transparent; border:1px solid #333; border-radius:7px; }
+@media(max-width:600px) {
+.intro { padding:24px 22px 36px; }
+.intro-nav { margin-bottom:32px; }
+.intro-brand { font-size:10px; letter-spacing:1px; }
+.intro .lead { font-size:14px; }
+.intro-grid { grid-template-columns:1fr; gap:28px; margin-top:28px; }
+.intro-card { display:grid; grid-template-columns:125px minmax(0,1fr); column-gap:18px; align-items:center; }
+.intro-card .kind,.intro-card h2,.intro-card p,.intro-labels { grid-column:2; }
+.intro-sketch { grid-column:1; grid-row:1/6; height:190px; }
+.intro-card h2 { font-size:22px; }
+.intro-card p { font-size:13px; }
+.intro-labels { font-size:11px; gap:6px; }
+.intro-footer { flex-direction:column; align-items:stretch; gap:18px; }
+}
+@media(max-width:360px) { .intro-card { grid-template-columns:105px minmax(0,1fr); column-gap:12px; } }
+
+</style>
+</head>
+<body>
+<main id="intro" class="intro">
+  <nav class="intro-nav" aria-label="課程導覽"><a href="../index.html">← 返回課程首頁</a><span class="intro-brand">SIMON FORM LAB</span></nav>
+  <p class="level">LEVEL 08 · 課前說明</p><h1>挖與切</h1>
+  <p class="lead">同樣是拿掉一部分量體，<strong>工具形狀不同，留下的面也不同。</strong><br>先用剖面簡圖比較，再進入 3D 實驗。</p>
+  <section class="intro-grid" aria-label="挖與切的剖面比較">
+    <article class="intro-card">
+      <span class="kind">SPHERE · 球面</span><h2>挖</h2>
+      <svg class="intro-sketch" viewBox="0 -35 200 210" role="img" aria-label="球面從方塊右上角挖去一部分，留下向內彎的凹曲面；以剖面表示">
+        <path class="dug" d="M56 36 H118 V98 A62 62 0 0 1 56 36 Z"/>
+        <path class="remaining" d="M18 36 H56 A62 62 0 0 0 118 98 V151 H18 Z"/>
+        <path class="original" d="M18 36 H118 V151 H18 Z"/>
+        <circle class="dig-tool" cx="118" cy="36" r="62"/>
+      </svg>
+      <p>球面往量體內挖，<br><strong>留下凹曲面。</strong></p>
+      <div class="intro-labels"><span>調整球面半徑</span><span>調整挖入深度</span></div>
+    </article>
+    <article class="intro-card cut-card">
+      <span class="kind">PLANE · 平面</span><h2>切</h2>
+      <svg class="intro-sketch" viewBox="0 -35 200 210" role="img" aria-label="平面斜切方塊右上角，留下平直的斜面與交界稜線；以剖面表示">
+        <path class="sliced" d="M56 36 H118 V98 Z"/>
+        <path class="remaining" d="M18 36 H56 L118 98 V151 H18 Z"/>
+        <path class="original" d="M18 36 H118 V151 H18 Z"/>
+        <path class="plane-tool" d="M27 7 L153 133"/>
+      </svg>
+      <p>平面從量體上切過，<br><strong>留下斜面與稜線。</strong></p>
+      <div class="intro-labels"><span>調整切面角度</span><span>調整切入深度</span></div>
+    </article>
+  </section>
+  <footer class="intro-footer"><p>先比較「挖」與「切」，再加入第二、三刀。<br>每刀可獨立設定，也能混合堆疊；操作中可隨時重看說明。</p><button type="button" id="start">開始實驗 →</button></footer>
+</main>
+<section id="course" aria-label="挖與切 3D 實驗" hidden>
+
+<div id="view" role="group" aria-label="多向曲面切削 3D 模型"><div id="busy" role="status" hidden>更新量體中…</div><p id="message" role="alert" hidden></p><div class="caption">拖曳旋轉 · 滾輪／雙指縮放<br>灰色：留下的量體 · 白色框線：原始方塊</div></div>
+<aside id="panel" style="--tool-color:#00ffcc" aria-label="切削操作面板">
+<div id="handle" aria-hidden="true"></div>
+<a class="back" href="../index.html">← 返回課程首頁</a>
+<button type="button" id="review">重看說明</button>
+<h3 class="brand">SIMON Form Lab</h3><p class="level">LEVEL 08</p>
+<h1 id="course-title" tabindex="-1">挖與切</h1><p class="subtitle">球面挖出凹口，平面切出斜面。比較兩種方式，也可混合堆疊。</p>
+<div class="section-title">比較版本</div><div class="row" role="group" aria-label="比較挖與切"><button type="button" data-version="sphere" aria-pressed="false">全部挖</button><button type="button" data-version="plane" aria-pressed="true">全部切</button></div>
+<div class="section-title">逐次堆疊</div>
+<div class="row" id="stages" role="group" aria-label="切削堆疊"><button type="button" data-count="1" aria-pressed="true">一刀</button><button type="button" data-count="2" aria-pressed="false">兩刀</button><button type="button" data-count="3" aria-pressed="false">三刀</button></div>
+<p id="summary" aria-live="polite">已開啟 1 刀</p>
+<div class="section-title">選擇要調整的一刀</div>
+<div class="row" id="tool-tabs" role="group" aria-label="選擇切削工具"><button type="button" data-tool="0" aria-pressed="true">第 1 刀</button><button type="button" data-tool="1" aria-pressed="false">第 2 刀</button><button type="button" data-tool="2" aria-pressed="false">第 3 刀</button></div>
+<div id="tool-controls">
+<h2 id="tool-name">第 1 刀 · 平面切削</h2>
+<div class="row" role="group" aria-label="這一刀的方式"><button type="button" data-kind="sphere" aria-pressed="false">挖 · 球面</button><button type="button" data-kind="plane" aria-pressed="true">切 · 平面</button></div>
+<label class="check"><input type="checkbox" id="enabled" checked>啟用這一刀</label>
+<label class="field-label" for="direction">切入角落</label><select id="direction"><option value="1,1,1">右上前</option><option value="-1,1,1">左上前</option><option value="1,-1,1">右下前</option><option value="-1,-1,1">左下前</option><option value="1,1,-1">右上後</option><option value="-1,1,-1">左上後</option><option value="1,-1,-1">右下後</option><option value="-1,-1,-1">左下後</option></select>
+<div id="sphere-controls" hidden><label class="field-label" for="radius">挖凹球半徑 <output id="radius-value" for="radius">90</output></label><input id="radius" type="range" min="70" max="120" step="1" value="90"></div>
+<div id="plane-controls"><label class="field-label" for="yaw">水平角度 <output id="yaw-value" for="yaw">45°</output></label><input id="yaw" type="range" min="0" max="90" step="1" value="45"><label class="field-label" for="pitch">俯仰角度 <output id="pitch-value" for="pitch">35°</output></label><input id="pitch" type="range" min="0" max="90" step="1" value="35"></div>
+<label class="field-label" for="depth">切入深度 <output id="depth-value" for="depth">55</output></label><input id="depth" type="range" min="0" max="70" step="1" value="55">
+</div>
+<div class="section-title">觀察輔助</div>
+<label class="check"><input type="checkbox" id="original" checked>顯示原始方塊框線</label>
+<label class="check"><input type="checkbox" id="tools">顯示選取的工具</label>
+<p class="hint">挖：調整球面半徑，得到凹曲面。切：調整平面角度，得到斜面與稜線。<br>切換版本會保留各刀設定。也可讓每刀使用不同方式；深度越大，移除越多。尺寸皆為相對值。</p>
+<button class="reset" id="reset" type="button">重置</button>
+</aside>
+</section>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script src="csg.js"></script>
+<script src="volume-cutting.js"></script>
+<script>
+(() => {
+    const view=document.getElementById('view'),panel=document.getElementById('panel');
+    const intro=document.getElementById('intro'),course=document.getElementById('course');
+    const colors=[0x00ffcc,0xff44aa,0xffaa00],cssColors=['#00ffcc','#ff44aa','#ffaa00'];
+    const defaults=()=>[
+        {kind:'plane',yaw:45,pitch:35,enabled:true,direction:[1,1,1],radius:90,depth:55},
+        {kind:'plane',yaw:45,pitch:35,enabled:false,direction:[-1,1,1],radius:85,depth:50},
+        {kind:'plane',yaw:45,pitch:35,enabled:false,direction:[1,-1,1],radius:85,depth:50}
+    ];
+    let cuts=defaults(),selected=0,scene,camera,renderer,controls,mesh,frame,toolGroup,material,scheduled=false,animating=false,lastViewSize='';
+    function sync() {
+        const cut=cuts[selected];panel.style.setProperty('--tool-color',cssColors[selected]);
+        document.getElementById('tool-name').textContent=`第 ${selected+1} 刀 · ${cut.kind==='plane'?'平面切削':'球面挖凹'}`;
+        document.getElementById('sphere-controls').hidden=cut.kind!=='sphere';
+        document.getElementById('plane-controls').hidden=cut.kind!=='plane';
+        document.querySelectorAll('[data-kind]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.kind===cut.kind)));
+        document.querySelectorAll('[data-version]').forEach(button=>button.setAttribute('aria-pressed',String(cuts.every(c=>c.kind===button.dataset.version))));
+        document.getElementById('enabled').checked=cut.enabled;
+        document.getElementById('direction').value=cut.direction.join(',');
+        for(const key of ['radius','depth','yaw','pitch']) { document.getElementById(key).value=cut[key];document.getElementById(key+'-value').value=String(cut[key])+(['yaw','pitch'].includes(key)?'°':''); }
+        const enabled=cuts.filter(c=>c.enabled).length;
+        document.getElementById('summary').textContent=`已開啟 ${enabled} 刀；目前調整第 ${selected+1} 刀`;
+        document.querySelectorAll('[data-tool]').forEach(button=>{
+            const i=Number(button.dataset.tool);button.setAttribute('aria-pressed',String(i===selected));
+            button.textContent=`${i+1} ${cuts[i].kind==='plane'?'切':'挖'}${cuts[i].enabled?' · 開':''}`;
+        });
+        document.querySelectorAll('[data-count]').forEach(button=>{
+            const n=Number(button.dataset.count),matches=cuts.every((c,i)=>c.enabled===(i<n));
+            button.setAttribute('aria-pressed',String(matches));
+        });
+    }
+    function build() {
+        if(!renderer)return;
+        if(mesh) { scene.remove(mesh);mesh.geometry.dispose(); }
+        const result=VolumeCutting.polygonize(cuts),geometry=new THREE.BufferGeometry();
+        geometry.setAttribute('position',new THREE.BufferAttribute(result.positions,3));
+        geometry.setAttribute('normal',new THREE.BufferAttribute(result.normals,3));
+        geometry.computeBoundingSphere();mesh=new THREE.Mesh(geometry,material);scene.add(mesh);
+        const empty=result.positions.length===0;
+        const message=document.getElementById('message');message.hidden=!empty;
+        if(empty)message.textContent='量體已全部移除。請減少切入深度，或關閉部分工具。';
+        updateTool();document.getElementById('busy').hidden=true;
+    }
+    function scheduleBuild() {
+        document.getElementById('busy').hidden=false;
+        if(scheduled)return;scheduled=true;
+        requestAnimationFrame(()=>{scheduled=false;build();});
+    }
+    function updateTool() {
+        if(!scene)return;
+        if(toolGroup) { scene.remove(toolGroup);toolGroup.traverse(o=>{if(o.geometry)o.geometry.dispose();if(o.material)o.material.dispose();}); }
+        toolGroup=new THREE.Group();
+        const cut=VolumeCutting.makeCutter(cuts[selected]);
+        if(document.getElementById('tools').checked && cut.kind==='plane') {
+            const normal=new THREE.Vector3(...cut.normal);
+            const plane=new THREE.Mesh(new THREE.PlaneGeometry(220,220),new THREE.MeshBasicMaterial({color:colors[selected],transparent:true,opacity:.12,depthWrite:false,side:THREE.DoubleSide}));
+            plane.quaternion.setFromUnitVectors(new THREE.Vector3(0,0,1),normal);
+            plane.position.copy(normal).multiplyScalar(cut.threshold);toolGroup.add(plane);
+            const outline=new THREE.LineSegments(new THREE.EdgesGeometry(plane.geometry),new THREE.LineBasicMaterial({color:colors[selected],transparent:true,opacity:.4}));
+            outline.position.copy(plane.position);outline.quaternion.copy(plane.quaternion);toolGroup.add(outline);
+        }
+        if(document.getElementById('tools').checked && cut.kind!=='plane') {
+            const sphere=new THREE.Mesh(new THREE.SphereGeometry(cut.radius,40,24),new THREE.MeshBasicMaterial({color:colors[selected],transparent:true,opacity:.075,depthWrite:false,side:THREE.DoubleSide}));
+            sphere.position.set(...cut.center);toolGroup.add(sphere);
+            for(let axis=0;axis<3;axis++) {
+                const points=[];
+                for(let i=0;i<128;i++) {
+                    const a=i/128*Math.PI*2,p=[0,0,0];p[(axis+1)%3]=Math.cos(a)*cut.radius;p[(axis+2)%3]=Math.sin(a)*cut.radius;
+                    points.push(new THREE.Vector3(...p).add(new THREE.Vector3(...cut.center)));
+                }
+                const ring=new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints(points),new THREE.LineBasicMaterial({color:colors[selected],transparent:true,opacity:cut.enabled ? .35 : .15}));toolGroup.add(ring);
+            }
+        }
+        scene.add(toolGroup);
+    }
+    function resize(force=false) {
+        if(!renderer||course.hidden)return;
+        const mobile=!matchMedia('(min-width:769px) and (hover:hover) and (pointer:fine)').matches;
+        view.style.bottom=mobile?panel.getBoundingClientRect().height+'px':'0px';
+        const width=view.clientWidth,height=view.clientHeight;if(!width||!height)return;
+        renderer.setSize(width,height);camera.aspect=width/height;
+        const angle=Math.min(THREE.MathUtils.degToRad(camera.fov/2),Math.atan(Math.tan(THREE.MathUtils.degToRad(camera.fov/2))*camera.aspect));
+        const distance=Math.sqrt(3)*60/Math.sin(angle)*1.13;
+        const viewSize=width+':'+height;
+        if(force===true||viewSize!==lastViewSize) {
+            camera.position.sub(controls.target).normalize().multiplyScalar(distance).add(controls.target);
+            lastViewSize=viewSize;
+        }
+        camera.updateProjectionMatrix();controls.update();
+    }
+    document.querySelectorAll('[data-version]').forEach(button=>button.addEventListener('click',()=>{
+        cuts.forEach(cut=>cut.kind=button.dataset.version);sync();scheduleBuild();
+    }));
+    document.querySelectorAll('[data-kind]').forEach(button=>button.addEventListener('click',()=>{
+        cuts[selected].kind=button.dataset.kind;sync();scheduleBuild();
+    }));
+    document.querySelectorAll('[data-count]').forEach(button=>button.addEventListener('click',()=>{
+        const n=Number(button.dataset.count);cuts.forEach((cut,i)=>cut.enabled=i<n);selected=n-1;sync();scheduleBuild();
+    }));
+    document.querySelectorAll('[data-tool]').forEach(button=>button.addEventListener('click',()=>{selected=Number(button.dataset.tool);sync();updateTool();}));
+    document.getElementById('enabled').addEventListener('change',event=>{cuts[selected].enabled=event.target.checked;sync();scheduleBuild();});
+    document.getElementById('direction').addEventListener('change',event=>{cuts[selected].direction=event.target.value.split(',').map(Number);sync();scheduleBuild();});
+    for(const key of ['radius','depth','yaw','pitch'])document.getElementById(key).addEventListener('input',event=>{cuts[selected][key]=Number(event.target.value);sync();scheduleBuild();});
+    document.getElementById('original').addEventListener('change',event=>{if(frame)frame.visible=event.target.checked;});
+    document.getElementById('tools').addEventListener('change',updateTool);
+    document.getElementById('reset').addEventListener('click',()=>{
+        cuts=defaults();selected=0;document.getElementById('tools').checked=false;document.getElementById('original').checked=true;
+        if(frame)frame.visible=true;
+        sync();scheduleBuild();
+        if(controls) { controls.reset();controls.target.set(0,0,0);camera.position.set(230,180,280);resize(true); }
+        panel.scrollTop=0;
+    });
+    document.getElementById('start').addEventListener('click',()=>{
+        intro.hidden=true;course.hidden=false;document.body.classList.add('is-operating');window.scrollTo(0,0);
+        if(renderer) { resize();if(!animating)animate(); }
+        document.getElementById('course-title').focus();
+    });
+    document.getElementById('review').addEventListener('click',()=>{
+        course.hidden=true;intro.hidden=false;document.body.classList.remove('is-operating');window.scrollTo(0,0);
+        document.getElementById('start').focus({preventScroll:true});
+    });
+    function animate() {
+        if(course.hidden) { animating=false;return; }
+        animating=true;requestAnimationFrame(animate);controls.update();renderer.render(scene,camera);
+    }
+    sync();
+    try {
+        if(!window.THREE||!THREE.OrbitControls||!window.VolumeCutting)throw Error('3D 元件尚未載入，請重新整理後再試。');
+        scene=new THREE.Scene();scene.background=new THREE.Color(0x0a0a0a);
+        camera=new THREE.PerspectiveCamera(35,1,1,5000);camera.position.set(230,180,280);
+        renderer=new THREE.WebGLRenderer({antialias:true});renderer.setPixelRatio(Math.min(devicePixelRatio,2));view.prepend(renderer.domElement);
+        renderer.domElement.setAttribute('role','img');renderer.domElement.setAttribute('aria-label','原始方塊經最多三次球面挖凹或平面切削後的剩餘量體');
+        controls=new THREE.OrbitControls(camera,renderer.domElement);controls.enableDamping=true;controls.enablePan=false;
+        scene.add(new THREE.AmbientLight(0x2a2a2a));
+        [[0xffffff,1.2,[100,200,150]],[0x00ffcc,.6,[-100,-50,100]],[0xff00cc,.3,[100,-100,-200]]].forEach(([color,intensity,position])=>{const light=new THREE.DirectionalLight(color,intensity);light.position.set(...position);scene.add(light);});
+        material=new THREE.MeshStandardMaterial({color:0xcccccc,roughness:.25,metalness:.3,side:THREE.DoubleSide});
+        const box=new THREE.BoxGeometry(120,120,120),edges=new THREE.EdgesGeometry(box);box.dispose();
+        frame=new THREE.LineSegments(edges,new THREE.LineBasicMaterial({color:0xdddddd,transparent:true,opacity:.22}));scene.add(frame);
+        build();resize();new ResizeObserver(resize).observe(view);new ResizeObserver(resize).observe(panel);
+        window.addEventListener('resize',resize);
+        animate();
+    } catch(error) { const message=document.getElementById('message');message.hidden=false;message.textContent=error.message; }
+})();
+</script>
+</body>
+</html>
