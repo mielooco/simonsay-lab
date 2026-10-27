@@ -29,7 +29,7 @@
 | [Level 06](https://mielooco.github.io/simonsay-lab/level-6/) | 斜角與切面 | 面的消長關係 |
 | [Level 07](https://mielooco.github.io/simonsay-lab/level-7/) | 截面與輪廓 | 直筒、收分、鼓肚與收腰 |
 | [Level 08](https://mielooco.github.io/simonsay-lab/level-8/) | 挖與切 | 球面挖凹、平面切削與多向堆疊 |
-| [Level 09](https://mielooco.github.io/simonsay-lab/level-9/) | 插頭造型 | 整合比例、圓角、截面與橫向凹槽 |
+| [Level 09](https://mielooco.github.io/simonsay-lab/level-9/) | 量體整合 | 以插頭為例，整合比例、圓角、截面與挖切 |
 | Level 10 | 即將推出 | — |
 
 ---
@@ -45,7 +45,7 @@ L05 複合路徑        → 建模順序如何決定造型氣質
 L06 斜角截面        → Chamfer 的面積消長與交界協商
 L07 截面與輪廓      → 固定底部，依序觀察頂部與中段截面的影響；高度可獨立調整
 L08 挖與切          → 比較球面挖凹與平面切削，再從不同角落疊加最多三刀
-L09 插頭造型        → 回顧 L01–L08，整合比例、垂直與水平圓角、截面切線與橫向握槽
+L09 量體整合        → 回顧 L01–L08，整合比例、垂直與水平圓角、截面切線與橫向握槽
 ```
 
 ---
