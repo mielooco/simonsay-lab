@@ -87,8 +87,23 @@
         .lesson-title { color:#eee; font-size:16px; font-weight:600; margin:0 0 8px; }
         .mobile-subtitle { display:block; color:#888; font-size:10px; line-height:1.5; margin-top:3px; white-space:normal; }
     </style>
+<link rel="stylesheet" href="../assets/course-intro.css">
 </head>
-<body>
+<body class="show-course-intro">
+<div id="lesson-intro" aria-label="第 4 課課前說明"><div id="verified-course-intros"><header><div><div class="brand">SIMON FORM LAB · LEVEL 04</div><div class="header-sub">先看簡圖、理解概念，再進入操作。</div></div><a class="intro-home" href="../index.html">← 課程首頁</a></header><section data-page="4" aria-label="第四課：頂底與垂直圓角的建構">
+<h1>圓角的建構</h1><p>把頂部、底部與垂直邊分開調整，觀察圓角配置如何改變整體形態。</p>
+<h2 style="margin-top:22px">先比較頂部與底部</h2>
+<div class="three">
+<figure><canvas width="720" height="480" data-view="four-top" role="img" aria-label="頂部 R 40、底部 R 5，垂直 R 固定為 50"></canvas><figcaption>上大、下小<small>上緣較圓潤，<br>底部收得較俐落。</small></figcaption><div class="parameters">頂 40 · 底 5 · 垂直 50</div></figure>
+<figure><canvas width="720" height="480" data-view="four-bottom" role="img" aria-label="頂部 R 5、底部 R 40，垂直 R 固定為 50"></canvas><figcaption>上小、下大<small>頂面邊界較明確，<br>下緣則較圓潤。</small></figcaption><div class="parameters">頂 5 · 底 40 · 垂直 50</div></figure>
+<figure><canvas width="720" height="480" data-view="four-equal" role="img" aria-label="頂底 R 都為 20，垂直 R 固定為 50"></canvas><figcaption>頂底相同<small>上下採相同的圓角，<br>比較整體的均衡感。</small></figcaption><div class="parameters">頂 20 · 底 20 · 垂直 50</div></figure>
+</div>
+<div class="row"><h2>再比較垂直邊</h2><p>頂底 R 保持不變，只調整四個垂直角落的圓度。</p><div class="two">
+<figure><canvas width="720" height="480" data-view="four-vertical-small" role="img" aria-label="頂部 R 10、底部 R 5，垂直 R 15，平面輪廓較方正"></canvas><figcaption>垂直 R 小<small>平面輪廓較方正</small></figcaption></figure>
+<figure><canvas width="720" height="480" data-view="four-vertical-large" role="img" aria-label="頂部 R 10、底部 R 5，垂直 R 60，平面輪廓的角落更圓"></canvas><figcaption>垂直 R 大<small>平面輪廓的角落更圓</small></figcaption></figure>
+</div></div>
+<p class="closing">觀察重點：頂、底與垂直 R 的組合，會改變輪廓、平面範圍與量體的視覺重心。</p><p class="note">所有量體皆為寬 220、高 110、深 160。進入操作後，再試不同高度與細分精度，觀察可容納的圓角及表面平滑度。</p>
+</section></div><div class="intro-actions"><p>進入操作後，也可以隨時重看簡圖，保留目前設定。</p><button type="button" id="course-intro-start">開始實驗 →</button></div></div>
 
 <div id="canvas-container"></div>
 
@@ -98,6 +113,7 @@
     <h3>SIMON Form Lab</h3>
     <span class="lesson-level">LEVEL 04</span>
     <h2 class="lesson-title">圓角的建構</h2>
+    <button type="button" class="course-intro-review" data-course-review>課前簡圖</button>
     <div class="desc">截面與弧線掃描</div>
 
     <div class="section-title">尺寸控制 · Dimensions</div>
@@ -182,6 +198,7 @@
         </div>
     </div>
 
+    <button type="button" class="course-intro-review mobile-intro-review" data-course-review>課前簡圖</button>
     <div class="hint-area" id="hintArea">
         <div class="hint-inner">
             1. <b>高度連動：</b>R_top + R_bot 之和不能超過總高 H，縮小 H 時自動等比縮減。<br>
@@ -473,5 +490,6 @@
 })();
 </script>
 
+<script src="../assets/course-intro.js"></script>
 </body>
 </html>

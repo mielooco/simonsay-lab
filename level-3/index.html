@@ -81,8 +81,17 @@
         .lesson-title { color:#eee; font-size:16px; font-weight:600; margin:0 0 8px; }
         .mobile-subtitle { display:block; color:#888; font-size:10px; line-height:1.5; margin-top:3px; white-space:normal; }
     </style>
+<link rel="stylesheet" href="../assets/course-intro.css">
 </head>
-<body>
+<body class="show-course-intro">
+<div id="lesson-intro" aria-label="第 3 課課前說明"><div id="verified-course-intros"><header><div><div class="brand">SIMON FORM LAB · LEVEL 03</div><div class="header-sub">先看簡圖、理解概念，再進入操作。</div></div><a class="intro-home" href="../index.html">← 課程首頁</a></header><section data-page="3" aria-label="第三課：比例與圓角">
+<h1>比例與圓角</h1><p>保留相同的 R 設定，只改長、寬、高；同樣的圓角，會有不同的視覺份量。</p>
+<div class="three">
+<figure><canvas width="720" height="480" data-view="three-flat" role="img" aria-label="寬 120、高 40、深 180 的扁平量體"></canvas><figcaption>扁平<small>大面積的頂面，<br>配上薄薄的側面。</small></figcaption><div class="parameters">寬 120 · 高 40 · 深 180</div></figure>
+<figure><canvas width="720" height="480" data-view="three-long" role="img" aria-label="寬 45、高 30、深 220 的細長量體，R 設定相同"></canvas><figcaption>細長<small>量體拉長、變窄，<br>圓角佔寬度的比例提高。</small></figcaption><div class="parameters">寬 45 · 高 30 · 深 220</div></figure>
+<figure><canvas width="720" height="480" data-view="three-solid" role="img" aria-label="長寬高皆 120 的厚實量體，R 設定相同"></canvas><figcaption>厚實<small>側面高度增加，<br>圓角看起來較為收斂。</small></figcaption><div class="parameters">寬 120 · 高 120 · 深 120</div></figure>
+</div><p class="closing">觀察重點：R 的大小，要和量體比例一起看。</p><p class="note">三圖都設定為頂部 R 10、底部 R 2、垂直 R 15，使用相同視角與比例尺。尺寸過薄時，實際圓角會受到尺寸限制。</p>
+</section></div><div class="intro-actions"><p>進入操作後，也可以隨時重看簡圖，保留目前設定。</p><button type="button" id="course-intro-start">開始實驗 →</button></div></div>
 
 <div id="canvas-container"></div>
 
@@ -92,6 +101,7 @@
     <h3>SIMON Form Lab</h3>
     <span class="lesson-level">LEVEL 03</span>
     <h2 class="lesson-title">比例與圓角</h2>
+    <button type="button" class="course-intro-review" data-course-review>課前簡圖</button>
     <div class="desc">長、寬、高的造型關係</div>
     <div class="control-group">
         <label>寬度 (Width - X) <span id="wVal-d" class="value prop-val">120</span></label>
@@ -173,6 +183,7 @@
             <span class="control-value" id="sRVal-m">15</span>
         </div>
     </div>
+    <button type="button" class="course-intro-review mobile-intro-review" data-course-review>課前簡圖</button>
     <div class="hint-area" id="hintArea">
         <div class="hint-inner">
             1. <b>量體感：</b>拉成細長遙控器或扁平電視盒，觀察相同 R 值在不同體積下的視覺佔比。<br>
@@ -334,5 +345,6 @@
 })();
 </script>
 
+<script src="../assets/course-intro.js"></script>
 </body>
 </html>

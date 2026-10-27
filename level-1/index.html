@@ -238,8 +238,45 @@
         .lesson-title { color:#eee; font-size:16px; font-weight:600; margin:0 0 8px; }
         .mobile-subtitle { display:block; color:#888; font-size:10px; line-height:1.5; margin-top:3px; white-space:normal; }
     </style>
+<link rel="stylesheet" href="../assets/course-intro.css">
 </head>
-<body>
+<body class="show-course-intro">
+<div id="lesson-intro" aria-label="第 1 課課前說明"><div id="radius-one-intro">
+
+<header><a class="intro-home" href="../index.html">← 課程首頁</a><div class="brand">SIMON FORM LAB · LEVEL 01</div><h1>正方體與圓角</h1><p class="lead">從生活中的一個小細節，開始認識造型。</p></header>
+<div class="content">
+<div class="pair">
+<article aria-labelledby="radius-definition"><h2 id="radius-definition"><span class="number">01</span>圓角是什麼？</h2><p>把兩個面交接的尖角，換成一段圓弧過渡。</p>
+<svg viewBox="0 0 440 230" role="img" aria-label="左側直角與右側圓角截面對照。右側以圓心到圓弧的線段表示半徑 R。">
+<path class="shape" d="M30 178V55H165V178Z"/><path d="M128 55H165V92" fill="none" stroke="#ff44aa" stroke-width="2"/>
+<text x="97" y="212" text-anchor="middle">直角</text>
+<path class="ghost" d="M262 55H397V178"/><path class="shape" d="M262 178V55H342A55 55 0 0 1 397 110V178Z"/>
+<path class="accent" d="M342 55A55 55 0 0 1 397 110"/><circle cx="342" cy="110" r="2.5" fill="#00ffcc"/>
+<path d="M342 110L380.9 71.1" stroke="#00ffcc" stroke-width="1.3"/><text x="355" y="81" style="fill:#00ffcc">R</text>
+<text x="330" y="212" text-anchor="middle">圓角 · R 是半徑</text>
+</svg><p class="detail">R 越大，這段圓弧轉彎的範圍越大。</p></article>
+<article aria-labelledby="radius-purpose"><h2 id="radius-purpose"><span class="number">02</span>為什麼需要圓角？</h2><p>它同時影響碰觸時的感受，以及物體的外觀。</p>
+<svg viewBox="0 0 440 230" role="img" aria-label="左側桌邊示意以圓角減少尖銳邊緣；右側方正與圓潤的物件輪廓對照，表現外觀差異。">
+<path class="ghost" d="M24 86H176V147"/><path class="shape" d="M24 86H143A33 33 0 0 1 176 119V147H24Z"/>
+<path class="accent" d="M143 86A33 33 0 0 1 176 119"/>
+<path d="M194 62L174 83M174 75V83H182" stroke="#aaa" fill="none" stroke-width="1.4"/>
+<text x="100" y="195" text-anchor="middle">安全與觸感</text>
+<rect class="shape" x="245" y="78" width="64" height="84"/>
+<rect class="shape" x="336" y="78" width="64" height="84" rx="22"/>
+<path class="accent" d="M358 78H378A22 22 0 0 1 400 100"/>
+<text x="322" y="195" text-anchor="middle">造型與表情</text>
+</svg><p class="detail">減少尖銳邊緣，也能塑造俐落或柔和的印象。</p></article>
+</div>
+<article class="form-section" aria-labelledby="radius-feeling"><h2 id="radius-feeling"><span class="number">03</span>同一個方塊，可以有不同表情</h2><p>保持相同的外框尺寸與觀看角度，只改變圓角大小。</p>
+<div class="forms">
+<figure><canvas width="640" height="460" data-radius="0" role="img" aria-label="沒有圓角的正方體，邊界清楚銳利"></canvas><figcaption>沒有圓角<small>方正 · 邊界明確</small></figcaption></figure>
+<figure><canvas width="640" height="460" data-radius="7" role="img" aria-label="小圓角正方體，保留大面積平面並柔化交界"></canvas><figcaption>小圓角<small>俐落 · 交界柔化</small></figcaption></figure>
+<figure><canvas width="640" height="460" data-radius="23" role="img" aria-label="大圓角正方體，曲面範圍增加而平面縮小"></canvas><figcaption>大圓角<small>圓潤 · 曲面增加</small></figcaption></figure>
+</div></article>
+</div>
+<footer>進入操作後，先試著把 R 從小拉到大，觀察平面、曲面與輪廓的變化。</footer>
+</div>
+<div class="intro-actions"><p>進入操作後，也可以隨時重看簡圖，保留目前設定。</p><button type="button" id="course-intro-start">開始實驗 →</button></div></div>
 
 <div id="canvas-container"></div>
 
@@ -249,6 +286,7 @@
     <h3>Simon Form Lab</h3>
     <span class="lesson-level">LEVEL 01</span>
     <h2 class="lesson-title">正方體與圓角</h2>
+    <button type="button" class="course-intro-review" data-course-review>課前簡圖</button>
     <div class="desc">量體的基本變化</div>
     <div class="control-group">
         <label>R角半徑 (Radius) <span id="rVal-d" class="value">2</span></label>
@@ -298,6 +336,7 @@
     </div>
 
     <!-- 提示：點「提示」按鈕展開 -->
+    <button type="button" class="course-intro-review mobile-intro-review" data-course-review>課前簡圖</button>
     <div class="hint-area" id="hintArea">
         <div class="hint-inner">
             1. 將 Radius 拉到 <b>0.5–2</b>，旋轉方塊感受「量體感」。<br>
@@ -450,5 +489,6 @@
 })();
 </script>
 
+<script src="../assets/course-intro.js"></script>
 </body>
 </html>
