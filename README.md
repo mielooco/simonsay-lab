@@ -29,7 +29,7 @@
 | [Level 06](https://mielooco.github.io/simonsay-lab/level-6/) | 斜角與切面 | 面的消長關係 |
 | [Level 07](https://mielooco.github.io/simonsay-lab/level-7/) | 截面與輪廓 | 直筒、收分、鼓肚與收腰 |
 | [Level 08](https://mielooco.github.io/simonsay-lab/level-8/) | 挖與切 | 球面挖凹、平面切削與多向堆疊 |
-| Level 09 | 即將推出 | — |
+| [Level 09](https://mielooco.github.io/simonsay-lab/level-9/) | 插頭造型 | 整合比例、圓角、截面與橫向凹槽 |
 | Level 10 | 即將推出 | — |
 
 ---
@@ -45,6 +45,7 @@ L05 複合路徑        → 建模順序如何決定造型氣質
 L06 斜角截面        → Chamfer 的面積消長與交界協商
 L07 截面與輪廓      → 固定底部，依序觀察頂部與中段截面的影響；高度可獨立調整
 L08 挖與切          → 比較球面挖凹與平面切削，再從不同角落疊加最多三刀
+L09 插頭造型        → 回顧 L01–L08，整合比例、垂直與水平圓角、截面切線與橫向握槽
 ```
 
 ---
@@ -77,3 +78,5 @@ Level 07 先顯示三步課前簡圖，點「開始實驗」進入操作，也�
 *Simon Fundamental Design Lab © 2026*
 
 第 08 課使用 Evan Wallace 的 MIT 授權 csg.js 進行幾何布林運算；原始授權見 `level-8/CSG-LICENSE.txt`。
+
+第 09 課先顯示五步課前簡圖，再進入插頭外殼工作台。各步設定會保留，亦可回看簡圖；中間截面可上下移動，主輪廓切線可保持垂直或自由調整，上下兩段在中間截面共用切線。端部圓角另行疊加；橫向凹槽可作用於寬面、窄面或兩面，並調整深度與槽寬。兩支插腳固定為銀金屬色。操作設定保存在目前瀏覽器，重置可恢復預設造型與視角。

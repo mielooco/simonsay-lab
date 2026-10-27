@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="第九課整合前八課的量體操作，透過比例、圓角、截面、切線與橫向凹槽，逐步設計插頭造型。">
+<title>插頭造型｜Level 09 — Simon Form Lab</title>
+<style>
+:root { color-scheme:dark; }
+body { margin:0;background:#080808;color:#eee;font-family:'PingFang TC','Noto Sans TC',sans-serif; }
+#plug-lab-preview { max-width:1280px;margin:20px auto; }
+@media(max-width:700px) { #plug-lab-preview { margin:0;border:0;border-radius:0; } }
+</style>
+</head>
+<body>
+<div id="plug-lab-preview">
+<style>
+#plug-lab-preview { --lab-bg:#080808; --lab-panel:#111; --lab-fg:#eee; --lab-muted:#999; --lab-line:#303030; --lab-green:#00ffcc; --lab-pink:#ff44aa; --lab-amber:#ffaa00; font:13px/1.6 'PingFang TC','Noto Sans TC',sans-serif; color:var(--lab-fg); background:var(--lab-bg); border:1px solid var(--lab-line); border-radius:12px; overflow:hidden; }
+#plug-lab-preview * { box-sizing:border-box; }
+#plug-lab-preview [hidden] { display:none!important; }
+#plug-lab-preview .lab-title { margin:5px 0 0; }
+#plug-lab-preview .lab-home { display:flex;align-items:center;color:var(--lab-green);text-decoration:none;font-size:12px;padding:8px 12px;min-height:36px;border:1px solid var(--lab-line);border-radius:6px; }
+#plug-lab-preview .lab-home:focus-visible { outline:2px solid var(--lab-green);outline-offset:3px; }
+#plug-lab-preview .lab-header-actions { display:flex;flex-wrap:wrap;gap:7px; }
+#plug-lab-preview .lab-intro { padding:26px 20px 22px; }
+#plug-lab-preview .lab-intro h2 { font-size:24px;font-weight:500;margin:0 0 6px; }
+#plug-lab-preview .lab-intro-lead { color:var(--lab-muted);margin:0 0 24px; }
+#plug-lab-preview .lab-intro-sequence { display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px; }
+#plug-lab-preview .lab-intro-step { position:relative;min-width:0; }
+#plug-lab-preview .lab-intro-step:not(:last-child)::after { content:'→';position:absolute;right:-10px;top:115px;color:var(--lab-muted); }
+#plug-lab-preview .lab-intro-step canvas { width:100%;height:auto;aspect-ratio:220/250; }
+#plug-lab-preview .lab-intro-step h3 { font-size:14px;font-weight:500;margin:8px 0 5px; }
+#plug-lab-preview .lab-intro-step h3 span { color:var(--lab-green);font:12px monospace;margin-right:6px; }
+#plug-lab-preview .lab-intro-step p { font-size:12px;color:var(--lab-muted);margin:0;line-height:1.8; }
+#plug-lab-preview .lab-intro-step small { display:block;color:var(--lab-muted);font:11px monospace;margin-top:9px; }
+#plug-lab-preview .lab-intro-bottom { display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:18px;margin-top:26px;padding-top:18px;border-top:1px solid var(--lab-line); }
+#plug-lab-preview .lab-intro-bottom p { margin:0;color:var(--lab-muted);font-size:12px; }
+#plug-lab-preview .lab-intro-bottom button { color:var(--lab-green);border-color:var(--lab-green); }
+@media(max-width:700px){
+#plug-lab-preview .lab-intro-sequence { grid-template-columns:repeat(2,minmax(0,1fr));gap:24px 16px; }
+#plug-lab-preview .lab-intro-step:not(:last-child)::after { display:none; }
+#plug-lab-preview .lab-intro-step:last-child { grid-column:1/-1;max-width:260px;justify-self:center;width:100%; }
+}
+#plug-lab-preview button,#plug-lab-preview input,#plug-lab-preview select { font:inherit; }
+#plug-lab-preview button { cursor:pointer; color:var(--lab-muted); background:transparent; border:1px solid var(--lab-line); border-radius:6px; padding:8px 12px; min-height:36px; }
+#plug-lab-preview button:hover { border-color:var(--lab-green); color:var(--lab-fg); }
+#plug-lab-preview button:focus-visible,#plug-lab-preview input:focus-visible,#plug-lab-preview select:focus-visible { outline:2px solid var(--lab-green); outline-offset:3px; }
+#plug-lab-preview button[aria-pressed=true] { border-color:rgba(0,255,204,.45); color:var(--lab-green); background:rgba(0,255,204,.06); }
+#plug-lab-preview .lab-header { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:12px; padding:16px 20px; border-bottom:1px solid var(--lab-line); }
+#plug-lab-preview .lab-brand { color:var(--lab-green); font:11px monospace; letter-spacing:2px; }
+#plug-lab-preview .lab-title { font-size:18px; font-weight:500; margin-top:5px; }
+#plug-lab-preview .lab-header button { font-size:12px; }
+#plug-lab-preview .lab-steps { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:7px; padding:13px 18px; border-bottom:1px solid var(--lab-line); }
+#plug-lab-preview .lab-steps button { padding:8px 4px; font-size:12px; }
+#plug-lab-preview .lab-steps small { display:block; color:var(--lab-muted); font:10px monospace; margin-top:3px; }
+#plug-lab-preview .lab-main { display:grid; grid-template-columns:245px minmax(0,1fr); min-height:520px; }
+#plug-lab-preview .lab-panel { background:var(--lab-panel); padding:20px; border-right:1px solid var(--lab-line); }
+#plug-lab-preview .lab-panel h3 { font-size:16px; font-weight:500; margin:0 0 8px; }
+#plug-lab-preview .lab-panel p { color:var(--lab-muted); font-size:12px; line-height:1.8; margin:0 0 20px; }
+#plug-lab-preview .lab-field { margin:18px 0; }
+#plug-lab-preview .lab-field label { display:flex; justify-content:space-between; gap:10px; align-items:center; margin-bottom:7px; font-size:12px; }
+#plug-lab-preview output { font:500 14px monospace; color:var(--lab-amber); }
+#plug-lab-preview input[type=range] { display:block; appearance:none; -webkit-appearance:none; width:100%; min-height:28px; margin:0; background:transparent; accent-color:var(--lab-green); }
+#plug-lab-preview input[type=range]::-webkit-slider-runnable-track { height:4px; border-radius:2px; background:#333; }
+#plug-lab-preview input[type=range]::-webkit-slider-thumb { appearance:none; -webkit-appearance:none; width:16px; height:16px; border-radius:50%; background:var(--lab-green); margin-top:-6px; }
+#plug-lab-preview input[type=range]::-moz-range-track { height:4px; background:#333; }
+#plug-lab-preview input[type=range]::-moz-range-thumb { width:16px; height:16px; border:0; border-radius:50%; background:var(--lab-green); }
+#plug-lab-preview .lab-choice { display:flex; flex-wrap:wrap; gap:6px; margin:10px 0 18px; }
+#plug-lab-preview .lab-choice button { flex:1 1 calc(50% - 6px); font-size:12px; padding:7px; }
+#plug-lab-preview .lab-side-note { color:var(--lab-muted); font-size:11px; line-height:1.8; margin-top:22px; padding-top:14px; border-top:1px solid var(--lab-line); }
+#plug-lab-preview .lab-view { position:relative; height:520px; min-width:0; background:var(--lab-bg); }
+#plug-lab-preview .lab-canvas { width:100%; height:100%; }
+#plug-lab-preview canvas { display:block; width:100%; height:100%; touch-action:none; }
+#plug-lab-preview .lab-view-tools { position:absolute; top:14px; left:14px; right:14px; display:flex; flex-wrap:wrap; gap:6px; z-index:2; }
+#plug-lab-preview .lab-view-tools button { font-size:11px; background:rgba(15,15,15,.85); }
+#plug-lab-preview .lab-model-caption { position:absolute; bottom:16px; left:14px; right:14px; text-align:center; font-size:11px; color:var(--lab-muted); pointer-events:none; }
+#plug-lab-preview .lab-model-caption strong { display:block; color:var(--lab-green); font-weight:400; margin-bottom:3px; }
+#plug-lab-preview .lab-footer { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:12px; border-top:1px solid var(--lab-line); padding:12px 18px; }
+#plug-lab-preview .lab-footer span { color:var(--lab-muted); font-size:11px; }
+#plug-lab-preview .lab-footer button { color:var(--lab-green); background:rgba(0,255,204,.06); border-color:rgba(0,255,204,.35); }
+#plug-lab-preview .lab-error { color:var(--lab-muted); padding:90px 24px; text-align:center; }
+#plug-lab-preview.compact .lab-field { margin:12px 0; }
+#plug-lab-preview.compact .lab-panel { padding:16px; }
+@media(max-width:700px) {
+#plug-lab-preview .lab-header { padding:14px; }
+#plug-lab-preview .lab-steps { padding:10px; gap:5px; }
+#plug-lab-preview .lab-steps button { font-size:11px; padding:7px 2px; }
+#plug-lab-preview .lab-steps small { display:none; }
+#plug-lab-preview .lab-main { grid-template-columns:1fr; }
+#plug-lab-preview .lab-view { order:0; height:360px; }
+#plug-lab-preview .lab-panel { order:1; border-right:0; border-top:1px solid var(--lab-line); }
+#plug-lab-preview .lab-fields { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); column-gap:20px; }
+#plug-lab-preview .lab-panel p { margin-bottom:10px; }
+#plug-lab-preview .lab-side-note { margin-top:10px; }
+#plug-lab-preview input[type=range] { min-height:36px; }
+#plug-lab-preview .lab-view-tools { gap:5px; }
+#plug-lab-preview .lab-footer { align-items:stretch; }
+}
+@media(max-width:380px) { #plug-lab-preview .lab-fields { grid-template-columns:1fr; } }
+</style>
+<header class="lab-header"><div><div class="lab-brand">SIMON FORM LAB · LEVEL 09</div><h1 class="lab-title">插頭造型 <span style="font-size:12px;color:#999">／ 量體整合練習</span></h1></div><div class="lab-header-actions"><a href="../index.html" class="lab-home">← 課程首頁</a><button type="button" data-action="intro">課前簡圖</button><button type="button" data-action="reset">重置造型</button></div></header>
+<section class="lab-intro" data-intro aria-label="第九課課前簡圖">
+<h2>從方塊到插頭</h2>
+<p class="lab-intro-lead">把前八課學過的操作，一步一步累積成完整造型。</p>
+<div class="lab-intro-sequence">
+<article class="lab-intro-step"><canvas width="440" height="500" data-intro-model="0" role="img" aria-label="第一步：長方體外殼，銀色插腳固定"></canvas><h3><span>01</span>決定量體</h3><p>調整長、寬、厚，<br>先建立整體比例。</p><small>L01 · L03</small></article>
+<article class="lab-intro-step"><canvas width="440" height="500" data-intro-model="1" role="img" aria-label="第二步：四條垂直邊倒圓角，保留第一步比例"></canvas><h3><span>02</span>修整垂直邊</h3><p>四條垂直邊一起倒 R，<br>改變外殼的方圓感。</p><small>L01 · L04</small></article>
+<article class="lab-intro-step"><canvas width="440" height="500" data-intro-model="2" role="img" aria-label="第三步：保留垂直圓角，再處理頂部與底部水平邊"></canvas><h3><span>03</span>處理水平邊</h3><p>頂部、底部分開處理，<br>選擇圓角或斜角。</p><small>L02 · L05 · L06</small></article>
+<article class="lab-intro-step"><canvas width="440" height="500" data-intro-model="3" role="img" aria-label="第四步：上下與中間截面形成收分輪廓，短虛線代表切線方向"></canvas><h3><span>04</span>調整截面</h3><p>改變鼓收與截面高度，<br>用切線控制輪廓銜接。</p><small>L07</small></article>
+<article class="lab-intro-step"><canvas width="440" height="500" data-intro-model="4" role="img" aria-label="第五步：在完成的外殼寬面增加橫向凹槽，形成插頭造型"></canvas><h3><span>05</span>加入橫槽</h3><p>在寬面或窄面挖凹槽，<br>調整深淺與槽寬。</p><small>L08</small></article>
+</div>
+<div class="lab-intro-bottom"><p>每一步都保留前一步的變化，操作時也能回頭修改。<br>插腳固定為銀金屬色；這一課練習的是外殼量體。</p><button type="button" data-action="start">開始設計插頭 →</button></div>
+</section>
+<div data-workspace hidden>
+<nav class="lab-steps" aria-label="造型操作步驟">
+<button type="button" data-stage="0" aria-pressed="true">1 量體<small>L01 · L03</small></button>
+<button type="button" data-stage="1" aria-pressed="false">2 垂直邊<small>L01 · L04</small></button>
+<button type="button" data-stage="2" aria-pressed="false">3 水平邊<small>L02 · L05 · L06</small></button>
+<button type="button" data-stage="3" aria-pressed="false">4 截面<small>L07</small></button>
+<button type="button" data-stage="4" aria-pressed="false">5 挖切<small>L08</small></button>
+</nav>
+<div class="lab-main">
+<aside class="lab-panel" aria-label="目前步驟的參數"><h3 data-step-title>先決定基本量體</h3><p data-step-copy>拉長、變寬或加厚，插腳保持固定。</p><div data-controls></div><div class="lab-side-note">切換步驟會保留設定。<br>圓角上限隨尺寸連動；尺寸皆為相對值。</div></aside>
+<section class="lab-view" aria-label="插頭外殼三維預覽"><div class="lab-view-tools"><button type="button" data-action="current" aria-pressed="true">目前造型</button><button type="button" data-action="original" aria-pressed="false">回看原始</button><button type="button" data-action="edges" aria-pressed="true">標示作用位置</button></div><div class="lab-canvas" data-canvas></div><div class="lab-model-caption"><strong data-status aria-live="polite">目前：量體比例</strong>拖曳旋轉 · 滾輪／雙指縮放 · 插腳固定</div></section>
+</div>
+<footer class="lab-footer"><span>一次只展開一組參數，最後回看整體造型。</span><button type="button" data-action="next">下一步：垂直邊 →</button></footer>
+</div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script>
+(() => {
+ const root=document.getElementById('plug-lab-preview'),area=root.querySelector('[data-canvas]'),panel=root.querySelector('[data-controls]');
+ const defaults=()=>({width:86,height:92,depth:52,rv:10,topR:6,bottomR:3,edge:'round',topScale:100,bulge:0,midPosition:50,tangentMode:'vertical',tangentTarget:'midAngle',topAngle:0,midAngle:0,bottomAngle:0,cut:'none',cutDepth:4,grooveWidth:18});
+ const storageKey='simon-form-lab-level-09-v1';
+ let saved;try{saved=JSON.parse(localStorage.getItem(storageKey)||'null');}catch{}
+ let p=defaults(),stage=0,original=false,highlights=true,intro=true,meshGroup,scene,camera,renderer,orbit,wireGroup,lastSize='',resizeView=()=>{};
+ const stageTitles=['先決定基本量體','四條垂直邊一起倒 R','頂部與底部分開處理','改變同方向的截面','加入局部造型特徵'];
+ const copies=['拉長、變寬或加厚，插腳保持固定。','四條垂直邊連動，觀察正面輪廓從方到圓。','選擇圓角或斜角，再調整頂、底的處理量。','淡虛線標示截面，短虛線標示主輪廓切線。中段上下共用切線；端部圓角另行疊加。','在寬面或窄面挖出橫向凹槽，再調整槽寬與深度。'];
+ const status=['量體比例','四條垂直邊','頂部與底部邊界','頂部、中段與底部截面','局部挖切'];
+ const fieldDefs={width:['寬度',60,120],height:['長度',60,150],depth:['厚度',34,78],rv:['垂直邊 R',0,25],topR:['頂部處理量',0,24],bottomR:['底部處理量',0,24],topScale:['頂部比例',65,120],bulge:['中段鼓收',-15,20],midPosition:['中間截面高度',20,80],topAngle:['上截面切線',-30,30],midAngle:['中截面切線',-30,30],bottomAngle:['下截面切線',-30,30],cutDepth:['凹槽深度',0,8],grooveWidth:['槽寬（沿高度）',6,32]};
+ const stageFields=[['width','height','depth'],['rv'],['topR','bottomR'],['topScale','bulge','midPosition'],['cutDepth','grooveWidth']];
+ function sectionSlope(s,key,scale) {
+  return s.tangentMode==='vertical'?0:Math.tan(s[key]*Math.PI/180)*s.height/(s.width/2*scale);
+ }
+ function sectionScale(t,s) {
+  const m=s.midPosition/100,mid=1+(s.topScale/100-1)*m+s.bulge/100;
+  const nodes=[{t:0,v:1,key:'bottomAngle'},{t:m,v:mid,key:'midAngle'},{t:1,v:s.topScale/100,key:'topAngle'}];
+  const a=nodes[t<=m?0:1],b=nodes[t<=m?1:2],span=b.t-a.t,u=(t-a.t)/span;
+  const h00=2*u**3-3*u*u+1,h10=u**3-2*u*u+u,h01=-2*u**3+3*u*u,h11=u**3-u*u;
+  return Math.exp(h00*Math.log(a.v)+h10*span*sectionSlope(s,a.key,a.v)+h01*Math.log(b.v)+h11*span*sectionSlope(s,b.key,b.v));
+ }
+ function normalize() {
+  for(const [key,def]of Object.entries(fieldDefs))p[key]=Math.max(def[1],Math.min(def[2],Number(p[key])||0));
+  const minScale=Math.min(...Array.from({length:101},(_,i)=>sectionScale(i/100,p)));
+  const maxR=Math.max(0,Math.floor(Math.min(p.width,p.depth)*minScale/2-1));
+  p.rv=Math.min(p.rv,maxR);
+  const edgeMax=Math.max(0,Math.floor(Math.min(p.rv*minScale,p.height*.4)));
+  const topMax=Math.max(0,Math.floor(Math.min(edgeMax,(Math.min(p.width,p.depth)*p.topScale/100-18)/2)));
+  const bottomMax=Math.max(0,Math.floor(Math.min(edgeMax,(p.width-40)/2,(p.depth-16)/2)));
+  p.topR=Math.min(p.topR,topMax);p.bottomR=Math.min(p.bottomR,bottomMax);
+  return {rv:maxR,topR:topMax,bottomR:bottomMax};
+ }
+ function restore(data) {
+  if(!data||data.lesson!=='plug-09')return;
+  const next=data.parameters||{};
+  for(const key of Object.keys(fieldDefs))if(Number.isFinite(next[key]))p[key]=next[key];
+  if(['round','chamfer'].includes(next.edge))p.edge=next.edge;
+  if(['vertical','free'].includes(next.tangentMode))p.tangentMode=next.tangentMode;
+  if(['topAngle','midAngle','bottomAngle'].includes(next.tangentTarget))p.tangentTarget=next.tangentTarget;
+  if(['none','wide','narrow','both'].includes(next.cut))p.cut=next.cut;
+  if(next.cut==='groove')p.cut='wide';
+  if(next.cut==='plane')p.cut='none';
+  stage=Math.max(0,Math.min(4,Number(data.stage)||0));normalize();
+ }
+ restore(saved?.modelContent);
+ if(saved?.privateContent){original=!!saved.privateContent.original;highlights=saved.privateContent.highlights!==false;}
+ function persist() {
+  try{localStorage.setItem(storageKey,JSON.stringify({modelContent:{lesson:'plug-09',stage,parameters:{...p}},privateContent:{original,highlights}}));}catch{}
+ }
+ function showIntro(value){intro=value;root.querySelector('[data-intro]').hidden=!value;root.querySelector('[data-workspace]').hidden=value;root.querySelector('[data-action="reset"]').hidden=value;if(!value)resizeView();}
+ showIntro(true);
+ function display(key,value) { return value+(['topScale','bulge','midPosition','grooveWidth'].includes(key)?'%':key.endsWith('Angle')?'°':''); }
+ function choice(key,items) { return '<div class="lab-choice">'+items.map(([value,label])=>`<button type="button" data-choice="${key}" data-value="${value}" aria-pressed="${p[key]===value}">${label}</button>`).join('')+'</div>'; }
+ function mountPanel() {
+  root.querySelector('[data-step-title]').textContent=stageTitles[stage];root.querySelector('[data-step-copy]').textContent=copies[stage];
+  let html='';
+  if(stage===2)html+=choice('edge',[['round','圓角 R'],['chamfer','斜角']]);
+  if(stage===4)html+=choice('cut',[['none','不處理'],['wide','寬面橫槽'],['narrow','窄面橫槽'],['both','兩面橫槽']]);
+  for(const key of stageFields[stage]) {const [label,min,max]=fieldDefs[key];html+=`<div class="lab-field"><label for="plug-${key}">${label}<output data-value-for="${key}" for="plug-${key}">${display(key,p[key])}</output></label><input id="plug-${key}" data-param="${key}" type="range" min="${min}" max="${max}" step="1" value="${p[key]}"></div>`;}
+  if(stage===3){
+   html+=choice('tangentMode',[['vertical','切線保持垂直'],['free','自由調整切線']]);
+   html+=choice('tangentTarget',[['topAngle','上截面'],['midAngle','中截面'],['bottomAngle','下截面']]);
+   const key=p.tangentTarget,[label,min,max]=fieldDefs[key];
+   html+=`<div class="lab-field"><label for="plug-${key}">${label}<output data-value-for="${key}"></output></label><input id="plug-${key}" data-param="${key}" type="range" min="${min}" max="${max}" step="1"></div><div style="color:var(--lab-muted);font-size:11px">以寬度輪廓為準 · 0° 垂直<br>＋向上外張／－向上內收</div>`;
+  }
+  panel.innerHTML=html;
+  root.querySelectorAll('[data-stage]').forEach(button=>button.setAttribute('aria-pressed',String(Number(button.dataset.stage)===stage)));
+  root.querySelector('[data-action="next"]').textContent=['下一步：垂直邊 →','下一步：水平邊 →','下一步：截面 →','下一步：挖切 →','回到量體，整體比較 ↺'][stage];
+  refreshControls();
+ }
+ function refreshControls() {
+  const limits=normalize();
+  panel.querySelectorAll('[data-param]').forEach(input=>{const key=input.dataset.param,isAngle=key.endsWith('Angle'),value=isAngle&&p.tangentMode==='vertical'?0:p[key];input.max=limits[key]??fieldDefs[key][2];input.value=value;input.disabled=original||(stage===4&&p.cut==='none')||(isAngle&&p.tangentMode==='vertical');panel.querySelector(`[data-value-for="${key}"]`).textContent=display(key,value);});
+  root.querySelector('[data-status]').textContent=original?'原始方塊 · 插腳位置固定':'目前：'+status[stage];
+  root.querySelectorAll('[data-choice]').forEach(button=>button.setAttribute('aria-pressed',String(p[button.dataset.choice]===button.dataset.value)));
+  root.querySelector('[data-action="current"]').setAttribute('aria-pressed',String(!original));root.querySelector('[data-action="original"]').setAttribute('aria-pressed',String(original));root.querySelector('[data-action="edges"]').setAttribute('aria-pressed',String(highlights));
+ }
+ let effective;
+ function pointAt(t,corner,s) {
+  const y=t*s.height,scale=sectionScale(t,s);
+  function inset(r,d) { if(!r||d>=r)return 0;return s.edge==='chamfer'?r-d:r-Math.sqrt(Math.max(0,r*r-(r-d)*(r-d))); }
+  const offset=inset(s.bottomR,y)+inset(s.topR,s.height-y),w=Math.max(1,s.width*scale-2*offset),d=Math.max(1,s.depth*scale-2*offset);
+  const r=Math.max(.001,Math.min(s.rv*scale-offset,w/2-.01,d/2-.01));
+  const centers=[[w/2-r,d/2-r],[-w/2+r,d/2-r],[-w/2+r,-d/2+r],[w/2-r,-d/2+r]];
+  const k=Math.floor(corner/9),j=corner%9,theta=k*Math.PI/2+j/8*Math.PI/2;
+  let x=centers[k][0]+r*Math.cos(theta),z=centers[k][1]+r*Math.sin(theta);
+  if(s.cut!=='none') {
+   const u=(t-.57)/(s.grooveWidth/200),band=Math.abs(u)<1?(.5+.5*Math.cos(Math.PI*u)):0;
+   const faceWeight=v=>{const q=Math.max(0,Math.min(1,(v-.25)/.75));return q*q*(3-2*q);};
+   const wx=faceWeight(Math.abs(x)/(w/2)),wz=faceWeight(Math.abs(z)/(d/2));
+   if(s.cut==='wide'||s.cut==='both')z-=Math.sign(z)*s.cutDepth*band*wz;
+   if(s.cut==='narrow'||s.cut==='both')x-=Math.sign(x)*s.cutDepth*band*wx;
+  }
+  return new THREE.Vector3(x,y,z);
+ }
+ function bodyGeometry(s) {
+  const ys=Array.from({length:65},(_,i)=>i/64);ys.push(s.midPosition/100);
+  if(s.cut!=='none')for(let i=0;i<=20;i++)ys.push(.57+(i/20-.5)*s.grooveWidth/100);
+  for(let i=0;i<=10;i++){const theta=i/10*Math.PI/2;if(s.bottomR)ys.push(s.bottomR*(1-Math.cos(theta))/s.height);if(s.topR)ys.push(1-s.topR*(1-Math.cos(theta))/s.height);}
+  ys.sort((a,b)=>a-b);const rows=ys.filter((t,i)=>i===0||t-ys[i-1]>1e-5),positions=[],indices=[],N=36;
+  for(const t of rows)for(let j=0;j<N;j++)positions.push(...pointAt(t,j,s).toArray());
+  for(let i=0;i<rows.length-1;i++)for(let j=0;j<N;j++){const a=i*N+j,b=(i+1)*N+j,c=i*N+(j+1)%N,d=(i+1)*N+(j+1)%N;indices.push(a,b,c,c,b,d);}
+  for(const end of [0,1]) {const t=end,centerIndex=positions.length/3;positions.push(0,t*s.height,0);const ringStart=positions.length/3;for(let j=0;j<N;j++)positions.push(...pointAt(t,j,s).toArray());for(let j=0;j<N;j++){const a=ringStart+j,b=ringStart+(j+1)%N;indices.push(...(end?[centerIndex,b,a]:[centerIndex,a,b]));}}
+  const geometry=new THREE.BufferGeometry();geometry.setAttribute('position',new THREE.Float32BufferAttribute(positions,3));geometry.setIndex(indices);geometry.computeVertexNormals();return geometry;
+ }
+ const materials={};
+ function silverEnvironment(){
+  const faces=Array.from({length:6},(_,face)=>{
+   const canvas=document.createElement('canvas');canvas.width=128;canvas.height=128;const ctx=canvas.getContext('2d');
+   const gradient=ctx.createLinearGradient(0,0,128,128);gradient.addColorStop(0,'#484e56');gradient.addColorStop(.28,'#d9dfe5');gradient.addColorStop(.42,'#ffffff');gradient.addColorStop(.54,'#858e99');gradient.addColorStop(1,face===3?'#444b55':'#b7c0cb');ctx.fillStyle=gradient;ctx.fillRect(0,0,128,128);return canvas;
+  });
+  const texture=new THREE.CubeTexture(faces);texture.needsUpdate=true;return texture;
+ }
+ function renderIntroDiagrams(){
+  const preview=new THREE.WebGLRenderer({antialias:true,alpha:true});preview.setSize(440,500);
+  const introBody=new THREE.MeshStandardMaterial({color:0xbfc5cc,metalness:.12,roughness:.38,side:THREE.DoubleSide});
+  for(let step=0;step<5;step++){
+   const s={...defaults(),width:86,height:110,depth:55,rv:step>=1?14:0,topR:step>=2?7:0,bottomR:step>=2?4:0,topScale:step>=3?80:100,bulge:step>=3?8:0,midPosition:55,cut:step===4?'wide':'none',cutDepth:5,grooveWidth:18};
+   const mini=new THREE.Scene(),view=new THREE.OrthographicCamera(-96.8,96.8,110,-110,1,1000);view.position.set(190,140,260);view.lookAt(0,55,0);view.layers.enable(1);
+   mini.add(new THREE.AmbientLight(0xffffff,.6));const light=new THREE.DirectionalLight(0xffffff,1.3);light.position.set(-80,200,180);mini.add(light);
+   mini.add(new THREE.Mesh(bodyGeometry(s),introBody));
+   for(const x of [-17,17]){const pin=new THREE.Mesh(new THREE.BoxGeometry(6,32,13),materials.pin);pin.position.set(x,-16,0);pin.layers.set(1);mini.add(pin);}
+   const neck=new THREE.Mesh(new THREE.CylinderGeometry(8,9,12,24),materials.cable);neck.position.y=s.height+6;mini.add(neck);
+   const cable=new THREE.Mesh(new THREE.CylinderGeometry(5,5,24,20),materials.cable);cable.position.y=s.height+24;mini.add(cable);
+   function guide(points,color=0x00ffcc,dashed=false){
+    const settings={color,transparent:true,opacity:.75,depthTest:false,depthWrite:false};
+    const material=dashed?new THREE.LineDashedMaterial({...settings,dashSize:2,gapSize:2}):new THREE.LineBasicMaterial(settings);
+    const item=new THREE.Line(new THREE.BufferGeometry().setFromPoints(points),material);item.renderOrder=2;item.userData.ownMaterial=true;if(dashed)item.computeLineDistances();mini.add(item);
+   }
+   if(step===1)for(let k=0;k<4;k++)guide(Array.from({length:25},(_,i)=>pointAt(i/24,k*9+4,s)));
+   if(step===2||step===3||step===4){
+    const levels=step===2?[0,1]:step===3?[0,.55,1]:[.57-.09,.57+.09];
+    for(const t of levels){const points=Array.from({length:36},(_,i)=>pointAt(t,i,s));points.push(points[0].clone());guide(points,step===3&&t===.55?0xff44aa:0x00ffcc,step===3);}
+   }
+   if(step===3)for(const side of [-1,1]){const x=side*s.width/2*sectionScale(.55,s);guide([new THREE.Vector3(x,50,0),new THREE.Vector3(x,71,0)],0xffaa00,true);}
+   preview.render(mini,view);root.querySelector(`[data-intro-model="${step}"]`).getContext('2d').drawImage(preview.domElement,0,0);
+   mini.traverse(item=>{if(item.geometry)item.geometry.dispose();if(item.userData.ownMaterial)item.material.dispose();});
+  }
+  introBody.dispose();preview.dispose();preview.forceContextLoss();
+ }
+ function line(points,color,dashed=false,opacity=.6) {
+  const options={color,transparent:true,opacity,depthWrite:false,depthTest:!dashed};
+  const material=dashed?new THREE.LineDashedMaterial({...options,dashSize:2,gapSize:2}):new THREE.LineBasicMaterial(options);
+  const item=new THREE.Line(new THREE.BufferGeometry().setFromPoints(points),material);
+  if(dashed){item.computeLineDistances();item.renderOrder=2;}
+  wireGroup.add(item);
+ }
+ function buildModel() {
+  if(!renderer)return;
+  if(meshGroup) { scene.remove(meshGroup);meshGroup.traverse(o=>{if(o.geometry)o.geometry.dispose();if(o.userData.ownMaterial)o.material.dispose();}); }
+  meshGroup=new THREE.Group();wireGroup=new THREE.Group();meshGroup.add(wireGroup);
+  effective=original?{...defaults(),rv:0,topR:0,bottomR:0}:p;
+  meshGroup.add(new THREE.Mesh(bodyGeometry(effective),materials.body));
+  for(const x of [-17,17]) {const pin=new THREE.Mesh(new THREE.BoxGeometry(6,32,13),materials.pin);pin.position.set(x,-16,0);pin.layers.set(1);meshGroup.add(pin);}
+  const neck=new THREE.Mesh(new THREE.CylinderGeometry(8,9,12,24),materials.cable);neck.position.y=effective.height+6;meshGroup.add(neck);
+  const cable=new THREE.Mesh(new THREE.CylinderGeometry(5,5,24,20),materials.cable);cable.position.y=effective.height+24;meshGroup.add(cable);
+  if(highlights&&!original) {
+   if(stage===1)for(let k=0;k<4;k++)line(Array.from({length:45},(_,i)=>pointAt(i/44,k*9+4,p)),0x00ffcc);
+   if(stage===2||stage===3)for(const t of stage===2?[0,1]:[0,p.midPosition/100,1]) {
+    const points=Array.from({length:36},(_,i)=>pointAt(t,i,p));
+    points.forEach(point=>{point.x*=1.003;point.z*=1.003;});points.push(points[0].clone());
+    const middle=t>0&&t<1;line(points,middle?0xff44aa:0x00ffcc,stage===3,stage===3?(middle?.48:.23):.6);
+   }
+   if(stage===3){
+    const ts={bottomAngle:0,midAngle:p.midPosition/100,topAngle:1};
+    for(const [key,t]of Object.entries(ts))for(const side of [-1,1]){
+     const scale=sectionScale(t,p),dy=9,dr=sectionSlope(p,key,scale)*scale*p.width/2/p.height*dy;
+     const anchor=new THREE.Vector3(side*p.width/2*scale,t*p.height,0);
+     const direction=new THREE.Vector3(side*dr,dy,0);
+     line([anchor.clone().sub(direction),anchor.clone().add(direction)],key===p.tangentTarget?0xffaa00:0xaaaaaa,true,key===p.tangentTarget?.8:.35);
+    }
+   }
+  }
+  wireGroup.traverse(o=>{if(o.material)o.userData.ownMaterial=true;});scene.add(meshGroup);
+ }
+ root.addEventListener('input',event=>{const key=event.target.dataset.param;if(!key)return;p[key]=Number(event.target.value);normalize();refreshControls();buildModel();persist();});
+ root.addEventListener('click',event=>{
+  const button=event.target.closest('button');if(!button||!root.contains(button))return;
+  if(button.dataset.stage!==undefined){stage=Number(button.dataset.stage);original=false;mountPanel();buildModel();persist();return;}
+  if(button.dataset.choice){p[button.dataset.choice]=button.dataset.value;original=false;if(button.dataset.choice==='tangentTarget'||button.dataset.choice==='tangentMode')mountPanel();else refreshControls();buildModel();persist();return;}
+  const action=button.dataset.action;
+  if(action==='intro'||action==='start'){showIntro(action==='intro');persist();return;}
+  if(action==='next'){stage=(stage+1)%5;original=false;mountPanel();}
+  if(action==='reset'){p=defaults();stage=0;original=false;highlights=true;if(orbit){orbit.target.set(0,60,0);camera.position.set(230,190,280);lastSize='';resizeView();}mountPanel();}
+  if(action==='current')original=false;
+  if(action==='original')original=true;
+  if(action==='edges')highlights=!highlights;
+  refreshControls();buildModel();persist();
+ });
+ mountPanel();
+ try {
+  if(!window.THREE||!THREE.OrbitControls)throw Error('3D 預覽尚未載入，請稍後重開。');
+  scene=new THREE.Scene();scene.background=new THREE.Color(0x080808);camera=new THREE.PerspectiveCamera(35,1,1,3000);camera.position.set(230,190,280);
+  camera.layers.enable(1);
+  renderer=new THREE.WebGLRenderer({antialias:true});renderer.setPixelRatio(Math.min(devicePixelRatio,2));area.appendChild(renderer.domElement);
+  renderer.domElement.setAttribute('role','img');renderer.domElement.setAttribute('aria-label','可旋轉的插頭外殼，兩支插腳固定，外殼隨參數變化');
+  orbit=new THREE.OrbitControls(camera,renderer.domElement);orbit.target.set(0,60,0);orbit.enableDamping=true;orbit.enablePan=false;
+  scene.add(new THREE.AmbientLight(0x2a2a2a));
+  [[0xffffff,1.2,[100,220,150]],[0x00ffcc,.55,[-100,-30,100]],[0xff00cc,.3,[100,-80,-200]]].forEach(([color,power,xyz])=>{const light=new THREE.DirectionalLight(color,power);light.position.set(...xyz);scene.add(light);});
+  materials.body=new THREE.MeshStandardMaterial({color:0xcccccc,roughness:.25,metalness:.3,side:THREE.DoubleSide});materials.pin=new THREE.MeshStandardMaterial({color:0xe3e7ed,roughness:.2,metalness:.92,envMap:silverEnvironment(),envMapIntensity:1.4});materials.cable=new THREE.MeshStandardMaterial({color:0x252525,roughness:.65});
+  function resize(){const width=area.clientWidth,height=area.clientHeight;if(!width||!height)return;renderer.setSize(width,height);camera.aspect=width/height;const key=width+':'+height;if(key!==lastSize){const a=THREE.MathUtils.degToRad(camera.fov/2),limit=Math.min(a,Math.atan(Math.tan(a)*camera.aspect));camera.position.sub(orbit.target).normalize().multiplyScalar(125/Math.sin(limit)*1.05).add(orbit.target);lastSize=key;}camera.updateProjectionMatrix();orbit.update();}
+  resizeView=resize;buildModel();renderIntroDiagrams();new ResizeObserver(resize).observe(area);resize();
+  function animate(){requestAnimationFrame(animate);orbit.update();renderer.render(scene,camera);}animate();
+ }catch(error){area.innerHTML='<div class="lab-error">'+error.message+'</div>';}
+})();
+</script>
+
+</body>
+</html>
