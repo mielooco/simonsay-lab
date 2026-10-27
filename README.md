@@ -19,15 +19,15 @@
 
 ## 課程目錄
 
-| Level | 主題 | 概念 |
+| Level | 標題 | 副標 |
 |-------|------|------|
-| [Level 01](https://mielooco.github.io/SimonSay-lab/level-1/) | 正方體幾何與R角(ROUND)的關係 | Fillet / Radius / Volume |
-| [Level 02](https://mielooco.github.io/SimonSay-lab/level-2/) | 布林運算的邏輯 | Boolean / Hard Edge / Intersection |
-| [Level 03](https://mielooco.github.io/SimonSay-lab/level-3/) | 比例與方向性R角 | Proportion / Directional R / Aspect Ratio |
-| [Level 04](https://mielooco.github.io/SimonSay-lab/level-4/) | 幾何精確建構 — 弧線掃描建構 | Arc Sweep / Exact Fillet / Segments |
-| [Level 05](https://mielooco.github.io/SimonSay-lab/level-5/) | 複合路徑倒角與建模順序的邏輯 | Feature Order / Compound Fillet / Boolean |
-| [Level 06](https://mielooco.github.io/SimonSay-lab/level-6/) | Chamfer — 斜角截面的造型語言 | Chamfer / Cross Section / Hard Edge |
-| [Level 07](https://mielooco.github.io/simonsay-lab/level-7/) | 截面與輪廓：直筒、收分、鼓肚與收腰 | Section / Taper / Silhouette |
+| [Level 01](https://mielooco.github.io/simonsay-lab/level-1/) | 正方體與圓角 | 量體的基本變化 |
+| [Level 02](https://mielooco.github.io/simonsay-lab/level-2/) | 圓角的交集 | 布林運算與交界線 |
+| [Level 03](https://mielooco.github.io/simonsay-lab/level-3/) | 比例與圓角 | 長、寬、高的造型關係 |
+| [Level 04](https://mielooco.github.io/simonsay-lab/level-4/) | 圓角的建構 | 截面與弧線掃描 |
+| [Level 05](https://mielooco.github.io/simonsay-lab/level-5/) | 複合圓角 | 建模順序與造型變化 |
+| [Level 06](https://mielooco.github.io/simonsay-lab/level-6/) | 斜角與切面 | 面的消長關係 |
+| [Level 07](https://mielooco.github.io/simonsay-lab/level-7/) | 截面與輪廓 | 直筒、收分、鼓肚與收腰 |
 | Level 08 | 即將推出 | — |
 | Level 09 | 即將推出 | — |
 | Level 10 | 即將推出 | — |

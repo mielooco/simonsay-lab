@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>SIMON基礎造型實驗室-LEVEL2</title>
+    <title>圓角的交集｜Level 02 — Simon Form Lab</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background: #080808; color: #eee; font-family: 'PingFang TC', sans-serif; overflow: hidden; height: 100dvh; width: 100dvw; }
@@ -58,6 +58,11 @@
         .hint-inner b { color: #888; }
     /* Keep controls usable in landscape while reserving model space. */
         #ui-mobile { max-height: 55dvh; overflow-y: auto; }
+
+        /* Course titles and explanatory subtitles share the same hierarchy. */
+        .lesson-level { display:block; color:#00ffcc; font:10px monospace; letter-spacing:2px; margin:14px 0 6px; }
+        .lesson-title { color:#eee; font-size:16px; font-weight:600; margin:0 0 8px; }
+        .mobile-subtitle { display:block; color:#888; font-size:10px; line-height:1.5; margin-top:3px; white-space:normal; }
     </style>
 </head>
 <body>
@@ -68,7 +73,9 @@
 <div id="ui-desktop">
     <a href="../index.html" class="back-btn"><span>←</span> 返回課程首頁</a>
     <h3>Simon Form Lab</h3>
-    <div class="desc">LEVEL 2：不同方向 R 角的交集碰撞，<br>探討幾何交線與布林邏輯的銳利美學。</div>
+    <span class="lesson-level">LEVEL 02</span>
+    <h2 class="lesson-title">圓角的交集</h2>
+    <div class="desc">布林運算與交界線</div>
     <div class="control-group">
         <label>頂部 R 角 (Top R) <span id="valTop-d" class="value">0</span></label>
         <input type="range" id="rTop-d" min="0" max="50" step="0.5" value="0">
@@ -100,7 +107,8 @@
         <a href="../index.html" class="back-btn-mobile">←</a>
         <div class="mobile-title-block">
             <span class="mobile-level-tag">LEVEL 02</span>
-            <span class="mobile-title">布林運算的邏輯</span>
+            <span class="mobile-title">圓角的交集</span>
+            <span class="mobile-subtitle">布林運算與交界線</span>
         </div>
         <button class="hint-toggle-btn" id="hintToggle">提示 <span class="arrow">▲</span></button>
     </div>

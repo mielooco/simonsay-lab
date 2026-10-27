@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>SIMON基礎造型實驗室 — LEVEL 07 截面與輪廓</title>
+<title>截面與輪廓｜Level 07 — Simon Form Lab</title>
 <style>
 :root { color-scheme:dark; --bg:#080808; --panel:rgba(15,15,15,.95); --fg:#eee; --muted:#999; --line:#333; --mint:#00ffcc; }
 * { box-sizing:border-box; }
@@ -158,6 +158,17 @@ input[type=range]::-moz-range-thumb { height:22px; width:22px; }
 #view { top:0; right:0; left:0; }
 }
 
+
+        /* Course titles and explanatory subtitles share the same hierarchy. */
+        .lesson-level { display:block; color:#00ffcc; font:10px monospace; letter-spacing:2px; margin:14px 0 6px; }
+        .lesson-title { color:#eee; font-size:16px; font-weight:600; margin:0 0 8px; }
+        .mobile-subtitle { display:block; color:#888; font-size:10px; line-height:1.5; margin-top:3px; white-space:normal; }
+
+.intro-subtitle { color:var(--muted); font-size:16px; margin:-8px 0 22px; }
+#controls h1 { color:#eee; font-size:16px; font-weight:600; margin:0 0 8px; }
+.course-subtitle { color:#888; font-size:11px; line-height:1.6; margin:0 0 20px; }
+@media(max-width:768px),(hover:none),(pointer:coarse) { .course-level,.course-subtitle { display:none; } }
+
 </style>
 </head>
 <body>
@@ -165,6 +176,7 @@ input[type=range]::-moz-range-thumb { height:22px; width:22px; }
   <nav class="topbar" aria-label="課程導覽"><a href="../index.html">← 返回課程首頁</a><span class="brand">SIMON FORM LAB</span></nav>
   <p class="eyebrow">LEVEL 07 · 課前說明</p>
   <h1>截面與輪廓</h1>
+  <p class="intro-subtitle">直筒、收分、鼓肚與收腰</p>
   <p class="lead">想像把花瓶橫切成一片片，<strong>每一片的外形就是「截面」</strong>。<br>改變不同高度的截面大小，再把它們連起來，整個形體的姿態就會改變。</p>
   <section class="steps" aria-label="本課三個操作步驟">
     <article class="step-card">
@@ -201,8 +213,8 @@ input[type=range]::-moz-range-thumb { height:22px; width:22px; }
 <section id="course" data-stage="0" aria-label="Level 07 截面實驗" hidden>
   <aside id="controls" aria-label="實驗控制面板">
     <div class="drag-handle" aria-hidden="true"></div>
-    <nav class="course-nav"><a href="../index.html"><span>←</span><span class="back-text"> 返回課程首頁</span></a><div class="mobile-title-block"><span class="mobile-level-tag">LEVEL 07</span><span class="mobile-title">截面與輪廓</span></div><button class="secondary" id="review" type="button">重看說明</button></nav>
-    <h3 class="course-brand">SIMON Form Lab</h3><h1 tabindex="-1" id="course-title">LEVEL 7：截面與輪廓</h1>
+    <nav class="course-nav"><a href="../index.html"><span>←</span><span class="back-text"> 返回課程首頁</span></a><div class="mobile-title-block"><span class="mobile-level-tag">LEVEL 07</span><span class="mobile-title">截面與輪廓</span><span class="mobile-subtitle">直筒、收分、鼓肚與收腰</span></div><button class="secondary" id="review" type="button">重看說明</button></nav>
+    <h3 class="course-brand">SIMON Form Lab</h3><span class="lesson-level course-level">LEVEL 07</span><h1 tabindex="-1" id="course-title">截面與輪廓</h1><p class="course-subtitle">直筒、收分、鼓肚與收腰</p>
     <div class="stages" role="group" aria-label="操作步驟"><button type="button" data-stage="0" aria-pressed="true">1 直筒</button><button type="button" data-stage="1" aria-pressed="false">2 收分</button><button type="button" data-stage="2" aria-pressed="false">3 鼓肚／收腰</button></div>
     <div aria-live="polite"><h2 id="stage-title">先觀察直筒</h2><p id="stage-copy">上、中、下截面都是 100%。旋轉模型，看看三層截面如何連成一個形體。</p></div>
     <div id="range-group" hidden><label class="range-label" for="section-size"><span id="range-name">頂部截面直徑</span><output id="section-value" for="section-size">70%</output></label><input id="section-size" type="range" min="35" max="100" step="1" value="70"></div>

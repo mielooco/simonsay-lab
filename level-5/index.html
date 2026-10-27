@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>SIMON基礎造型實驗室-LEVEL5</title>
+    <title>複合圓角｜Level 05 — Simon Form Lab</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background: #080808; color: #eee; font-family: 'PingFang TC', sans-serif; overflow: hidden; height: 100dvh; width: 100dvw; }
@@ -94,6 +94,11 @@
         .hint-inner b { color: #888; }
     /* Keep controls usable in landscape while reserving model space. */
         #ui-mobile { max-height: 55dvh; overflow-y: auto; }
+
+        /* Course titles and explanatory subtitles share the same hierarchy. */
+        .lesson-level { display:block; color:#00ffcc; font:10px monospace; letter-spacing:2px; margin:14px 0 6px; }
+        .lesson-title { color:#eee; font-size:16px; font-weight:600; margin:0 0 8px; }
+        .mobile-subtitle { display:block; color:#888; font-size:10px; line-height:1.5; margin-top:3px; white-space:normal; }
     </style>
 </head>
 <body>
@@ -104,7 +109,9 @@
 <div id="ui-desktop">
     <a href="../index.html" class="back-btn"><span>←</span> 返回課程首頁</a>
     <h3>SIMON Form Lab</h3>
-    <div class="desc">LEVEL 5：複合路徑倒角，如何影響造型風格</div>
+    <span class="lesson-level">LEVEL 05</span>
+    <h2 class="lesson-title">複合圓角</h2>
+    <div class="desc">建模順序與造型變化</div>
     <div class="control-group">
         <label>寬 (X) <span id="wVal-d" class="value prop-val">120</span></label>
         <input type="range" id="width-d" min="40" max="250" value="120">
@@ -148,7 +155,8 @@
         <a href="../index.html" class="back-btn-mobile">←</a>
         <div class="mobile-title-block">
             <span class="mobile-level-tag">LEVEL 05</span>
-            <span class="mobile-title">複合路徑倒角</span>
+            <span class="mobile-title">複合圓角</span>
+            <span class="mobile-subtitle">建模順序與造型變化</span>
         </div>
         <button class="hint-toggle-btn" id="hintToggle">提示 <span class="arrow">▲</span></button>
     </div>

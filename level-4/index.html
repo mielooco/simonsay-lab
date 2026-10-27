@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>SIMON基礎造型實驗室-LEVEL4</title>
+    <title>圓角的建構｜Level 04 — Simon Form Lab</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background: #080808; color: #eee; font-family: 'PingFang TC', sans-serif; overflow: hidden; height: 100dvh; width: 100dvw; }
@@ -81,6 +81,11 @@
         .hint-inner b { color: #888; }
     /* Keep controls usable in landscape while reserving model space. */
         #ui-mobile { max-height: 55dvh; overflow-y: auto; }
+
+        /* Course titles and explanatory subtitles share the same hierarchy. */
+        .lesson-level { display:block; color:#00ffcc; font:10px monospace; letter-spacing:2px; margin:14px 0 6px; }
+        .lesson-title { color:#eee; font-size:16px; font-weight:600; margin:0 0 8px; }
+        .mobile-subtitle { display:block; color:#888; font-size:10px; line-height:1.5; margin-top:3px; white-space:normal; }
     </style>
 </head>
 <body>
@@ -91,7 +96,9 @@
 <div id="ui-desktop">
     <a href="../index.html" class="back"><span>←</span> 返回課程首頁</a>
     <h3>SIMON Form Lab</h3>
-    <div class="desc">LEVEL 4：幾何精確 Fillet — 弧線掃描建構</div>
+    <span class="lesson-level">LEVEL 04</span>
+    <h2 class="lesson-title">圓角的建構</h2>
+    <div class="desc">截面與弧線掃描</div>
 
     <div class="section-title">尺寸控制 · Dimensions</div>
     <div class="cg"><label>寬度 (W) <span id="wV-d" class="v pv">220</span></label>
@@ -129,7 +136,8 @@
         <a href="../index.html" class="back-btn-mobile">←</a>
         <div class="mobile-title-block">
             <span class="mobile-level-tag">LEVEL 04</span>
-            <span class="mobile-title">幾何精確 Fillet</span>
+            <span class="mobile-title">圓角的建構</span>
+            <span class="mobile-subtitle">截面與弧線掃描</span>
         </div>
         <button class="hint-toggle-btn" id="hintToggle">提示 <span class="arrow">▲</span></button>
     </div>

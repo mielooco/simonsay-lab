@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>SIMON基礎造型實驗室-LEVEL1</title>
+    <title>正方體與圓角｜Level 01 — Simon Form Lab</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -232,6 +232,11 @@
         #ui-desktop .back-btn { display: flex; align-items: center; gap: 8px; text-decoration: none; color: #00ffcc; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 20px; padding: 10px 14px; border: 1px solid rgba(0,255,204,0.3); border-radius: 8px; background: rgba(0,255,204,0.06); }
     /* Keep controls usable in landscape while reserving model space. */
         #ui-mobile { max-height: 55dvh; overflow-y: auto; }
+
+        /* Course titles and explanatory subtitles share the same hierarchy. */
+        .lesson-level { display:block; color:#00ffcc; font:10px monospace; letter-spacing:2px; margin:14px 0 6px; }
+        .lesson-title { color:#eee; font-size:16px; font-weight:600; margin:0 0 8px; }
+        .mobile-subtitle { display:block; color:#888; font-size:10px; line-height:1.5; margin-top:3px; white-space:normal; }
     </style>
 </head>
 <body>
@@ -242,7 +247,9 @@
 <div id="ui-desktop">
     <a href="../index.html" class="back-btn"><span>←</span> 返回課程首頁</a>
     <h3>Simon Form Lab</h3>
-    <div class="desc">LEVEL 1：R角與正方體幾何的關係，<br>從塊體中尋找造型的靈魂</div>
+    <span class="lesson-level">LEVEL 01</span>
+    <h2 class="lesson-title">正方體與圓角</h2>
+    <div class="desc">量體的基本變化</div>
     <div class="control-group">
         <label>R角半徑 (Radius) <span id="rVal-d" class="value">2</span></label>
         <input type="range" id="radius-d" min="0" max="40" step="0.5" value="2">
@@ -268,7 +275,8 @@
         <a href="../index.html" class="back-btn-mobile">←</a>
         <div class="mobile-title-block">
             <span class="mobile-level-tag">LEVEL 01</span>
-            <span class="mobile-title">R角與正方體幾何的關係</span>
+            <span class="mobile-title">正方體與圓角</span>
+            <span class="mobile-subtitle">量體的基本變化</span>
         </div>
         <button class="hint-toggle-btn" id="hintToggle">
             提示 <span class="arrow">▲</span>

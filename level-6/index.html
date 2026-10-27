@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>SIMON基礎造型實驗室-LEVEL6</title>
+    <title>斜角與切面｜Level 06 — Simon Form Lab</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background: #080808; color: #eee; font-family: 'PingFang TC', sans-serif; overflow: hidden; height: 100dvh; width: 100dvw; }
@@ -117,6 +117,11 @@
         .hint-inner b { color: #888; }
     /* Keep controls usable in landscape while reserving model space. */
         #ui-mobile { max-height: 55dvh; overflow-y: auto; }
+
+        /* Course titles and explanatory subtitles share the same hierarchy. */
+        .lesson-level { display:block; color:#00ffcc; font:10px monospace; letter-spacing:2px; margin:14px 0 6px; }
+        .lesson-title { color:#eee; font-size:16px; font-weight:600; margin:0 0 8px; }
+        .mobile-subtitle { display:block; color:#888; font-size:10px; line-height:1.5; margin-top:3px; white-space:normal; }
     </style>
 </head>
 <body>
@@ -127,7 +132,9 @@
 <div id="ui-desktop">
     <a href="../index.html" class="back"><span>←</span> 返回課程首頁</a>
     <h3>SIMON Form Lab</h3>
-    <div class="desc">LEVEL 6：Chamfer — 定義斜角截面</div>
+    <span class="lesson-level">LEVEL 06</span>
+    <h2 class="lesson-title">斜角與切面</h2>
+    <div class="desc">面的消長關係</div>
 
     <div class="cg"><label>寬 (X) <span id="wV-d" class="v pv">120</span></label>
         <input type="range" id="W-d" min="40" max="300" value="120"></div>
@@ -175,7 +182,8 @@
         <a href="../index.html" class="back-btn-mobile">←</a>
         <div class="mobile-title-block">
             <span class="mobile-level-tag">LEVEL 06</span>
-            <span class="mobile-title">Chamfer — 斜角截面</span>
+            <span class="mobile-title">斜角與切面</span>
+            <span class="mobile-subtitle">面的消長關係</span>
         </div>
         <button class="hint-toggle-btn" id="hintToggle">提示 <span class="arrow">▲</span></button>
     </div>
