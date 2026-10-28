@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="從點連成線、線圍成面，透過動畫與直接拖曳，觀察三條曲線如何共同構成曲面。">
+<title>點、線、面｜Level 10 — Simon Form Lab</title>
+<style>:root{color-scheme:dark}body{margin:0;background:#080808;color:#eee;font-family:'PingFang TC',sans-serif}#level-ten-simple{max-width:1280px;margin:20px auto}@media(max-width:700px){#level-ten-simple{margin:0;border:0;border-radius:0}}</style>
+</head>
+<body>
+<div id="level-ten-simple">
+<style>
+#level-ten-simple{background:#080808;color:#eee;font:14px/1.8 'PingFang TC',sans-serif;border:1px solid #303030;border-radius:12px;overflow:hidden}
+#level-ten-simple *{box-sizing:border-box}#level-ten-simple [hidden]{display:none!important}
+#level-ten-simple .subtitle{margin:3px 0 0;color:#aaa;font-size:13px}#level-ten-simple .home-link{display:inline-block;color:#00ffcc;text-decoration:none;padding:6px 0;margin-top:6px;min-height:36px}#level-ten-simple header{padding:20px 24px;border-bottom:1px solid #303030}#level-ten-simple .brand{color:#00ffcc;font:11px monospace;letter-spacing:2px}#level-ten-simple h1{font-size:25px;font-weight:500;margin:8px 0 0}#level-ten-simple h2{font-size:17px;font-weight:500;margin:0}#level-ten-simple .stage-heading{padding:16px 24px 0;display:flex;align-items:center;flex-wrap:wrap;gap:12px}#level-ten-simple .count{color:#00ffcc;font:12px monospace}
+#level-ten-simple .scene{position:relative;height:420px;touch-action:none}#level-ten-simple .orbit-handle{position:absolute;inset:0;width:100%;height:100%;border:0;border-radius:0;padding:0;background:transparent;cursor:grab;touch-action:none;z-index:1}#level-ten-simple .point-handle{z-index:2}#level-ten-simple canvas{width:100%;height:100%;display:block}#level-ten-simple .caption{padding:0 24px 18px;color:#aaa;min-height:48px}
+#level-ten-simple .controls{padding:16px 24px;display:flex;flex-wrap:wrap;align-items:center;gap:8px;border-top:1px solid #303030}#level-ten-simple button{font:inherit;font-size:13px;color:#aaa;background:#101010;border:1px solid #303030;border-radius:6px;padding:8px 14px;min-height:42px}#level-ten-simple button:disabled{opacity:.35}#level-ten-simple button[aria-pressed=true],#level-ten-simple button[data-action=enter]{color:#00ffcc;border-color:#008b72}#level-ten-simple button:focus-visible{outline:2px solid #00ffcc;outline-offset:3px}#level-ten-simple .reading{color:#aaa;font-size:12px;margin-left:auto}#level-ten-simple .point-handle{position:absolute;width:44px;height:44px;min-height:44px;padding:0;transform:translate(-50%,-50%);border:0;background:transparent;border-radius:50%;touch-action:none;cursor:ns-resize}#level-ten-simple .point-handle:focus-visible{outline:1px solid #ff75b8;outline-offset:0}#level-ten-simple .review{margin-left:auto}
+@media(max-width:600px){#level-ten-simple header{padding:18px}#level-ten-simple .stage-heading{padding:14px 18px 0}#level-ten-simple .scene{height:340px}#level-ten-simple .controls{padding:14px 18px;gap:7px}#level-ten-simple .caption{padding:0 18px 16px;min-height:62px}#level-ten-simple button{min-height:44px;padding:8px 10px}#level-ten-simple .reading{width:100%;margin:0}#level-ten-simple .review{margin-left:0}}
+</style>
+<header><div class="brand">SIMON FORM LAB · LEVEL 10</div><h1>點、線、面</h1><p class="subtitle">從點、線到曲面</p><a class="home-link" href="../index.html">← 課程目錄</a></header>
+<div class="stage-heading"><span class="count" data-count>01 / 11</span><h2 data-title>一個點 A</h2></div>
+<div class="scene"><canvas role="img" aria-label="上下拖曳粉色點改變曲線，左右拖曳 A、B、C、D 改變寬窄，再連成曲面。"></canvas><button type="button" class="orbit-handle" aria-label="拖曳空白處旋轉視角，也可使用方向鍵" hidden></button></div>
+<div class="caption" data-caption aria-live="polite">先出現一個點，標記它的位置。</div>
+<div class="controls" data-intro-controls><button type="button" data-action="prev">上一步</button><button type="button" data-action="play" aria-pressed="false">播放動畫</button><button type="button" data-action="next">下一步 →</button><button type="button" data-action="enter">自己試看看 →</button></div>
+<div class="controls" data-work-controls hidden><button type="button" data-stage="1" aria-pressed="true">1 · 拉動 F</button><button type="button" data-stage="2" aria-pressed="false">2 · 前後曲線</button><button type="button" data-stage="3" aria-pressed="false">3 · 連成曲面</button><span class="reading" data-reading>F 高度 +70</span><button type="button" class="review" data-action="review">重看動畫</button></div>
+<script>
+(()=>{
+const root=document.getElementById('level-ten-simple'),canvas=root.querySelector('canvas'),ctx=canvas.getContext('2d'),area=root.querySelector('.scene');
+ const stages=[
+  ['一個點 A','先出現一個點，標記它的位置。'],
+  ['再出現點 B','第二個點，提供另一個位置。'],
+  ['兩點連成一條線','連接 A 與 B，得到線段 AB。'],
+  ['加入 C，圍出三角面','第三個點不放在線段 AB 上；三條邊圍成一個平面。'],
+  ['加入 D，擴展成四邊面','沿外圍依序連接 A、B、C、D，形成四邊面。'],
+  ['在左右邊加入 E1、E2','E1、E2 放在兩側邊的中間，先保持在原平面上。'],
+  ['面中央加入 F','F 是中間的位置；此時所有點仍在同一個平面上。'],
+  ['轉成 3D 視角','換個角度看，並標出垂直於原平面的 Z 方向。'],
+  ['將 F 沿 Z 方向抬高','只把 F 抬高；四個角與 E1、E2 留在原平面上。'],
+  ['讓弧線通過 E1、F、E2','用平順弧線連接三個點，F 是弧線實際通過的位置。'],
+  ['由中間弧線延伸成曲面','從弧線向前後平順延伸，四周邊界留在原平面，形成澎起的曲面。']
+ ];
+
+let step=0,phase=0,playing=false,transition=null,nextAt=0,frame=0,width=0,height=0,mode='intro',workStage=1,selectedId='F',fHeight=70,fit=null,pointScreens=[],projectionCache=null,dragProjection=null,dragStart=null,dragging=false,surfaceMix=0,edgeReveal=0,revealTransition=null,viewAz=35*Math.PI/180,viewEl=35*Math.PI/180,rotating=false,orbitStart=null;
+let nodes=[{id:'F',x:0,y:0,height:70,kind:'face'},{id:'P1',x:0,y:-1,height:0,kind:'AB'},{id:'P2',x:0,y:1,height:0,kind:'CD'}];
+const reduced=matchMedia('(prefers-reduced-motion:reduce)'),clamp=v=>Math.max(0,Math.min(1,v)),ease=v=>v*v*(3-2*v),progress=n=>ease(clamp(phase-(n-1))),names={F:'F',P1:'前',P2:'後',A:'A',B:'B',C:'C',D:'D'},corners={A:0,B:0,C:0,D:0};
+ function spline(knots,t){
+  const n=knots.length;if(n===2)return knots[0][1]+(knots[1][1]-knots[0][1])*(t-knots[0][0])/(knots[1][0]-knots[0][0]);
+  const h=[],d=[],m=[];for(let i=0;i<n-1;i++){h[i]=knots[i+1][0]-knots[i][0];d[i]=(knots[i+1][1]-knots[i][1])/h[i];}
+  function end(a,b,da,db){let v=((2*a+b)*da-a*db)/(a+b);if(v*da<=0)return 0;if(da*db<0&&Math.abs(v)>3*Math.abs(da))v=3*da;return v;}
+  m[0]=end(h[0],h[1],d[0],d[1]);m[n-1]=end(h[n-2],h[n-3],d[n-2],d[n-3]);for(let i=1;i<n-1;i++){if(d[i-1]*d[i]<=0)m[i]=0;else{const w1=2*h[i]+h[i-1],w2=h[i]+2*h[i-1];m[i]=(w1+w2)/(w1/d[i-1]+w2/d[i]);}}
+  let i=0;while(i<n-2&&t>knots[i+1][0])i++;const u=(t-knots[i][0])/h[i],u2=u*u,u3=u2*u;return(2*u3-3*u2+1)*knots[i][1]+(u3-2*u2+u)*h[i]*m[i]+(-2*u3+3*u2)*knots[i+1][1]+(u3-u2)*h[i]*m[i+1];
+ }
+ function createFit(items){const groups=new Map([[-1,[]],[1,[]]]);for(const p of items){const y=p.kind==='AB'?-1:p.kind==='CD'?1:p.y;let key=[...groups.keys()].find(v=>Math.abs(v-y)<.00001);if(key===undefined){key=y;groups.set(key,[]);}groups.get(key).push(p);}const sections=[...groups].sort((a,b)=>a[0]-b[0]).map(([y,pts])=>({y,knots:[[-1,0],...pts.map(p=>[p.x,p.height*.0082]).sort((a,b)=>a[0]-b[0]),[1,0]]}));for(const section of sections)for(let i=1;i<section.knots.length;i++)if(section.knots[i][0]-section.knots[i-1][0]<.025)return null;for(let i=1;i<sections.length;i++)if(sections[i].y-sections[i-1].y<.04)return null;return{sections};}
+ function fitZ(x,y,fitted){return spline(fitted.sections.map(section=>[section.y,spline(section.knots,x)]),y);}
+ function evaluateFit(x,y,h,fitted){if(!fitted)return{z:h*(1-x*x)*(1-y*y),dx:-2*x*(1-y*y)*h,dy:-2*y*(1-x*x)*h};const e=.0001,x0=Math.max(-1,x-e),x1=Math.min(1,x+e),y0=Math.max(-1,y-e),y1=Math.min(1,y+e);return{z:fitZ(x,y,fitted),dx:(fitZ(x1,y,fitted)-fitZ(x0,y,fitted))/(x1-x0),dy:(fitZ(x,y1,fitted)-fitZ(x,y0,fitted))/(y1-y0)};}
+
+function restore(data){if(data?.preview!=='level-ten-simple')return;if(Number.isFinite(data.view?.azimuth))viewAz=Math.atan2(Math.sin(data.view.azimuth),Math.cos(data.view.azimuth));if(Number.isFinite(data.view?.elevation))viewEl=Math.max(-1.48,Math.min(1.48,data.view.elevation));step=Number.isInteger(data.step)?Math.max(0,Math.min(10,data.step)):0;mode=data.mode==='operate'?'operate':'intro';workStage=[1,2,3].includes(data.stage)?data.stage:1;for(const p of nodes){const value=data.heights?.[p.id];if(Number.isFinite(value))p.height=Math.max(-120,Math.min(120,value));}for(const id of Object.keys(corners)){const value=data.corners?.[id];if(Number.isFinite(value))corners[id]=Math.max(-.8,Math.min(.8,value));}selectedId=Object.hasOwn(names,data.selected)?data.selected:'F';if(workStage===1)selectedId='F';fHeight=nodes[0].height;fit=createFit(nodes);phase=mode==='operate'?10:step;surfaceMix=workStage===3?1:0;edgeReveal=workStage>=2?1:0;}
+const storageKey='simon-form-lab-level-10-v1';
+function persist(){try{localStorage.setItem(storageKey,JSON.stringify({preview:'level-ten-simple',step,mode,stage:workStage,selected:selectedId,view:{azimuth:viewAz,elevation:viewEl},corners:{...corners},heights:Object.fromEntries(nodes.map(p=>[p.id,p.height]))}));}catch{}}
+function isCorner(id){return Object.hasOwn(corners,id);}
+function frameAt(u,y){const left=-1+(1-y)/2*corners.A+(1+y)/2*corners.D,right=1+(1-y)/2*corners.B+(1+y)/2*corners.C;return{x:left+(right-left)*(u+1)/2,du:(right-left)/2,dy:(1-u)/4*(corners.D-corners.A)+(1+u)/4*(corners.C-corners.B)};}
+function worldPoint(p){return mode==='operate'?[frameAt(p[0],p[1]).x,p[1],p[2]]:p;}
+function setCorner(value){corners[selectedId]=Math.round(Math.max(-.8,Math.min(.8,value))*100)/100;updateControls();persist();requestDraw();}
+function point(){return nodes.find(p=>p.id===selectedId)||nodes[0];}
+function updateControls(){const working=mode==='operate';root.querySelector('.orbit-handle').hidden=!working;root.querySelector('[data-intro-controls]').hidden=working;root.querySelector('[data-work-controls]').hidden=!working;root.querySelector('[data-count]').textContent=working?'自己試看看':String(step+1).padStart(2,'0')+' / 11';root.querySelector('[data-title]').textContent=working?['','移動點，改變線','前、中、後三條曲線','改變線，帶動面'][workStage]:stages[step][0];root.querySelector('[data-caption]').textContent=working?['','拉 F 改變弧線；拉四角調整寬窄。','拉「前」「F」「後」比較曲線；拉四角調整寬窄。','拉粉色點改變起伏；拉四角調整寬窄。'][workStage]+' 拖曳空白處旋轉視角。':stages[step][1];root.querySelector('[data-reading]').textContent=isCorner(selectedId)?selectedId+' 水平位移 '+(corners[selectedId]>0?'+':'')+Math.round(corners[selectedId]*100):names[selectedId]+' 高度 '+(point().height>0?'+':'')+point().height.toFixed(1);root.querySelector('[data-action=prev]').disabled=step===0;root.querySelector('[data-action=next]').disabled=step===10;const play=root.querySelector('[data-action=play]');play.textContent=playing?'暫停':step===10?'再播放一次':'播放動畫';play.setAttribute('aria-pressed',String(playing));for(const button of root.querySelectorAll('[data-stage]'))button.setAttribute('aria-pressed',String(Number(button.dataset.stage)===workStage));}
+function surfaceInfo(x,y,h){const info=evaluateFit(x,y,h,mode==='operate'?fit:null);if(mode==='operate'){const f=frameAt(x,y);return{z:info.z,dx:info.dx/f.du,dy:info.dy-info.dx*f.dy/f.du};}return info;}function surfaceZ(x,y,h){return surfaceInfo(x,y,h).z;}
+function setHeight(value){point().height=Math.round(Math.max(-120,Math.min(120,value))*10)/10;fHeight=nodes[0].height;fit=createFit(nodes);updateControls();persist();requestDraw();}
+function requestDraw(){if(!frame)frame=requestAnimationFrame(tick);}
+function go(value){step=Math.max(0,Math.min(10,value));if(!reduced.matches)transition={from:phase,to:step,start:performance.now(),duration:step>=7?1000:650};else{phase=step;transition=null;}nextAt=performance.now()+(transition?transition.duration:0)+1000;updateControls();persist();requestDraw();}
+function tick(now){frame=0;if(transition){const t=clamp((now-transition.start)/transition.duration);phase=transition.from+(transition.to-transition.from)*ease(t);if(t===1)transition=null;}if(revealTransition){const t=ease(clamp((now-revealTransition.start)/900));surfaceMix=revealTransition.surface+(revealTransition.targetSurface-revealTransition.surface)*t;edgeReveal=revealTransition.edge+(revealTransition.targetEdge-revealTransition.edge)*t;if(t>=1)revealTransition=null;}draw();if(playing&&!transition&&now>=nextAt){if(step===10){playing=false;updateControls();persist();}else go(step+1);}if(playing||transition||revealTransition)requestDraw();}
+ function draw(){
+  if(!width||!height)return;
+  ctx.clearRect(0,0,width,height);
+  const tilt=progress(7),az=mode==='operate'?viewAz:tilt*35*Math.PI/180,el=mode==='operate'?viewEl:(90-tilt*55)*Math.PI/180,ca=Math.cos(az),sa=Math.sin(az),se=Math.sin(el),ce=Math.cos(el),scale=Math.min((width-70)/(mode==='operate'?4.5:3.15),(height-65)/2.5),cx=width/2,cy=height*.53;
+  const operating=mode==='operate',h=operating ? .0082*fHeight : .82*progress(8),arc=operating?1:progress(9),surface=operating?surfaceMix:progress(10);
+  function project(p){p=worldPoint(p);return [cx+scale*(ca*p[0]+sa*p[1]),cy-scale*(-sa*se*p[0]+ca*se*p[1]+ce*p[2])];}
+  function depth(p){p=worldPoint(p);return sa*ce*p[0]-ca*ce*p[1]+se*p[2];}
+  function line(points,color='#d3dcde',lineWidth=1.3,dashed=false,alpha=1){if(alpha<=0)return;ctx.save();ctx.strokeStyle=color;ctx.lineWidth=lineWidth;ctx.globalAlpha=alpha;ctx.setLineDash(dashed?[4,5]:[]);ctx.beginPath();points.forEach((p,i)=>{const q=project(p);if(i)ctx.lineTo(...q);else ctx.moveTo(...q);});ctx.stroke();ctx.restore();}
+  function polygon(points,fill){ctx.beginPath();points.forEach((p,i)=>{const q=project(p);if(i)ctx.lineTo(...q);else ctx.moveTo(...q);});ctx.closePath();ctx.fillStyle=fill;ctx.fill();}
+  function label(point,text,color,offset=[10,-11],alpha=1){const q=project(point);ctx.save();ctx.font='500 14px monospace';ctx.globalAlpha=alpha;ctx.lineJoin='round';ctx.lineWidth=4;ctx.strokeStyle='#080808';ctx.strokeText(text,q[0]+offset[0],q[1]+offset[1]);ctx.fillStyle=color;ctx.fillText(text,q[0]+offset[0],q[1]+offset[1]);ctx.restore();}
+  function dot(point,text,color='#00ffcc',offset=[10,-11],alpha=1){if(alpha<=0)return;const q=project(point);ctx.save();ctx.globalAlpha=alpha;ctx.beginPath();ctx.arc(...q,4.2,0,Math.PI*2);ctx.fillStyle=color;ctx.fill();ctx.strokeStyle='#080808';ctx.lineWidth=1.5;ctx.stroke();ctx.restore();label(point,text,color,offset,alpha);}
+  const central=nodes.find(p=>p.id==='F'),A=[-1,-1,0],B=[1,-1,0],C=[1,-1+2*progress(3),0],D=[-1,-1+2*progress(4),0],E1=[-1,0,0],E2=[1,0,0],F=operating?[central.x,central.y,central.height*.0082]:[0,0,h];
+  if(phase>=3){const boundary=phase<4?[A,B,C]:[A,B,C,D];polygon(boundary,'rgba(148,171,179,'+(.16*progress(3)*(1-.55*surface))+')');line([...boundary,boundary[0]],phase>=8?'#7c898c':'#c6d5d8',1.3,phase>=8);}
+  if(surface>0){
+   const cells=[],n=28;
+   for(let j=0;j<n;j++)for(let i=0;i<n;i++){
+    const x=-1+2*i/n,y=-surface+2*surface*j/n,xx=-1+2*(i+1)/n,yy=-surface+2*surface*(j+1)/n,midX=(x+xx)/2,midY=(y+yy)/2;
+    const info=surfaceInfo(midX,midY,h),points=[[x,y,surfaceZ(x,y,h)],[xx,y,surfaceZ(xx,y,h)],[xx,yy,surfaceZ(xx,yy,h)],[x,yy,surfaceZ(x,yy,h)]],nx=-info.dx,ny=-info.dy,len=Math.hypot(nx,ny,1),light=.52+.38*Math.max(0,(-.42*nx-.28*ny+1)/len/1.12);
+    cells.push({points,sort:depth([midX,midY,surfaceZ(midX,midY,h)]),fill:`rgb(${Math.round(165*light)},${Math.round(187*light)},${Math.round(193*light)})`});
+   }
+   cells.sort((a,b)=>a.sort-b.sort).forEach(cell=>polygon(cell.points,cell.fill));
+   for(let i=0;i<=8;i++){const x=-1+i/4,y=-surface+2*surface*i/8;line(Array.from({length:41},(_,j)=>{const yy=-surface+2*surface*j/40;return[x,yy,surfaceZ(x,yy,h)];}),'#d7ebec',.6,false,.23);line(Array.from({length:41},(_,j)=>{const xx=-1+2*j/40;return[xx,y,surfaceZ(xx,y,h)];}),'#d7ebec',.6,false,.23);}
+   if(surface>=.999){for(const y of [-1,1])line(Array.from({length:65},(_,i)=>{const x=-1+i/32;return[x,y,surfaceZ(x,y,h)];}),'#00ffcc',1.3);line([A,D],'#b8c9ca',1);line([B,C],'#b8c9ca',1);}
+  }
+  
+  if(phase>=7){
+   const origin=[0,0,0],tip=[0,0,1.22];line([origin,tip],'#819eac',1.1,true,tilt);
+   const end=project(tip),start=project(origin),angle=Math.atan2(end[1]-start[1],end[0]-start[0]);ctx.save();ctx.globalAlpha=tilt;ctx.strokeStyle='#819eac';ctx.lineWidth=1.1;ctx.beginPath();ctx.moveTo(end[0]-8*Math.cos(angle-.45),end[1]-8*Math.sin(angle-.45));ctx.lineTo(...end);ctx.lineTo(end[0]-8*Math.cos(angle+.45),end[1]-8*Math.sin(angle+.45));ctx.stroke();ctx.restore();label(tip,'+Z','#a6c5d1',[9,-5],tilt);
+   if(Math.abs(h)>.001){line([[F[0],F[1],0],F],'#ff44aa',1.1,true,.6);const q=project([0,0,0]);ctx.beginPath();ctx.arc(...q,3,0,Math.PI*2);ctx.strokeStyle='#9b627e';ctx.lineWidth=1;ctx.stroke();}
+   if(operating&&h<0){line([[0,0,0],[0,0,-1.22]],'#819eac',1.1,true,.7);label([0,0,-1.22],'-Z','#a6c5d1',[9,16]);}
+  }
+  if(arc>0){const ys=operating&&workStage>=2?[0,-edgeReveal,edgeReveal]:[0];for(const y of ys){const end=-1+2*arc;line(Array.from({length:65},(_,i)=>{const x=-1+(end+1)*i/64;return[x,y,surfaceZ(x,y,h)];}),'#ff75b8',1.2);}}
+  if(phase<3&&progress(2)>0){line([A,[-1+2*progress(2),-1,0]],'#c6d5d8',1.4);}
+  dot(A,'A','#00ffcc',[-18,20]);dot(B,'B','#00ffcc',[10,20],progress(1));dot(C,'C','#00ffcc',[11,-10],progress(3));dot(D,'D','#00ffcc',[-20,-12],progress(4));
+  dot(E1,'E1','#ffaa00',[-34,-10],progress(5));dot(E2,'E2','#ffaa00',[11,15],progress(5));dot(F,'F','#ff75b8',[12,-12],progress(6));
+  pointScreens=[];if(operating){for(const p of nodes){if(workStage===1&&p.id!=='F')continue;const position=[p.x,p.y*(p.id==='F'?1:edgeReveal),p.height*.0082];if(p.id!=='F'){dot(position,names[p.id],'#ff75b8',[11,-12]);}const q=project(position);pointScreens.push({id:p.id,point:q});if(p.id===selectedId){ctx.save();ctx.beginPath();ctx.arc(...q,8,0,Math.PI*2);ctx.strokeStyle='#ff75b8';ctx.lineWidth=1;ctx.stroke();ctx.restore();}}}
+  dragProjection=operating?{cy,unit:.0082*scale*ce}:null;projectionCache=operating?{ca,sa,se,ce,scale,cx,cy}:null;if(operating){for(const [id,p] of Object.entries({A,B,C,D})){const q=project(p);pointScreens.push({id,point:q});if(id===selectedId){ctx.beginPath();ctx.arc(...q,8,0,Math.PI*2);ctx.strokeStyle='#00ffcc';ctx.lineWidth=1;ctx.stroke();}}}syncHandles();
+ }
+
+function syncHandles(){const live=new Set(mode==='operate'?pointScreens.map(p=>p.id):[]);for(const button of area.querySelectorAll('[data-point-handle]'))button.hidden=!live.has(button.dataset.pointHandle);for(const p of pointScreens){if(!live.has(p.id))continue;let button=area.querySelector('[data-point-handle="'+p.id+'"]');if(!button){button=document.createElement('button');button.type='button';button.className='point-handle';button.dataset.pointHandle=p.id;area.appendChild(button);}button.hidden=false;button.style.left=p.point[0]+'px';button.style.top=p.point[1]+'px';button.setAttribute('aria-label',(isCorner(p.id)?'左右拖曳 ':'上下拖曳 ')+names[p.id]);button.style.cursor=isCorner(p.id)?'ew-resize':'ns-resize';}}
+function hitPoint(x,y){let best=null;for(const p of pointScreens){const distance=Math.hypot(x-p.point[0],y-p.point[1]);if(distance<24&&(!best||distance<best.distance))best={...p,distance};}return best;}
+area.addEventListener('pointerdown',event=>{if(mode!=='operate'||!projectionCache||event.isPrimary===false)return;const rect=canvas.getBoundingClientRect(),x=event.clientX-rect.left,y=event.clientY-rect.top,hit=hitPoint(x,y);event.preventDefault();area.setPointerCapture(event.pointerId);if(!hit){rotating=true;orbitStart={x,y,az:viewAz,el:viewEl};root.querySelector('.orbit-handle').style.cursor='grabbing';return;}selectedId=hit.id;dragging=true;const pc=projectionCache;dragStart=isCorner(selectedId)?{x,y,offset:corners[selectedId],vx:pc.scale*pc.ca,vy:pc.scale*pc.sa*pc.se}:{y,height:point().height,unit:.0082*pc.scale*Math.max(.25,pc.ce)};updateControls();persist();requestDraw();});
+area.addEventListener('pointermove',event=>{if(!dragging&&!rotating)return;event.preventDefault();const rect=canvas.getBoundingClientRect(),x=event.clientX-rect.left,y=event.clientY-rect.top;if(rotating){viewAz=orbitStart.az+(x-orbitStart.x)*.008;viewEl=Math.max(-1.48,Math.min(1.48,orbitStart.el+(y-orbitStart.y)*.008));requestDraw();return;}if(isCorner(selectedId)){const length=dragStart.vx**2+dragStart.vy**2;if(length>4)setCorner(dragStart.offset+((x-dragStart.x)*dragStart.vx+(y-dragStart.y)*dragStart.vy)/length);}else setHeight(dragStart.height+(dragStart.y-y)/dragStart.unit);});
+function endDrag(event){if(rotating){viewAz=Math.atan2(Math.sin(viewAz),Math.cos(viewAz));persist();}rotating=false;dragging=false;root.querySelector('.orbit-handle').style.cursor='grab';if(area.hasPointerCapture(event.pointerId))area.releasePointerCapture(event.pointerId);}area.addEventListener('pointerup',endDrag);area.addEventListener('pointercancel',endDrag);
+area.addEventListener('keydown',event=>{if(!event.target.classList.contains('orbit-handle')||!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(event.key))return;event.preventDefault();if(event.key==='ArrowLeft')viewAz-=.08;if(event.key==='ArrowRight')viewAz+=.08;if(event.key==='ArrowUp')viewEl-=.08;if(event.key==='ArrowDown')viewEl+=.08;viewEl=Math.max(-1.48,Math.min(1.48,viewEl));persist();requestDraw();});
+area.addEventListener('keydown',event=>{const id=event.target.dataset.pointHandle;if(!id)return;const allowed=isCorner(id)?['ArrowLeft','ArrowRight']:['ArrowUp','ArrowDown'];if(!allowed.includes(event.key))return;event.preventDefault();selectedId=id;if(isCorner(id))setCorner(corners[id]+(event.key==='ArrowRight'?.01:-.01));else setHeight(point().height+(event.key==='ArrowUp'?1:-1));});
+root.addEventListener('click',event=>{const stage=event.target.closest('[data-stage]');if(stage){workStage=Number(stage.dataset.stage);if(workStage===1)selectedId='F';revealTransition={start:performance.now(),surface:surfaceMix,edge:edgeReveal,targetSurface:workStage===3?1:0,targetEdge:workStage>=2?1:0};if(reduced.matches){surfaceMix=revealTransition.targetSurface;edgeReveal=revealTransition.targetEdge;revealTransition=null;}updateControls();persist();requestDraw();return;}const button=event.target.closest('[data-action]');if(!button)return;const action=button.dataset.action;if(action==='enter'){mode='operate';step=10;phase=10;playing=false;transition=null;workStage=1;selectedId='F';surfaceMix=0;edgeReveal=0;revealTransition=null;}else if(action==='review'){mode='intro';step=0;phase=0;transition=null;playing=true;nextAt=performance.now()+650;}else if(action==='play'){playing=!playing;if(playing){if(step===10){phase=0;step=0;transition=null;}nextAt=performance.now()+650;}else transition=null;}else{playing=false;go(step+(action==='next'?1:-1));return;}updateControls();persist();requestDraw();});
+function resize(){width=area.clientWidth;height=area.clientHeight;const ratio=Math.min(devicePixelRatio||1,2);canvas.width=Math.round(width*ratio);canvas.height=Math.round(height*ratio);ctx.setTransform(ratio,0,0,ratio,0,0);requestDraw();}
+document.addEventListener('visibilitychange',()=>{if(document.hidden){playing=false;updateControls();}});try{restore(JSON.parse(localStorage.getItem(storageKey)));}catch{}mode='intro';step=0;phase=0;fit=createFit(nodes);new ResizeObserver(resize).observe(area);updateControls();resize();
+})();
+</script>
+</div>
+
+</body>
+</html>
