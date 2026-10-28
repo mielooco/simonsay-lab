@@ -1,0 +1,32 @@
+
+#sixth-course-intro{--six-bg:#080808;--six-fg:#eee;--six-muted:#aaa;--six-border:#303030;--six-d1:#ffdd00;--six-d2:#ff6622;--six-mint:#00ffcc;background:var(--six-bg);color:var(--six-fg);font:14px/1.8 'PingFang TC','Noto Sans TC',sans-serif;border:1px solid var(--six-border);border-radius:12px;overflow:hidden}
+#sixth-course-intro *{box-sizing:border-box}
+#sixth-course-intro [hidden]{display:none!important}
+#sixth-course-intro header{padding:22px 26px;border-bottom:1px solid var(--six-border)}
+#sixth-course-intro .brand{font:11px monospace;letter-spacing:2px;color:var(--six-mint)}
+#sixth-course-intro h1{font-size:25px;font-weight:500;margin:9px 0 5px}
+#sixth-course-intro p{font-size:13px;color:var(--six-muted);margin:0}
+#sixth-course-intro .content{padding:20px 26px 24px}
+#sixth-course-intro h2{font-size:17px;font-weight:500;margin:0 0 6px}
+#sixth-course-intro .definition{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:22px;align-items:center;margin-bottom:18px}
+#sixth-course-intro .cross-section{display:block;width:100%;height:auto}
+#sixth-course-intro .cross-section text{font:14px 'PingFang TC',sans-serif;fill:var(--six-muted)}
+#sixth-course-intro .d1{color:var(--six-d1)}
+#sixth-course-intro .d2{color:var(--six-d2)}
+#sixth-course-intro .definition p+p{margin-top:9px}
+#sixth-course-intro nav{display:flex;flex-wrap:wrap;gap:8px;padding-top:18px;border-top:1px solid var(--six-border)}
+#sixth-course-intro button{font:inherit;font-size:13px;min-height:40px;padding:8px 15px;background:transparent;color:var(--six-muted);border:1px solid var(--six-border);border-radius:6px}
+#sixth-course-intro button[aria-pressed=true]{border-color:var(--six-mint);color:var(--six-mint);background:rgba(0,255,204,.04)}
+#sixth-course-intro button:focus-visible{outline:2px solid var(--six-mint);outline-offset:3px}
+#sixth-course-intro section{margin-top:21px}
+#sixth-course-intro .pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;margin:8px 0 20px}
+#sixth-course-intro figure{margin:0;text-align:center;min-width:0}
+#sixth-course-intro canvas{width:100%;height:auto;aspect-ratio:720/440;display:block}
+#sixth-course-intro figcaption{font-size:14px;color:var(--six-fg)}
+#sixth-course-intro figcaption small{display:block;color:var(--six-muted);font-size:12px;margin-top:4px}
+#sixth-course-intro .values{color:var(--six-muted);font:12px/1.8 monospace;margin-top:6px}
+#sixth-course-intro .closing{padding-top:17px;border-top:1px solid var(--six-border);color:var(--six-fg)}
+#sixth-course-intro .note{font-size:12px;margin-top:8px}
+@media(max-width:650px){#sixth-course-intro header{padding:18px}#sixth-course-intro .content{padding:18px 16px}#sixth-course-intro .definition{grid-template-columns:1fr;gap:10px}#sixth-course-intro .cross-section{max-width:420px;margin:0 auto}#sixth-course-intro .pair{gap:8px}#sixth-course-intro figcaption{font-size:12px}#sixth-course-intro figcaption small,#sixth-course-intro .values{font-size:11px}#sixth-course-intro nav button{flex:1;padding:8px}#sixth-course-intro h1{font-size:23px}}
+
+#sixth-course-intro .intro-home { float:right;margin:0 0 12px 16px; }

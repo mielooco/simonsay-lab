@@ -123,8 +123,48 @@
         .lesson-title { color:#eee; font-size:16px; font-weight:600; margin:0 0 8px; }
         .mobile-subtitle { display:block; color:#888; font-size:10px; line-height:1.5; margin-top:3px; white-space:normal; }
     </style>
+<link rel="stylesheet" href="../assets/course-intro.css">
+<link rel="stylesheet" href="../assets/level-6-intro.css">
 </head>
-<body>
+<body class="show-course-intro">
+<div id="lesson-intro" aria-label="第 6 課課前說明"><div id="sixth-course-intro">
+
+<header><a class="intro-home" href="../index.html">← 課程首頁</a><div class="brand">SIMON FORM LAB · LEVEL 06</div><h1>斜角與切面</h1><p>從圓弧過渡，轉向觀察平斜面：頂面、斜面與側面如何分配？</p></header>
+<div class="content">
+<div class="definition">
+<svg class="cross-section" viewBox="0 0 430 205" role="img" aria-label="側面截面示意。從原來的直角，水平向內縮 D1、垂直向下切 D2，再以一條斜線連接兩點，形成平斜面。">
+<path d="M42 62H207L282 137V177H42Z" fill="#1b2223" stroke="#aab4b5" stroke-width="1.4"/>
+<path d="M207 62H282V137" fill="none" stroke="#777" stroke-width="1" stroke-dasharray="4 4"/>
+<path d="M207 62L282 137" stroke="#eee" stroke-width="2.5"/>
+<path d="M207 41H282M207 36V46M282 36V46" stroke="#ffdd00" stroke-width="1.4"/>
+<text x="245" y="28" text-anchor="middle" style="fill:#ffdd00">D1 向內縮</text>
+<path d="M303 62V137M298 62H308M298 137H308" stroke="#ff6622" stroke-width="1.4"/>
+<text x="319" y="103" style="fill:#ff6622">D2 下切</text>
+<text x="92" y="50">頂面</text><text x="289" y="173">側面</text>
+<path d="M243 103L192 135H133" fill="none" stroke="#aaa" stroke-width="1"/><text x="77" y="157">新增的斜面</text>
+<text x="282" y="55" text-anchor="end">原來的尖角</text>
+</svg>
+<div><h2>兩個距離，決定斜面的形態</h2><p><span class="d1">D1</span>：頂部邊界往內縮多少。<br>沿寬、深兩個方向一起縮進。</p><p><span class="d2">D2</span>：從頂部往下切多深。<br>決定斜面下緣落在哪個高度。</p><p>兩點之間形成斜面，角度隨 D1、D2 的比例改變。</p></div>
+</div>
+<nav aria-label="分別觀察兩個斜角參數"><button type="button" data-step="1" aria-pressed="true">01 只改 D1</button><button type="button" data-step="2" aria-pressed="false">02 只改 D2</button></nav>
+<section data-page="1" aria-label="固定 D2，比較水平縮進 D1">
+<h2><span class="d1">D1 增加</span>，頂面如何改變？</h2><p>保持 D2＝20，只增加水平縮進距離。</p>
+<div class="pair">
+<figure><canvas width="720" height="440" data-demo="inset-small" role="img" aria-label="水平縮進 D1 為 10，下切 D2 為 20，頂面較大，截面角度為 63.4 度"></canvas><figcaption>縮進少，頂面保留較多<small>斜面較陡</small></figcaption><div class="values"><span class="d1">D1 10</span> · D2 20 · 63.4°</div></figure>
+<figure><canvas width="720" height="440" data-demo="inset-large" role="img" aria-label="保持 D2 為 20，水平縮進 D1 增加到 40，頂面縮小，截面角度變為 26.6 度"></canvas><figcaption>縮進多，頂面縮小<small>斜面較平</small></figcaption><div class="values"><span class="d1">D1 40</span> · D2 20 · 26.6°</div></figure>
+</div><p class="closing">黃線往內移，頂面變小；斜面在水平方向展開。下方垂直側面的高度保持不變。</p>
+</section>
+<section data-page="2" hidden aria-label="固定 D1，比較下切深度 D2">
+<h2><span class="d2">D2 加深</span>，側面如何改變？</h2><p>保持 D1＝20，只增加往下切的深度。</p>
+<div class="pair">
+<figure><canvas width="720" height="440" data-demo="depth-small" role="img" aria-label="水平縮進 D1 為 20，下切 D2 為 10，下方保留較高的垂直側面，截面角度為 26.6 度"></canvas><figcaption>切得淺，垂直側面較高<small>斜面較平</small></figcaption><div class="values">D1 20 · <span class="d2">D2 10</span> · 26.6°</div></figure>
+<figure><canvas width="720" height="440" data-demo="depth-large" role="img" aria-label="保持 D1 為 20，下切 D2 增加到 50，下方垂直側面變矮，截面角度為 68.2 度"></canvas><figcaption>切得深，垂直側面變矮<small>斜面較陡</small></figcaption><div class="values">D1 20 · <span class="d2">D2 50</span> · 68.2°</div></figure>
+</div><p class="closing">橘線往下移，下方垂直側面變矮；斜面在垂直方向延伸。頂面的大小保持不變。</p>
+</section>
+<p class="note">黃線：頂面邊界。橘線：斜面下緣。四圖皆為寬 120、高 80、深 150，保持同一視角與比例尺。</p>
+<p class="note">進入操作後，再改變長、寬、高，觀察相同 D1、D2 在不同比例量體上的效果。</p>
+</div>
+</div><div class="intro-actions"><p>進入操作後，可用「重看說明」回看簡圖，保留目前設定與視角。</p><button type="button" id="course-intro-start">開始實驗 →</button></div></div>
 
 <div id="canvas-container"></div>
 
@@ -134,6 +174,7 @@
     <h3>SIMON Form Lab</h3>
     <span class="lesson-level">LEVEL 06</span>
     <h2 class="lesson-title">斜角與切面</h2>
+    <button type="button" class="course-intro-review" data-course-review>重看說明</button>
     <div class="desc">面的消長關係</div>
 
     <div class="cg"><label>寬 (X) <span id="wV-d" class="v pv">120</span></label>
@@ -229,6 +270,7 @@
         </div>
     </div>
 
+    <button type="button" class="course-intro-review mobile-intro-review" data-course-review>重看說明</button>
     <div class="hint-area" id="hintArea">
         <div class="hint-inner">
             1. <b>D1 大 D2 小</b> → 角度平，頂部視覺寬廣。<br>
@@ -529,5 +571,7 @@
 })();
 </script>
 
+<script src="../assets/course-intro.js"></script>
+<script src="../assets/level-6-intro.js"></script>
 </body>
 </html>
