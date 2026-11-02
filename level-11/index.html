@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="zh-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="認識圓、圓弧、橢圓與點位控制曲線，透過曲率梳比較彎曲規則，理解曲線對後續曲面建立與編輯的影響。">
+<title>曲線的建立｜Level 11 — Simon Form Lab</title>
+<link rel="stylesheet" href="../assets/level-11.css">
+<script src="../assets/level-11.js" defer></script>
+</head>
+<body>
+<main id="l11-experiment">
+<header><div class="brand">SIMON FORM LAB · LEVEL 11</div><h1>曲線的建立</h1><p class="subtitle">從幾何條件與點位控制，理解曲線對後續曲面的影響</p><a class="home-link" href="../index.html">← 課程目錄</a></header>
+<section data-course-intro aria-label="課前說明">
+<nav class="intro-nav" aria-label="課前簡圖步驟">
+<button type="button" data-intro-step="0">1 圓心與半徑</button><button type="button" data-intro-step="1">2 直徑兩端點</button><button type="button" data-intro-step="2">3 三點圓弧</button><button type="button" data-intro-step="3">4 橢圓</button><button type="button" data-intro-step="4">5 點怎麼控制線</button><button type="button" data-intro-step="5">6 曲率比較</button><button type="button" data-intro-step="6">7 為曲面準備</button>
+</nav>
+<div class="heading"><span class="count" data-intro-count>01 / 07</span><h2 data-intro-title>指定圓心，再給半徑</h2></div>
+<div class="intro-scene"><canvas data-intro-canvas role="img" aria-label="指定圓心 O 與半徑 R5 mm，建立正圓。"></canvas></div>
+<p class="intro-caption" data-intro-caption aria-live="polite">圓心決定位置，半徑決定大小。</p>
+<div class="course-controls"><button type="button" data-course-action="prev">上一步</button><button type="button" data-course-action="next">下一步 →</button><button type="button" class="primary-action" data-course-action="enter">開始實驗 →</button></div>
+</section>
+<section data-course-lab hidden aria-label="曲線實驗">
+
+<nav class="navigation" aria-label="實驗階段"><button type="button" data-exercise="circle" aria-pressed="true">1 圓與圓弧</button><button type="button" data-exercise="ellipse" aria-pressed="false">2 橢圓</button><button type="button" data-exercise="points" aria-pressed="false">3 點怎麼控制線</button><button type="button" data-exercise="compare" aria-pressed="false">4 S 形比較</button></nav>
+<div class="methods" data-methods><button type="button" data-method="center" aria-pressed="true">圓心＋半徑</button><button type="button" data-method="diameter" aria-pressed="false">直徑兩端點</button><button type="button" data-method="three" aria-pressed="false">三點圓弧</button><label class="radius-field" data-radius-field>半徑 R <input id="l11-radius" type="number" min="1" max="30" step="0.1" value="5" aria-label="圓的半徑">mm</label></div>
+<div class="heading"><span class="count" data-count>01 / 04</span><h2 data-title>指定條件，建立圓</h2></div><div class="hint" data-hint>拖曳 O 移動圓心，拖曳 P 改變半徑。</div>
+<div class="probe-tools" data-probe-tools hidden><label for="l11-probe"><span>沿線觀察 起點 → 終點</span> <input id="l11-probe" type="range" min="0" max="1000" step="1" value="220"><output for="l11-probe" data-probe-position>22%</output></label><span class="fine">曲率梳：越長，彎曲越急（兩圖同倍率）</span></div>
+<div class="view-tools" aria-label="視圖縮放"><span class="fine">視圖</span><button type="button" data-action="zoom-out" aria-label="縮小視圖，增加拖曳空間">−</button><output data-zoom>100%</output><button type="button" data-action="zoom-in" aria-label="放大視圖">＋</button><button type="button" data-action="zoom-fit">符合畫面</button><span class="fine">可縮小視圖，將點拉得更遠</span></div>
+<div class="figures"><figure><figcaption data-panel-title="0">圓心與半徑</figcaption><div class="scene" data-scene="0"><canvas role="img" aria-label="可拖曳圓心與圓周點建立正圓。"></canvas></div><div class="measure" data-measure="0" role="status"></div><div class="tools" data-circle-tools hidden><label>R1 <output id="l11-r1" aria-label="自動計算的第一段圓弧半徑">5.00</output>mm</label><label>R2 <output id="l11-r2" aria-label="自動計算的第二段圓弧半徑">3.00</output>mm</label></div></figure><figure data-second hidden><figcaption data-panel-title="1"></figcaption><div class="scene" data-scene="1"><canvas role="img" aria-label="曲線比較圖"></canvas></div><div class="measure" data-measure="1" role="status"></div><div class="tools" data-free-tools hidden><button type="button" data-action="draw-free" aria-pressed="false">重新點選</button><span class="fine" data-free-status>所有通過點都可自由拖動。</span></div></figure></div>
+<div class="summary" data-summary aria-live="polite">改變半徑，圓仍保持正圓。</div>
+
+<div class="course-controls"><button type="button" data-course-action="review">重看課前說明</button><button type="button" class="primary-action" data-course-action="finish">完成實驗，看課程整理 →</button></div>
+</section>
+<section data-course-conclusion hidden aria-label="課程回顧">
+<div class="heading"><span class="count">課程回顧</span><h2>畫線時，就要考慮後面怎麼做曲面</h2></div>
+<div class="takeaways">
+<div><span class="count">01 · 建立條件</span><h3>外形相似，建構方式可以不同</h3><p>圓與圓弧由圓心、半徑、端點等條件定義；橢圓由軸長控制；自由曲線則透過點位調整形狀。</p></div>
+<div><span class="count">02 · 彎曲規則</span><h3>正圓弧每段固定，自由曲線沿線觀察</h3><p>同一段正圓弧的 R 與曲率固定。自由曲線的曲率可隨位置改變；曲率梳越長，該處彎曲越急。四個取樣值不代表整條線只有四個曲率。</p></div>
+<div><span class="count">03 · 後續操作</span><h3>曲線也是建立曲面的條件</h3><p>曲率變化與連接方式會影響曲面能否順利建立，以及之後修改、銜接與加厚的可行性和可編輯程度。實際結果也取決於曲面結構、尺寸與厚度。</p></div>
+</div>
+<div class="course-flow" aria-label="曲線條件影響曲面建立，再影響後續編輯"><span>曲線條件</span><span aria-hidden="true">→</span><span>曲面建立</span><span aria-hidden="true">→</span><span>銜接・加厚・修改</span></div>
+<p class="closing">兩種曲線都能量測。自由曲線不是不能使用；重要的是有意識地控制點數與曲率變化，依後續需求選擇合適的線。</p>
+<div class="course-controls"><button type="button" data-course-action="enter">返回實驗</button><button type="button" data-course-action="review">重看課前說明</button><a class="home-link" href="../index.html">回到課程目錄 →</a></div>
+</section>
+<footer class="course-footer"><a href="../level-10/index.html">← L10 點、線、面</a><span>SIMON FORM LAB</span></footer>
+</main>
+</body>
+</html>
