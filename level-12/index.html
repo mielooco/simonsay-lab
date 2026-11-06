@@ -1,61 +1,27 @@
 <!doctype html>
-<html lang="zh-TW">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="以滑鼠造型觀察寬度、高度與前後定位的關係，直接拖曳輪廓定位點，理解線段如何共同影響曲面。">
-<title>定位與造型｜Level 12 — Simon Form Lab</title>
-<link rel="stylesheet" href="../assets/level-12-lab.css">
-<link rel="stylesheet" href="../assets/level-12.css">
-<script src="../assets/level-12-course.js" defer></script>
-<script src="../assets/level-12.js" defer></script>
-</head>
-<body>
-<main id="l12-course">
-<header class="course-header"><div class="brand">SIMON FORM LAB · LEVEL 12</div><h1>定位與造型</h1><p class="subtitle">從寬度、高度與前後位置，觀察輪廓如何牽動曲面</p><a href="../index.html">← 課程目錄</a></header>
-<section data-course-intro class="course-section" aria-label="課前說明">
- <nav class="intro-nav" aria-label="課前簡圖步驟"><button type="button" data-intro-step="0" aria-pressed="true">1 整體範圍</button><button type="button" data-intro-step="1" aria-pressed="false">2 輪廓分界</button><button type="button" data-intro-step="2" aria-pressed="false">3 對應位置</button><button type="button" data-intro-step="3" aria-pressed="false">4 線牽動面</button></nav>
- <div class="intro-heading"><span class="count" data-intro-count>01 / 04</span><h2 data-intro-title>長寬高決定範圍，輪廓決定裡面的造型</h2></div>
- <figure data-reference><img src="../assets/level-12-reference.png" alt="原始滑鼠造型：上蓋、過渡帶與底殼由不同輪廓承接" width="1024" height="1024"><figcaption>建模範圍：長 99 · 寬 60 · 高 39 mm</figcaption></figure>
- <div class="intro-views" data-intro-views hidden><div><h3>上視 · 看寬度</h3><canvas data-intro-top role="img" aria-label="滑鼠原始輪廓上視圖"></canvas></div><div><h3>側視 · 看高度</h3><canvas data-intro-side role="img" aria-label="滑鼠原始輪廓側視圖"></canvas></div></div>
- <p class="intro-caption" data-intro-caption aria-live="polite">同樣的長寬高，仍能安排不同的背部、腰線與側壁。</p>
- <div class="course-controls"><button type="button" data-course-action="prev">上一步</button><button type="button" data-course-action="next">下一步 →</button><button type="button" data-course-action="enter" class="primary-action" disabled>載入實驗中…</button></div>
-</section>
-<section data-course-lab class="course-section" hidden aria-label="定位與曲面實驗">
- <div id="l12-editable-mouse">
- <div class="heading"><h2>L12 · 定位與造型</h2><span class="text-small text-muted">調整輪廓，觀察曲面的變化</span></div>
- <div class="workspace" aria-label="3D 與造型操作區">
-  <div><div class="model-area"><canvas data-model role="img" aria-label="使用原檔網格的滑鼠，與定位點連動變形"></canvas><canvas data-overlay class="cursor-interaction" aria-label="滑鼠定位點及輪廓，可拖曳旋轉視角"></canvas></div><div class="view-controls" aria-label="3D 視角控制"><span class="text-small text-muted">拖曳旋轉 · 按鈕縮放</span><div class="viz-row"><button type="button" data-zoom-out aria-label="縮小 3D">−</button><output data-zoom-value aria-label="3D 縮放比例">100%</output><button type="button" data-zoom-in aria-label="放大 3D">＋</button><button type="button" data-view-reset>重設視角</button></div></div></div>
-  <div class="card"><div class="control-stack">
-   <h3 data-editing-axis aria-live="polite">目前調整：寬度 X</h3>
-   <div class="viz-row" aria-label="選擇調整方向"><button class="btn" type="button" data-stage="0" aria-pressed="true">寬度 X</button><button class="btn" type="button" data-stage="1" aria-pressed="false">高度 Z</button><button class="btn" type="button" data-stage="2" aria-pressed="false">前後 Y</button></div>
-   <label class="form-label">控制位置<select class="form-select" data-node><option value="0">A 前端</option><option value="1" selected>B 前段</option><option value="2">C 腰部</option><option value="3">D 後段</option><option value="4">E 尾端</option></select></label>
-   <label class="form-label"><span data-axis-label></span><span class="tabular-nums" data-axis-value></span><input class="form-range" data-axis type="range" step="0.5"></label>
-   <div class="text-small" data-hint></div>
-   <div class="text-small tabular-nums" data-coordinate aria-live="polite"></div>
-   <div class="viz-row"><button class="btn" data-undo type="button" disabled>復原上一步</button><button class="btn" data-original type="button">回到原始造型</button></div>
-  </div></div>
- </div>
- <div class="viz-controls"><label class="form-check"><input class="form-check-input" data-ghost type="checkbox" checked><span class="form-check-label">原始輪廓虛線</span></label><label class="form-label">局部變形參考線<select class="form-select" data-grid><option value="8" selected>少量參考線</option><option value="4">較密參考線</option><option value="0">關閉</option></select></label><span class="text-small">僅顯示兩條輪廓間的局部影響範圍</span></div>
- <div class="views"><div><h3>上視 · X／Y</h3><canvas data-top class="cursor-interaction" role="img" aria-label="直接拖曳上視定位點，編輯寬度或前後位置"></canvas></div><div><h3>側視 · Y／Z</h3><canvas data-side class="cursor-interaction" role="img" aria-label="直接拖曳側視定位點，編輯高度或前後位置"></canvas></div></div>
- <div class="text-small text-destructive" data-error role="alert" hidden></div>
+<html lang="zh-TW"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="從三條半輪廓與截面，建立上下環帶曲面，再比較鏡射與兩段曲面的切線銜接。"><title>環帶曲面｜Level 12 — Simon Form Lab</title><link rel="stylesheet" href="../assets/level-12.css?v=20261106"><script src="../assets/level-12.js?v=20261106" defer></script></head><body>
+<main id="ring-course">
+<header><div class="brand">SIMON FORM LAB · LEVEL 12</div><h1>環帶曲面</h1><p>從輪廓與截面建立曲面，再觀察接縫的方向</p><a href="../index.html">← 課程目錄</a></header>
+<section data-work>
+<nav class="row" data-intro-nav aria-label="課前簡圖步驟"><button data-step="0" aria-pressed="true">1 半輪廓</button><button data-step="1" aria-pressed="false">2 截面線</button><button data-step="2" aria-pressed="false">3 上段面</button><button data-step="3" aria-pressed="false">4 下段面</button><button data-step="4" aria-pressed="false">5 鏡射</button><button data-step="5" aria-pressed="false">6 接縫</button></nav>
+<div class="row" data-lab-nav hidden aria-label="實驗階段"><button data-stage="0" aria-pressed="true">1 截面弧度</button><button data-stage="1" aria-pressed="false">2 鏡射接縫</button><button data-stage="2" aria-pressed="false">3 兩段接面</button></div>
+<div class="heading"><span data-count>01 / 06</span><h2 data-title>先建立三條半輪廓</h2></div>
+<div class="legend row"><span><i class="upper"></i>上輪廓／上段面</span><span><i class="middle"></i>中輪廓</span><span><i class="lower"></i>底輪廓／下段面</span><span>A–E 共五條截面，含前後對稱面</span></div>
+<div class="workspace">
+<div><canvas data-scene role="img" aria-label="環帶曲面三維示意，可拖曳旋轉"></canvas><div class="row view-controls"><span>拖曳旋轉 · 按鈕縮放</span><button data-zoom-out aria-label="縮小 3D">−</button><output data-zoom>100%</output><button data-zoom-in aria-label="放大 3D">＋</button><button data-view-reset>重設視角</button></div></div>
+<aside data-lab-controls hidden>
+<div data-section-controls class="stack"><label>控制位置<select data-station><option value="0">A 前端對稱面</option><option value="1">B 前段</option><option value="2" selected>C 腰部</option><option value="3">D 後段</option><option value="4">E 尾端對稱面</option></select></label><label>上段面 · 向外鼓起 <output data-upper-value>0.0 mm</output><input data-upper-bulge aria-label="上段面向外鼓起" type="range" min="-3" max="3" step="0.1" value="0"></label><label>下段面 · 向外鼓起 <output data-lower-value>0.0 mm</output><input data-lower-bulge aria-label="下段面向外鼓起" type="range" min="-3" max="3" step="0.1" value="0"></label><div data-middle-controls class="stack" hidden><label>C 橘色輪廓高度 Z <output data-middle-value></output><input data-middle-z aria-label="C 橘色輪廓高度 Z" type="range" step="0.1"></label></div></div>
+<div data-mirror-controls class="stack" hidden><label>鏡射接縫<select data-end><option value="0">前端</option><option value="1">尾端</option></select></label><label>端點切線偏角 <output data-angle-value>0°</output><input data-angle aria-label="鏡射端點切線偏角" type="range" min="-40" max="40" step="1" value="0"></label><button data-align>切線回到對稱面垂直方向</button></div>
+<div data-join-controls class="stack" hidden><label>觀察截面位置<select data-join-station><option value="0">A 前端對稱面</option><option value="1">B 前段</option><option value="2" selected>C 腰部</option><option value="3">D 後段</option><option value="4">E 尾端對稱面</option></select></label><label>下段起始切線偏轉（截面視圖） <output data-join-value>0°</output><input data-join aria-label="下段起始切線偏轉" type="range" min="-40" max="40" step="1" value="0"></label><button data-match>上下兩段切線對齊</button></div>
+<canvas data-profile role="img" aria-label="選中截面的投影圖；可水平拖動橘色控制點調整弧度"></canvas><p data-measure aria-live="polite"></p><p class="hint" data-hint></p><div class="row"><button data-undo disabled>復原上一步</button><button data-reset>重置實驗</button></div>
+</aside>
 </div>
-
- <div class="course-controls"><button type="button" data-course-action="review">重看課前說明</button><button type="button" data-course-action="finish" class="primary-action">完成實驗，看課程整理 →</button></div>
+<p class="detail" data-detail aria-live="polite">三條半輪廓，各自安排寬窄與高度。</p>
+<div data-intro-seam hidden><div class="row"><button data-demo-join="smooth" aria-pressed="true">端點方向平順</button><button data-demo-join="crease" aria-pressed="false">端點方向偏斜</button></div><canvas data-closeup role="img" aria-label="前端鏡射接縫的上視放大比較"></canvas></div>
+<div class="row course-actions" data-intro-actions><button data-prev disabled>上一步</button><button data-next>下一步 →</button><button data-play>播放完整順序</button><button data-enter class="primary" disabled>載入中…</button></div>
+<div class="row course-actions" data-lab-actions hidden><button data-review>重看課前說明</button><button data-finish class="primary">完成實驗，看課程整理 →</button></div>
+<p class="footnote">參照原始滑鼠輪廓；截面與曲面為教學重建。此處聚焦建面與切線方向，不代表原檔的精確鋪面結果。</p>
 </section>
-<section data-course-conclusion class="course-section" hidden aria-label="課程回顧">
- <div class="intro-heading"><span class="count">課程回顧</span><h2>改變一個位置，也會牽動相鄰的面</h2></div>
- <div class="takeaways">
-  <div><span class="count">01 · 定位</span><h3>三個方向共同決定位置</h3><p>X 控制左右半寬，Y 控制前後位置，Z 控制高度。上視與側視是同一組空間位置的不同表達。</p></div>
-  <div><span class="count">02 · 連動</span><h3>輪廓與曲面彼此牽制</h3><p>前段變胖、後段收窄或腰線移動時，相鄰輪廓與曲面也必須一起承接。需要同時看局部轉折與整體比例。</p></div>
-  <div><span class="count">03 · 觀察</span><h3>比較變形前後的過渡</h3><p>先看變化是否漸進，再留意局部突然擠密、尖折或輪廓反轉。遇到不合理的變化，回頭檢查控制位置與調整幅度。</p></div>
- </div>
- <div class="course-flow"><span>控制位置</span><span aria-hidden="true">→</span><span>輪廓變化</span><span aria-hidden="true">→</span><span>曲面承接</span></div>
- <p class="closing">本課保留背部最高處與底部，調整腰線附近的位置。局部參考線用來比較形變，不是實際鋪面的 UV，也不能取代曲率、接面與厚度檢查。</p>
- <div class="course-controls"><button type="button" data-course-action="enter" class="primary-action">返回實驗</button><button type="button" data-course-action="review">重看課前說明</button><a href="../index.html">回到課程目錄 →</a></div>
-</section>
-<p data-course-error class="course-error" role="alert" hidden></p>
-<footer class="course-footer"><a href="../level-11/index.html">← L11 曲線的建立</a><span>SIMON FORM LAB</span></footer>
-</main>
-</body>
-</html>
+<section data-conclusion hidden><h2>邊界接上，方向也需要承接</h2><div class="takeaways"><div><h3>輪廓＋截面</h3><p>輪廓安排邊界，截面控制中間的彎曲方式。調整一條截面，也需要觀察相鄰區域如何過渡。</p></div><div><h3>鏡射接縫</h3><p>輪廓端點落在對稱面上，仍需要適當的切線方向。此示範將端點切線設為垂直對稱面，讓左右兩半平順接續。</p></div><div><h3>兩段接面</h3><p>兩段曲面共用中間輪廓，並不保證方向平順。比較截面在接點前後的切線，再回到 3D 看接縫。</p></div></div><p class="footnote">切線方向對齊是本課的觀察重點；更細緻的曲率連續與曲面品質，留待後續課程。</p><div class="row course-actions"><button data-enter>返回實驗</button><button data-review>重看說明</button><a href="../level-13/index.html">下一課：定位與造型 →</a></div></section>
+<p data-error role="alert" hidden></p><footer><a href="../level-11/index.html">← L11 曲線的建立</a><a href="../level-13/index.html">L13 定位與造型 →</a></footer>
+</main></body></html>

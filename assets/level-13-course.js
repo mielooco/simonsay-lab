@@ -1,6 +1,6 @@
 (()=>{
  'use strict';
- const course=document.getElementById('l12-course'),intro=course.querySelector('[data-course-intro]'),lab=course.querySelector('[data-course-lab]'),conclusion=course.querySelector('[data-course-conclusion]'),introTop=course.querySelector('[data-intro-top]'),introSide=course.querySelector('[data-intro-side]');
+ const course=document.getElementById('l13-course'),intro=course.querySelector('[data-course-intro]'),lab=course.querySelector('[data-course-lab]'),conclusion=course.querySelector('[data-course-conclusion]'),introTop=course.querySelector('[data-intro-top]'),introSide=course.querySelector('[data-intro-side]');
  let step=0,source=null,mode='intro';
  const titles=['長寬高決定範圍，輪廓決定裡面的造型','兩條輪廓，安排中間的過渡','同一個位置，需要寬度與高度一起定位','改變輪廓，也要一起觀察相鄰曲面'];
  const captions=['同樣的長寬高，仍能安排不同的背部、腰線與側壁。這個滑鼠從長 99、寬 60、高 39 mm 的範圍開始。','上視安排寬窄，側視安排高低。兩條輪廓共同約束中間的過渡曲面；相接位置必須互相對應。','以長向 56.5 mm 處為例：半寬約 26.5 mm，高度約 26.6 mm。兩個視圖讀到的是同一個空間點。','虛線保留原始輪廓，實線示範腰部收窄。進入實驗後，分別試 X、Z、Y，觀察變化如何逐步帶進曲面。'];
@@ -18,9 +18,9 @@
  }
  function redraw(){draw(introTop,'top');draw(introSide,'side');}
  function showStep(value){step=clamp(value,0,3);course.querySelector('[data-intro-count]').textContent=String(step+1).padStart(2,'0')+' / 04';course.querySelector('[data-intro-title]').textContent=titles[step];course.querySelector('[data-intro-caption]').textContent=captions[step];course.querySelector('[data-reference]').hidden=step!==0;course.querySelector('[data-intro-views]').hidden=step===0;for(const b of course.querySelectorAll('[data-intro-step]'))b.setAttribute('aria-pressed',String(Number(b.dataset.introStep)===step));course.querySelector('[data-course-action="prev"]').disabled=step===0;course.querySelector('[data-course-action="next"]').disabled=step===3;redraw();}
- function showMode(next){mode=next;intro.hidden=next!=='intro';lab.hidden=next!=='lab';conclusion.hidden=next!=='conclusion';if(next==='intro'){showStep(0);}if(next==='lab')window.dispatchEvent(new Event('simon:l12-visible'));course.scrollIntoView({block:'start',behavior:'instant'});}
+ function showMode(next){mode=next;intro.hidden=next!=='intro';lab.hidden=next!=='lab';conclusion.hidden=next!=='conclusion';if(next==='intro'){showStep(0);}if(next==='lab')window.dispatchEvent(new Event('simon:l13-visible'));course.scrollIntoView({block:'start',behavior:'instant'});}
  for(const b of course.querySelectorAll('[data-intro-step]'))b.addEventListener('click',()=>showStep(Number(b.dataset.introStep)));
  for(const b of course.querySelectorAll('[data-course-action]'))b.addEventListener('click',()=>{switch(b.dataset.courseAction){case'prev':showStep(step-1);break;case'next':showStep(step+1);break;case'enter':showMode('lab');break;case'review':showMode('intro');break;case'finish':showMode('conclusion');break;}});
- window.addEventListener('simon:l12-ready',event=>{source=event.detail.source;for(const b of course.querySelectorAll('[data-course-action="enter"]')){b.disabled=false;b.textContent=b.closest('[data-course-conclusion]')?'返回實驗':'開始實驗 →';}redraw();});
+ window.addEventListener('simon:l13-ready',event=>{source=event.detail.source;for(const b of course.querySelectorAll('[data-course-action="enter"]')){b.disabled=false;b.textContent=b.closest('[data-course-conclusion]')?'返回實驗':'開始實驗 →';}redraw();});
  new ResizeObserver(redraw).observe(intro);showStep(0);
 })();
