@@ -34,6 +34,7 @@
 | [Level 11](https://mielooco.github.io/simonsay-lab/level-11/) | 曲線的建立 | 從幾何條件與點位控制，理解曲線對後續曲面的影響 |
 | [Level 12](https://mielooco.github.io/simonsay-lab/level-12/) | 環帶曲面 | 從三條半輪廓與截面建面，觀察鏡射與接面的切線方向 |
 | [Level 13](https://mielooco.github.io/simonsay-lab/level-13/) | 定位與造型 | 從寬度、高度與前後位置，觀察輪廓如何牽動曲面 |
+| [Level 14](https://mielooco.github.io/simonsay-lab/level-14/) | 曲面銜接 | 選線建立上蓋，比較 G0、G1、G2 與中央拱線的影響 |
 
 ---
 
@@ -53,6 +54,7 @@ L10 點、線、面      → 由點連成線、線圍成面，再觀察前中後
 L11 曲線的建立      → 比較幾何條件與點位控制、固定 R 與沿線曲率，為後續曲面建立與編輯準備
 L12 環帶曲面        → 從半輪廓、截面建立兩段環帶，檢查鏡射與上下接面
 L13 定位與造型      → 以滑鼠為例，編輯 XYZ 定位點，觀察輪廓與局部曲面的連動
+L14 曲面銜接        → 點選邊界與中央拱線建立上蓋，再觀察位置、切線及曲率連續
 ```
 
 ---
