@@ -2,17 +2,18 @@
 <html lang="zh-TW"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="description" content="從定位點、空間曲線與截面，逐步觀看滑鼠的建面、裁切、鏡射與分件；完成後以爆炸圖理解零件關係。">
 <title>點線成形｜Level 15 — Simon Form Lab</title>
-<link rel="stylesheet" href="../assets/level-15.css?v=20261113">
-<script src="../assets/level-15.js?v=20261113" defer></script></head><body>
+<link rel="stylesheet" href="../assets/level-15.css?v=20261114-compact">
+<script src="../assets/level-15.js?v=20261114-compact" defer></script></head><body>
 <main id="l15-course"><header class="course-header"><div class="brand">SIMON FORM LAB · LEVEL 15</div><h1>點線成形</h1><p class="subtitle">用滑鼠建構示範，串起定位、曲線、建面與分件的完整流程</p><a href="../index.html">← 課程目錄</a></header>
 <section class="course-section" aria-label="滑鼠建構流程"><p data-loading role="status">正在載入 3D 建構流程…</p>
 <div id="l15-spatial-build" hidden>
  <div class="l15-head"><h2>L15 · 點線成形</h2><span class="text-small text-muted">原始建模流程</span></div>
  <div class="viz-row l15-step-heading"><span data-count class="tabular-nums"></span><h3 data-title></h3></div>
- <div class="l15-source-slot"><div data-input-sources hidden class="text-small"><div><span class="source-line" aria-hidden="true"></span>上下導軌：曲面投影線（交叉投影）</div><div><span class="source-section" aria-hidden="true"></span>五個截面：正側前端 → 前側建構線 → 中間投影線 → 後側建構線 → 正側後端</div></div></div>
  <div class="l15-view"><canvas data-gl class="cursor-interaction" role="img" aria-label="可拖曳旋轉的滑鼠三維建構步驟"></canvas><canvas data-labels aria-hidden="true"></canvas></div>
  <div class="viz-controls"><span class="text-small text-muted">拖曳旋轉</span><button class="btn btn-ghost" data-minus aria-label="縮小" type="button">－</button><button class="btn btn-ghost" data-plus aria-label="放大" type="button">＋</button><label class="form-label">視角<select class="form-select" data-view><option value="free">立體</option><option value="top">上視</option><option value="side">側視</option><option value="bottom">底視</option></select></label></div>
- <div data-why aria-live="polite"></div>
+ <div class="l15-explanation"><div data-why aria-live="polite"></div>
+ <div class="l15-source-slot"><div data-input-sources hidden class="text-small"><div><span class="source-line" aria-hidden="true"></span>上下導軌：曲面投影線（交叉投影）</div><div><span class="source-section" aria-hidden="true"></span>五個截面：正側前端 → 前側建構線 → 中間投影線 → 後側建構線 → 正側後端</div></div></div>
+ </div>
  <div class="viz-controls l15-playback"><button class="btn" data-prev type="button">上一步</button><button class="btn" data-play type="button">播放</button><button class="btn btn-primary" data-play-all type="button" aria-pressed="false">全部播放（接續）</button><button class="btn" data-next type="button">下一步</button><button class="btn btn-ghost" data-replay type="button">重播</button></div>
  <div class="progress" role="progressbar" aria-label="建構進度" aria-valuemin="0" aria-valuemax="52"><div class="progress-bar"></div></div>
  <div data-note class="text-small text-muted"></div>
