@@ -25,7 +25,7 @@
 #l15-spatial-build .l15-view{flex:none}
 #l15-spatial-build [data-why]{min-height:var(--why-height,5em)}
 #l15-spatial-build [data-note]{min-height:var(--note-height,3em)}
-#l15-spatial-build [data-play-all]{min-inline-size:10em}
+#l15-spatial-build [data-play-all]{min-inline-size:12em}
 #l15-spatial-build [data-part-note]{min-height:var(--part-note-height,3em)}
 #l15-spatial-build .l15-stage{position:relative}
 #l15-spatial-build .l15-stage-tools{position:absolute;inset:12px;pointer-events:none}
