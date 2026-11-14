@@ -155,7 +155,7 @@
  function stabilizeLayout(){
   const width=root.getBoundingClientRect().width;if(!width||Math.abs(width-measuredWidth)<1)return;measuredWidth=width;
   const measure=document.createElement('div');Object.assign(measure.style,{position:'absolute',visibility:'hidden',pointerEvents:'none',width:width+'px',left:'0',top:'0'});root.append(measure);
-  function reserve(selector,values,variable){const original=root.querySelector(selector),clone=original.cloneNode(true);clone.removeAttribute('hidden');clone.style.minHeight='0';clone.style.height='auto';measure.replaceChildren(clone);let max=0;for(const value of values){if(selector==='.l15-step-heading'){clone.querySelector('[data-count]').textContent='52 / 52';clone.querySelector('h3').textContent=value;}else if(value!==null)clone.textContent=value;max=Math.max(max,clone.getBoundingClientRect().height);}root.style.setProperty(variable,Math.ceil(max)+'px');}
+  function reserve(selector,values,variable){const original=root.querySelector(selector),clone=original.cloneNode(true);clone.removeAttribute('hidden');clone.style.minHeight='0';clone.style.height='auto';measure.style.width=original.getBoundingClientRect().width+'px';measure.replaceChildren(clone);let max=0;for(const value of values){if(selector==='.l15-step-heading'){clone.querySelector('[data-count]').textContent='52 / 52';clone.querySelector('h3').textContent=value;}else if(value!==null)clone.textContent=value;max=Math.max(max,clone.getBoundingClientRect().height);}root.style.setProperty(variable,Math.ceil(max)+'px');}
   reserve('.l15-step-heading',steps.map(s=>s[0]),'--step-heading-height');
   reserve('[data-input-sources]',[null],'--source-height');
   reserve('[data-why]',steps.map(s=>s[1]),'--why-height');
