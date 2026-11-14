@@ -1,11 +1,11 @@
 
 (async()=>{
  const root=document.getElementById('l15-spatial-build');let D;
- try{const response=await fetch('../assets/level-15-data.json?v=20261113');if(!response.ok)throw Error('data');D=await response.json();}catch(e){document.querySelector('[data-loading]').textContent='模型資料載入失敗，請重新整理後再試。';return;}
+ try{const response=await fetch('../assets/level-15-data.json?v=20261114-operations');if(!response.ok)throw Error('data');D=await response.json();}catch(e){document.querySelector('[data-loading]').textContent='模型資料載入失敗，請重新整理後再試。';return;}
  const canvas=root.querySelector('[data-gl]'),labels=root.querySelector('[data-labels]'),lc=labels.getContext('2d'),gl=canvas.getContext('webgl',{antialias:true,alpha:true});
  async function unzip64(s){const bytes=Uint8Array.from(atob(s),c=>c.charCodeAt(0));return new Response(new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'))).arrayBuffer();}
  async function unpack(m){if(!m.p)return m;const[a,b,c]=await Promise.all([unzip64(m.p),unzip64(m.i),unzip64(m.n)]);const vs=new Int16Array(a),ix=m.it===4?new Uint32Array(b):new Uint16Array(b),ns=new Int8Array(c);m.v=Array.from({length:m.vc},(_,i)=>[vs[i*3]/100,vs[i*3+1]/100,vs[i*3+2]/100]);m.f=Array.from({length:m.tc},(_,i)=>[ix[i*3],ix[i*3+1],ix[i*3+2]]);m.n=Array.from({length:m.vc},(_,i)=>[ns[i*3]/127,ns[i*3+1]/127,ns[i*3+2]/127]);return m;}
- try{await Promise.all([D.band,D.capMesh,D.loft2.mesh,D.loft3.mesh,...Object.values(D.historyMeshes),...Object.values(D.finishMeshes).flat()].map(unpack));}catch(e){document.querySelector('[data-loading]').textContent='3D資料載入失敗，請重新整理後再試。';return;}
+ try{await Promise.all([D.band,D.capMesh,D.loft2.mesh,D.loft3.mesh,...Object.values(D.historyMeshes),...Object.values(D.finishMeshes).flat(),...Object.values(D.detailMeshes)].map(unpack));}catch(e){document.querySelector('[data-loading]').textContent='3D資料載入失敗，請重新整理後再試。';return;}
  if(!gl){document.querySelector('[data-loading]').textContent='此裝置無法顯示 WebGL 三維畫面，請使用支援 3D 的瀏覽器。';return;}
  const storageKey='simon-l15-modeling-v1';
  function readState(){try{return JSON.parse(localStorage.getItem(storageKey)||'null');}catch(e){return null;}}
@@ -32,12 +32,12 @@
  ['上蓋：左右邊界','左右邊界圍出上蓋的範圍；先看清楚要填的是哪一區。','原始上蓋面片輸入：2條邊界'],
  ['上蓋：中央拱線','加入中央拱線，讓上蓋的隆起也有明確的形狀依據。','原始中央導線；不是第三條橫向截面'],
  ['建立上蓋','邊界與拱線共同參與建面，從線架走到可辨識的滑鼠造型。','原檔曲面面片2：尚未切除與加入按鍵曲面'],
- ['下凹按鍵：先看外圈','兩條邊界決定按鍵面要接在哪裡；淡化上蓋，先看清楚這個範圍。','原檔31–32：按鍵邊界與 R500 弧線；上蓋暫時淡化'],
- ['下凹按鍵：輔助拉伸面','把 R500 弧線拉成輔助曲面，用來準備凹面內部的導線。','原檔33：拉伸9，非實體拉伸；不是在上蓋挖洞'],
- ['下凹按鍵：加入內部導線','外圈只限制範圍；這條內部弧線再提供凹面的高低與弧度依據。','原檔34：按鍵投影線３；配合兩條外圈邊界'],
- ['下凹按鍵：由線建立曲面','以兩條邊界和內部導線建立下凹面；旋轉到側面，可比較它與原上蓋的高低。','原檔35：曲面面片4；淡化上蓋，顯示真實凹面結果'],
- ['裁切上蓋：看見兩個按鍵孔','暫時隱藏已建立的按鍵面，確認上蓋的左右開孔；下一步再放回並鏡射。','原檔36：拉伸11的實際裁切結果；按鍵曲面暫隱'],
- ['鏡射按鍵曲面','把單側按鍵曲面依中央 YZ 平面鏡射到另一側。','原檔37：鏡像2，輸入為曲面面片4的結果'],
+ ['按鍵輪廓：投影到上蓋','把平面上的按鍵輪廓沿 Z 方向投影到上蓋，得到貼在曲面上的裁切邊界。','原始按鍵投影曲線；此段改採先裁切再鋪面的教學順序'],
+ ['中間定位：畫截面弧線','由輪廓端點對照中間位置，畫出控制下凹弧度的截面線。','原檔 R500 截面弧；定位點用來說明截面位置'],
+ ['截面線：取得內部導線','把截面弧線形成輔助面，再取得凹面內部的空間導線。','外圈限制邊界，內部導線限制下凹形狀'],
+ ['先裁切：形成兩個按鍵孔','沿投影到上蓋的輪廓裁切，先拿掉原上蓋的兩個區域。','顯示原檔裁切結果；此處尚未填入按鍵曲面'],
+ ['再鋪面：建立單側下凹面','用開口邊界與內部導線鋪出下凹面，觀察它如何接回上蓋。','原檔單側按鍵面；教學次序先裁切、後鋪面'],
+ ['鏡射按鍵曲面','將完成的單側下凹面鏡射，補齊另一側按鍵開口。','左右按鍵面完成，接著回到側面與整體組合'],
  ['鏡射三片側面','把同一側的三組放樣曲面一起鏡射，得到另一側的對應曲面。','原檔38：鏡像1，輸入為放樣1、2、3的結果'],
  ['縫合上蓋與按鍵','把裁切後的上蓋，和左右兩片按鍵曲面縫合為同一組。','原檔39：曲面縫合3；幾何位置保留，改變的是接合關係'],
  ['補上底部面片','補上由四條邊界圍出的底部區域，準備接合側面。','原檔40：曲面面片3，沒有內部導線'],
@@ -45,14 +45,14 @@
  ['縫合左右過渡帶','左右過渡帶另外縫合成一組，與上蓋、側壁分組處理。','原檔42：曲面縫合2；接著進入分件與厚度'],
  ['電池蓋分件：建立工具面','從側面看電池蓋輪廓：先拉伸成工具面，再延伸到足以穿過待分割的區域，讓後續分件有切分依據。','原檔43–44：拉伸17、曲面延伸5；這是分件工具面，不是新增外殼'],
  ['分件與側壁厚度：流程位置','原檔先完成實體準備、偏移、分割與抽殼，才輪到上蓋厚度及中央開孔。','原檔45–52概覽；此步保留曲面外形，未逐項演示內部加工'],
- ['上蓋先有厚度','先加厚上蓋，再處理中央開孔；截面線顯示此時外表面與內表面的距離。','原檔53：加厚1，-1.50mm；以實際加厚截面觀察'],
+ ['曲面偏移：形成上蓋厚度','保留外表面，向內偏移 1.50 mm，再連接邊緣形成有厚度的上蓋。','偏移中間影格為示意；最後顯示原檔加厚1的結果'],
  ['中央滾輪孔：切除輪廓','使用上按鍵輪廓中的中央封閉區域，往上拉伸作切除；不是把滾輪圓形直接投影。','原檔54：拉伸12；中央輪廓與前端分縫，55mm切除'],
  ['切出滾輪孔與前端分縫','中央孔現在真正穿過上蓋；左右凹面保留，前端按鍵分縫也一起形成。','原檔54的實際裁切結果；未放入滾輪，方便看清開孔'],
  ['整理前端按鍵區域','接著從側面輪廓切除上蓋的局部區域；比較前後結果，觀察切除範圍。','原檔55：拉伸13，正側輪廓，40mm切除'],
- ['底部：淺切除','暫時淡化上蓋，觀察底部；先用底部輪廓作0.15mm的淺切除。','原檔56：拉伸14；可切到底視或自由旋轉'],
+ ['底部：淺切除','只保留底蓋，選取加工輪廓，再沿厚度方向切除 0.15 mm。','原檔56：拉伸14；可切到底視或自由旋轉'],
  ['底部：加入材料','用另一組底部輪廓加入材料，局部結構會接著影響下一次切除。','原檔57：拉伸15，Join加料，-0.2mm方向設定'],
  ['底部：繼續局部切除','依底部造型輪廓再切除局部區域，建立不同深度的底部細節。','原檔58：拉伸16，3mm切除'],
- ['底部：切到指定面','這次用指定的面當作終止位置，切除範圍有明確的幾何依據。','原檔59：拉伸18，ToEntity終止面'],
+ ['底部：切到指定面','先看底部輪廓與內側終止面，再沿厚度方向切除，直到指定面停止。','原檔拉伸18：以面作為終止條件；只顯示底蓋'],
  ['分出電池蓋','用電池蓋輪廓作對稱切除，結果分成底蓋與電池蓋兩個實體。','原檔60：拉伸19；兩個實際結果都保留在場景'],
  ['建立滾輪基本體','回到前面已定位的滾輪草圖，以對稱拉伸建立基本體，對照它與中央孔的位置。','原檔61：拉伸20，滾輪草圖，NewBody'],
  ['建立旋轉軸','用輪軸方向作為後續圓周陣列的基準，重複的細節才會繞著正確的位置排列。','原檔62：軸1；軸心Y23、Z17.5mm，方向沿X'],
@@ -68,12 +68,12 @@
  const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches,probe=document.createElement('span');probe.hidden=true;root.append(probe);
  function rgb(token){probe.style.color='var('+token+')';let s=getComputedStyle(probe).color,nums=s.match(/[\d.]+/g)||[];return nums.slice(0,3).map(Number).map(x=>x/255);}
  function palette(){return{fg:rgb('--foreground'),muted:rgb('--muted-foreground'),line:rgb('--viz-series-1'),section:rgb('--viz-series-2'),grid:rgb('--border')};}
- const vs='attribute vec3 aPos;attribute vec3 aNormal;attribute vec2 aOffset;uniform vec4 uCamera;uniform vec2 uScreen;uniform float uZoom;uniform vec3 uColor;uniform vec3 uShift;uniform float uLit;varying vec3 vColor;void main(){vec3 q=aPos+uShift-vec3(0.,49.5,19.5);float ca=uCamera.x,sa=uCamera.y,cp=uCamera.z,sp=uCamera.w;float xx=q.x*ca-q.y*sa,dd=q.x*sa+q.y*ca;float yy=q.z*cp-dd*sp,zz=dd*cp+q.z*sp;float sc=min(uScreen.x,uScreen.y)/125.*uZoom;gl_PointSize=6.;gl_Position=vec4(xx*2.*sc/uScreen.x,yy*2.*sc/uScreen.y,-zz/160.,1.);gl_Position.xy+=aOffset*vec2(2./uScreen.x,2./uScreen.y);vec3 n=normalize(aNormal+vec3(.00001));float lighting=.30+.63*abs(dot(n,normalize(vec3(-.35,-.5,1.))));vColor=uColor*mix(1.,lighting,uLit);}';
- const fs='precision mediump float;varying vec3 vColor;uniform float uAlpha;void main(){gl_FragColor=vec4(vColor,uAlpha);}';
+ const vs='attribute vec3 aPos;attribute vec3 aNormal;attribute vec2 aOffset;uniform vec4 uCamera;uniform vec2 uScreen;uniform float uZoom;uniform vec3 uColor;uniform vec3 uShift;uniform float uNormalOffset;uniform vec3 uSweepAxis;uniform float uSweep;varying vec3 vWorld;uniform float uLit;varying vec3 vColor;void main(){vec3 world=aPos+normalize(aNormal+vec3(.00001))*uNormalOffset;world+=uSweepAxis*(uSweep-1.)*dot(world,uSweepAxis);world+=uShift;vWorld=world;vec3 q=world-vec3(0.,49.5,19.5);float ca=uCamera.x,sa=uCamera.y,cp=uCamera.z,sp=uCamera.w;float xx=q.x*ca-q.y*sa,dd=q.x*sa+q.y*ca;float yy=q.z*cp-dd*sp,zz=dd*cp+q.z*sp;float sc=min(uScreen.x,uScreen.y)/125.*uZoom;gl_PointSize=6.;gl_Position=vec4(xx*2.*sc/uScreen.x,yy*2.*sc/uScreen.y,-zz/160.,1.);gl_Position.xy+=aOffset*vec2(2./uScreen.x,2./uScreen.y);vec3 n=normalize(aNormal+vec3(.00001));float lighting=.30+.63*abs(dot(n,normalize(vec3(-.35,-.5,1.))));vColor=uColor*mix(1.,lighting,uLit);}';
+ const fs='precision mediump float;varying vec3 vColor;varying vec3 vWorld;uniform vec4 uClip;uniform float uClipSide;uniform float uAlpha;void main(){if(uClipSide*(dot(vWorld,uClip.xyz)-uClip.w)>.0001)discard;gl_FragColor=vec4(vColor,uAlpha);}';
  function shader(type,s){const q=gl.createShader(type);gl.shaderSource(q,s);gl.compileShader(q);if(!gl.getShaderParameter(q,gl.COMPILE_STATUS))throw Error(gl.getShaderInfoLog(q));return q;}
  const program=gl.createProgram();gl.attachShader(program,shader(gl.VERTEX_SHADER,vs));gl.attachShader(program,shader(gl.FRAGMENT_SHADER,fs));gl.linkProgram(program);if(!gl.getProgramParameter(program,gl.LINK_STATUS))throw Error('3D shader link failed');gl.useProgram(program);
  const offset=gl.getAttribLocation(program,'aOffset');const linePos=gl.createBuffer(),lineOff=gl.createBuffer();
- const pos=gl.getAttribLocation(program,'aPos'),normal=gl.getAttribLocation(program,'aNormal'),uniform=k=>gl.getUniformLocation(program,k),U={shift:uniform('uShift'),cam:uniform('uCamera'),screen:uniform('uScreen'),zoom:uniform('uZoom'),color:uniform('uColor'),lit:uniform('uLit'),alpha:uniform('uAlpha')};
+ const pos=gl.getAttribLocation(program,'aPos'),normal=gl.getAttribLocation(program,'aNormal'),uniform=k=>gl.getUniformLocation(program,k),U={clip:uniform('uClip'),clipSide:uniform('uClipSide'),normalOffset:uniform('uNormalOffset'),sweepAxis:uniform('uSweepAxis'),sweep:uniform('uSweep'),shift:uniform('uShift'),cam:uniform('uCamera'),screen:uniform('uScreen'),zoom:uniform('uZoom'),color:uniform('uColor'),lit:uniform('uLit'),alpha:uniform('uAlpha')};
  function geometry(pts,normals){const b=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,b);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(pts.flat()),gl.STATIC_DRAW);const n=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,n);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(normals?normals.flat():pts.flatMap(()=>[0,0,1])),gl.STATIC_DRAW);return{b,n,count:pts.length,pts};}
  function drawGeo(g,mode,col,alpha=1,lit=0,count=g.count){if(mode===gl.LINE_STRIP||mode===gl.LINES){drawWideLine(g,mode,col,alpha,count);return;}gl.disableVertexAttribArray(offset);gl.vertexAttrib2f(offset,0,0);gl.bindBuffer(gl.ARRAY_BUFFER,g.b);gl.vertexAttribPointer(pos,3,gl.FLOAT,false,0,0);gl.enableVertexAttribArray(pos);gl.bindBuffer(gl.ARRAY_BUFFER,g.n);gl.vertexAttribPointer(normal,3,gl.FLOAT,false,0,0);gl.enableVertexAttribArray(normal);gl.uniform3fv(U.color,col);gl.uniform1f(U.alpha,alpha);gl.uniform1f(U.lit,lit);gl.drawArrays(mode,0,Math.min(count,g.count));}
  function drawWideLine(g,mode,col,alpha,count){const pp=[],oo=[],limit=Math.min(count,g.count),stride=mode===gl.LINES?2:1,width=mode===gl.LINES?.65:1.5;for(let i=0;i+1<limit;i+=stride){const a=g.pts[i],b=g.pts[i+1],pa=project(a),pb=project(b),dx=pb[0]-pa[0],dy=pb[1]-pa[1],l=Math.hypot(dx,dy);if(l<.01)continue;const nx=-dy/l*width/2,ny=-dx/l*width/2;for(const[k,sign]of[[0,-1],[0,1],[1,1],[0,-1],[1,1],[1,-1]]){pp.push(...(k?b:a));oo.push(nx*sign,ny*sign);}}if(!pp.length)return;gl.bindBuffer(gl.ARRAY_BUFFER,linePos);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(pp),gl.DYNAMIC_DRAW);gl.vertexAttribPointer(pos,3,gl.FLOAT,false,0,0);gl.enableVertexAttribArray(pos);gl.bindBuffer(gl.ARRAY_BUFFER,lineOff);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(oo),gl.DYNAMIC_DRAW);gl.vertexAttribPointer(offset,2,gl.FLOAT,false,0,0);gl.enableVertexAttribArray(offset);gl.disableVertexAttribArray(normal);gl.vertexAttrib3f(normal,0,0,1);gl.uniform3fv(U.color,col);gl.uniform1f(U.alpha,alpha);gl.uniform1f(U.lit,0);gl.drawArrays(gl.TRIANGLES,0,pp.length/3);}
@@ -107,13 +107,55 @@
  root.querySelector('[data-assembled]').onclick=()=>setAssembly(0);
  root.querySelector('[data-exploded]').onclick=()=>setAssembly(1);
  root.querySelector('[data-part]').onchange=e=>{selectedPart=e.target.value;root.querySelector('[data-part-note]').textContent=selectedPart==='all'?'原檔五個可見實體；爆炸圖以位移展開，不改變零件形狀與厚度。':partInfo[Number(selectedPart)].why;draw();};
- function draw(){if(!w)size();gl.uniform3f(U.shift,0,0,0);let c=palette();gl.clearColor(0,0,0,0);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);gl.enable(gl.DEPTH_TEST);gl.depthFunc(gl.LEQUAL);gl.enable(gl.BLEND);gl.blendFunc(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA);gl.uniform4f(U.cam,Math.cos(S.yaw),Math.sin(S.yaw),Math.cos(S.pitch),Math.sin(S.pitch));gl.uniform2f(U.screen,w,h);gl.uniform1f(U.zoom,sceneZoom());if(S.step<50){if(S.step===0)drawGeo(grid,gl.LINES,c.muted,.09);if(S.step===0)drawGeo(box,gl.LINES,c.muted,.12);}lc.clearRect(0,0,w,h);lc.font=getComputedStyle(root).fontSize+' '+getComputedStyle(root).fontFamily;probe.style.color='var(--foreground)';lc.fillStyle=getComputedStyle(probe).color;
+ // Focused operations keep only the part currently being built or machined.
+ const capSurface=makeMesh(D.detailMeshes.capSurface),bottomBefore=makeMesh(D.detailMeshes.bottomBefore),stopFace=makeMesh(D.detailMeshes.stopFace);
+ const profileGeo=Object.fromEntries(Object.entries(D.finishProfiles).map(([k,v])=>[k,v.map(q=>geometry(q))]));
+ const offsetWalls=(()=>{const m=D.detailMeshes.capSurface,ids=new Map(),weld=m.v.map(q=>{const k=q.map(v=>v.toFixed(2)).join(',');if(!ids.has(k))ids.set(k,ids.size);return ids.get(k);}),edges=new Map();for(const f of m.f)for(const [a,b]of[[f[0],f[1]],[f[1],f[2]],[f[2],f[0]]]){const i=weld[a],j=weld[b];if(i===j)continue;const key=i<j?i+':'+j:j+':'+i;const old=edges.get(key);if(old)old.count++;else edges.set(key,{a,b,count:1});}const pts=[];for(const e of edges.values())if(e.count===1){const a=m.v[e.a],b=m.v[e.b],aa=a.map((v,k)=>v-m.n[e.a][k]*1.5),bb=b.map((v,k)=>v-m.n[e.b][k]*1.5);pts.push(a,b,bb,a,bb,aa);}return geometry(pts);})();
+ const projectionInputs=D.keyCurves['按鍵投影線'],projectionBoth=projectionInputs.concat(projectionInputs.map(a=>a.map(q=>[-q[0],q[1],q[2]])));
+ const projectionFrames=new Map(),toolCache=new Map();
+ function projectionGeometry(t){const frame=Math.round(t*40);if(!projectionFrames.has(frame))projectionFrames.set(frame,projectionBoth.map(curve=>geometry(curve.map(q=>[q[0],q[1],q[2]*frame/40]))));return projectionFrames.get(frame);}
+ function toolFor(lines,axis,depth){const key=JSON.stringify([axis,depth,lines]);if(toolCache.has(key))return toolCache.get(key);const pts=[];for(const line of lines)for(let i=0;i<line.length-1;i++){const a=line[i],b=line[i+1],aa=a.map((v,k)=>v+(k===axis?depth:0)),bb=b.map((v,k)=>v+(k===axis?depth:0));pts.push(a,b,bb,a,bb,aa);}const g=geometry(pts);toolCache.set(key,g);return g;}
+ function paint(g,c,alpha=1,count=g.count){gl.depthMask(alpha>.8);drawGeo(g,gl.TRIANGLES,c,alpha,1,count);gl.depthMask(true);}
+ function outline(curves,c,alpha=1){gl.disable(gl.DEPTH_TEST);for(const g of curves)drawGeo(g,gl.LINE_STRIP,c,alpha);gl.enable(gl.DEPTH_TEST);}
+ function showTool(lines,axis,depth,t,c){gl.uniform3fv(U.sweepAxis,[axis===0?1:0,axis===1?1:0,axis===2?1:0]);gl.uniform1f(U.sweep,t);gl.disable(gl.DEPTH_TEST);gl.depthMask(false);drawGeo(toolFor(lines,axis,depth),gl.TRIANGLES,c,.18,0);gl.depthMask(true);gl.enable(gl.DEPTH_TEST);gl.uniform1f(U.sweep,1);gl.uniform3f(U.sweepAxis,0,0,0);}
+ function wipe(before,after,axis,start,end,t,c){if(t<=0){paint(before,c);return;}if(t>=1){paint(after,c);return;}const dir=end>=start?1:-1,plane=start+(end-start)*t,normal=[0,0,0];normal[axis]=1;gl.uniform4f(U.clip,...normal,plane);gl.uniform1f(U.clipSide,-dir);paint(before,c);gl.uniform1f(U.clipSide,dir);paint(after,c);gl.uniform1f(U.clipSide,0);}
+ function curveLabels(refs){const rows=refs.map(r=>({...r,screen:project(r.q)})).sort((a,b)=>a.screen[1]-b.screen[1]);const gap=26,low=48,high=h-82;let last=low-gap;for(const r of rows){r.y=Math.max(low,Math.min(high,r.screen[1]),last+gap);last=r.y;}if(last>high){const shift=last-high;for(const r of rows)r.y-=shift;}lc.textAlign='left';for(const r of rows){const width=lc.measureText(r.name).width,x=12,start=x+width+10;lc.globalAlpha=1;lc.fillText(r.name,x,r.y);lc.strokeStyle=lc.fillStyle;lc.lineWidth=.65;lc.globalAlpha=.5;lc.beginPath();lc.moveTo(start,r.y-4);lc.lineTo(r.screen[0],r.screen[1]);lc.stroke();lc.globalAlpha=1;lc.beginPath();lc.arc(r.screen[0],r.screen[1],2,0,Math.PI*2);lc.fill();}}
+ function processCaption(title,detail){lc.save();lc.textAlign='right';lc.fillText(title,w-12,h-42);lc.globalAlpha=.7;lc.fillText(detail,w-12,h-20);lc.restore();}
+ function depthInset(depth,t,join=false,action=null){const width=Math.min(170,w*.36),x=w-width-12,y=h-105;lc.save();lc.globalAlpha=.85;lc.strokeStyle=lc.fillStyle;lc.lineWidth=.75;lc.strokeRect(x,y,width,32);const ratio=Math.max(.05,t);lc.globalAlpha=.25;lc.fillRect(x+width*.25,y+(join?32:0),width*.5,(join?-1:1)*24*ratio);lc.globalAlpha=1;lc.textAlign='right';lc.fillText((action||(join?'加入':'切除'))+' '+depth+' mm',w-12,y-9);lc.globalAlpha=.65;lc.fillText('深度放大示意',w-12,y+52);lc.restore();}
+ const directionArrows=new Map();
+ function machiningArrow(key,c){if(!directionArrows.has(key)){const op=D.teachingOperations[key],lines=D.finishProfiles[key],all=lines.flat(),q=[0,1,2].map(k=>(Math.min(...all.map(p=>p[k]))+Math.max(...all.map(p=>p[k])))/2),axis=op.axis,sign=Math.sign(op.end)||1,a=q.slice(),b=q.slice();if(key==='57')b[axis]-=12;else a[axis]-=12*sign;const v=b.map((x,k)=>x-a[k]),length=Math.hypot(...v),unit=v.map(x=>x/length),side=axis===0?[0,0,1]:[1,0,0],left=b.map((x,k)=>x-unit[k]*3+side[k]*1.5),right=b.map((x,k)=>x-unit[k]*3-side[k]*1.5);directionArrows.set(key,geometry([a,b,left,b,right]));}outline([directionArrows.get(key)],c);}
+ function focusedStep(s,p,c){
+  const t=Math.max(0,Math.min(1,(p-.18)/.65));
+  if(s>=21&&s<=26){
+   if(s<=23)paint(capMesh,c.fg,.4);else if(s!==24)paint(native36,c.fg);
+   if(s===21){const q=Math.min(1,p/.78);outline(projectionGeometry(q),c.line);if(q<1){gl.disable(gl.DEPTH_TEST);for(const curve of projectionBoth)for(const k of[0,Math.floor(curve.length/2),curve.length-1]){const a=curve[k];drawGeo(geometry([[a[0],a[1],0],a]),gl.LINES,c.muted,.35);}gl.enable(gl.DEPTH_TEST);}processCaption('輪廓線 → 上蓋曲面','沿 Z 方向投影');}
+   if(s===22){outline(keyLines['按鍵投影線'],c.line);outline(keyLines['按鍵投影線２'],c.section,p);const pts=D.keyCurves['按鍵投影線２'][0],q=pts[Math.floor(pts.length/2)];drawGeo(geometry([q]),gl.POINTS,c.line);curveLabels([{q,name:'截面定位點'}]);processCaption('定位中間位置 → 畫截面弧線','R500 截面弧');}
+   if(s===23){paint(native33,c.section,.12);outline(keyLines['按鍵投影線'],c.line);outline(keyLines['按鍵投影線３'],c.section);curveLabels([{q:D.keyCurves['按鍵投影線３'][0][4],name:'凹面內部導線'}]);processCaption('由截面取得空間導線','外圈定範圍，導線定下凹弧度');}
+   if(s===24){gl.clear(gl.DEPTH_BUFFER_BIT);wipe(capMesh,native36,2,0,40,t,c.fg);outline(cutEdges,c.line,.9);if(t<1)showTool(projectionBoth,2,-35,t,c.section);processCaption(t<1?'沿投影輪廓裁切':'兩個按鍵開口已完成','先移除原上蓋，再鋪下凹面');}
+   if(s===25){outline(keyLines['按鍵投影線'],c.line);outline(keyLines['按鍵投影線３'],c.section);paint(native35,c.fg,1,Math.floor(native35.count/3*Math.min(1,p/.82))*3);curveLabels(projectionInputs.map((a,i)=>({q:a[Math.floor(a.length/2)],name:'開口邊界 '+(i+1)})).concat([{q:D.keyCurves['按鍵投影線３'][0][4],name:'內部導線'}]));processCaption('開口邊界＋內部導線 → 鋪面','先完成單側下凹曲面');}
+   if(s===26){paint(native35,c.fg);paint(mirror35,c.fg,1,Math.floor(mirror35.count/3*p)*3);processCaption('鏡射單側按鍵曲面','左右下凹曲面接回上蓋');}
+   return;
+  }
+  if(s===34){
+   if(t<1){paint(capSurface,c.fg,.25);gl.uniform1f(U.normalOffset,-1.5*t);paint(capSurface,c.line,.65);gl.uniform1f(U.normalOffset,0);if(t>.72)paint(offsetWalls,c.section,.8,Math.floor(offsetWalls.count/3*(t-.72)/.28)*3);}else{paint(native53,c.fg);outline(thicknessSection,c.line,.8);}
+   depthInset('1.50',t,false,'向內偏移');processCaption(t<.72?'保留外表面 → 曲面向內偏移':t<1?'連接內外表面的邊緣':'上蓋厚度完成','向內 1.50 mm；動態為偏移示意');return;
+  }
+  if(s===35){paint(native53,c.fg,.75);outline(wheelTools,c.line,.7);showTool(D.wheelCutProfiles.flat(2),2,55,t,c.line);processCaption('選取中央封閉輪廓','下一步切穿上蓋');return;}
+  if(s===36){wipe(native53,native54,2,0,55,t,c.fg);if(t<1){showTool(D.wheelCutProfiles.flat(2),2,55,t,c.line);}processCaption(t<1?'中央輪廓向上切除':'滾輪孔與前端分縫完成','只顯示上蓋，其他零件暫隱');return;}
+  if(s===37){const lines=D.finishProfiles['55'];wipe(native54,finishList('55')[0],0,-40,40,t,c.fg);outline(profileGeo['55'],c.line,.85);machiningArrow('55',c.line);if(t<1){showTool(lines,0,40,t,c.line);showTool(lines,0,-40,t,c.line);}processCaption(t<1?'側視輪廓 → 橫向對稱裁切':'上蓋前端修整完成','只顯示上蓋；原檔對稱切除設定 40 mm');return;}
+  const key={38:'56',39:'57',40:'58',41:'59'}[s];if(!key)return;
+  const op=D.teachingOperations[key],before=s===38?bottomBefore:finishList(String(Number(key)-1))[0],after=finishList(key)[0];
+  wipe(before,after,op.axis,op.start,op.end,t,c.fg);machiningArrow(key,c.line);outline(profileGeo[key],c.line,.95);if(t<1)showTool(D.finishProfiles[key],op.axis,op.end,t,c.section);
+  if(s===41){paint(stopFace,c.section,.25);curveLabels([{q:[0,70,1.5],name:'內側終止面'}]);processCaption(t<1?'由底部輪廓切到指定面':'裁切在指定面停止','終止位置跟著內側面決定');}else{depthInset(s===38?'0.15':s===39?'0.20':'3.00',t,s===39);processCaption(t<1?(s===39?'依輪廓加入材料':'依輪廓移除材料'):'加工完成',op.label+'；其他零件暫隱');}
+ }
+
+ function draw(){if(!w)size();gl.uniform1f(U.clipSide,0);gl.uniform1f(U.normalOffset,0);gl.uniform3f(U.sweepAxis,0,0,0);gl.uniform1f(U.sweep,1);gl.uniform3f(U.shift,0,0,0);let c=palette();gl.clearColor(0,0,0,0);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);gl.enable(gl.DEPTH_TEST);gl.depthFunc(gl.LEQUAL);gl.enable(gl.BLEND);gl.blendFunc(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA);gl.uniform4f(U.cam,Math.cos(S.yaw),Math.sin(S.yaw),Math.cos(S.pitch),Math.sin(S.pitch));gl.uniform2f(U.screen,w,h);gl.uniform1f(U.zoom,sceneZoom());if(S.step<50){if(S.step===0)drawGeo(grid,gl.LINES,c.muted,.09);if(S.step===0)drawGeo(box,gl.LINES,c.muted,.12);}lc.clearRect(0,0,w,h);lc.font=getComputedStyle(root).fontSize+' '+getComputedStyle(root).fontFamily;probe.style.color='var(--foreground)';lc.fillStyle=getComputedStyle(probe).color;
   const s=S.step,p=progress,thresholds=[7,8,9,10,11,7];
- if(s<50){
-  function lines(key,min){if(s<min||s>=34)return;for(const g of curves[key])drawGeo(g,gl.LINE_STRIP,s===min?c.line:c.muted,s===min?1:(s>=21?.10:.4),0,s===min?Math.max(2,Math.ceil(g.count*p)):g.count);}
+ if(s<50&&!((s>=21&&s<=26)||(s>=34&&s<=41))){
+  function lines(key,min){if(s<min||s>=8)return;for(const g of curves[key])drawGeo(g,gl.LINE_STRIP,s===min?c.line:c.muted,s===min?1:(s>=21?.10:.4),0,s===min?Math.max(2,Math.ceil(g.count*p)):g.count);}
   if(s>=1&&s<=5){gl.disable(gl.DEPTH_TEST);drawGeo(pointGeo,gl.POINTS,c.line,1);gl.enable(gl.DEPTH_TEST);}
   lines('bottom',2);lines('side',3);lines('top',4);lines('wheel',5);
-  if(s>=6&&s<34){for(const g of rails)drawGeo(g,gl.LINE_STRIP,s===6||s>=12?c.line:c.muted,s===6||s>=12?1:.7,0,s===6?Math.max(2,Math.ceil(g.count*p)):g.count);drawGeo(base,gl.LINE_STRIP,c.muted,.45);drawGeo(crown,gl.LINE_STRIP,c.muted,.35);}
+  if(s>=6&&s<34){for(const g of rails)drawGeo(g,gl.LINE_STRIP,s===6||s>=12?c.line:c.muted,s===6||s>=12?1:.7,0,s===6?Math.max(2,Math.ceil(g.count*p)):g.count);if(s<8)drawGeo(base,gl.LINE_STRIP,c.muted,.45);drawGeo(crown,gl.LINE_STRIP,c.muted,.35);}
   if(s>=7&&s<34)secs.forEach((g,i)=>{let t=thresholds[i];if(s<t)return;drawGeo(g,gl.LINE_STRIP,(s===t||s>=12)?c.section:c.muted,(s===t||s>=12)?1:.7,0,s===t?Math.max(2,Math.ceil(g.count*p)):g.count);});
   if(s>=13){gl.enable(gl.POLYGON_OFFSET_FILL);gl.polygonOffset(1,1);let count=Math.floor(D.band.f.length*(s===13?p:1))*3;drawGeo(band,gl.TRIANGLES,s===13||s===31?c.fg:c.fg.map(v=>v*.68),s===32?.12:1,1,count);gl.disable(gl.POLYGON_OFFSET_FILL);gl.disable(gl.DEPTH_TEST);if(s<34)for(const g of rails)drawGeo(g,gl.LINE_STRIP,s===13?c.line:c.muted,s===13?.95:.35);if(s===13)secs.forEach(g=>drawGeo(g,gl.LINE_STRIP,c.section,.7));gl.enable(gl.DEPTH_TEST);}
   if(s>=14&&s<34){for(const g of loft2Rails)drawGeo(g,gl.LINE_STRIP,s<=15?c.line:c.muted,s<=15?1:.35);for(const g of loft2Sections)drawGeo(g,gl.LINE_STRIP,s<=15?c.section:c.muted,s<=15?.95:.3);}
@@ -141,13 +183,14 @@
 
 
   if(s===32){lc.textAlign='left';const q=project([0,80,4]);lc.fillText('電池蓋分件工具面',12,30);lc.globalAlpha=.5;lc.strokeStyle=lc.fillStyle;lc.beginPath();lc.moveTo(145,26);lc.lineTo(q[0],q[1]);lc.stroke();lc.globalAlpha=1;}
-  if(s>=21&&s<=24){const refs=D.keyCurves['按鍵投影線'].slice(0,2).map((pts,i)=>({pts,name:'外圈邊界 '+(i+1)}));if(s>=23)refs.push({pts:D.keyCurves['按鍵投影線３'][0],name:'內部導線'});lc.textAlign='left';refs.forEach((ref,i)=>{const pt=project(ref.pts[Math.floor(ref.pts.length/2)]),yy=32+i*26;lc.globalAlpha=.3;lc.beginPath();lc.moveTo(108,yy-4);lc.lineTo(pt[0],pt[1]);lc.strokeStyle=lc.fillStyle;lc.lineWidth=.75;lc.stroke();lc.globalAlpha=1;lc.fillText(ref.name,12,yy);lc.beginPath();lc.arc(pt[0],pt[1],2,0,Math.PI*2);lc.fill();});}
   if(s>=37){let cap=finishList('55')[0];if(s>=38&&s<=48){gl.depthMask(false);drawGeo(cap,gl.TRIANGLES,c.fg,.12,1);gl.depthMask(true);}else drawGeo(cap,gl.TRIANGLES,c.fg.map(v=>v*.85),1,1);}
   if(s>=38){let key=s===38?'56':s===39?'57':s===40?'58':s===41?'59':'60';let parts=finishList(key);if(s>=49)parts=[finishList('67')[0],...finishList('60').slice(1)];for(const g of parts)drawGeo(g,gl.TRIANGLES,c.fg.map(v=>v*.66),1,1);if(s<=42){gl.disable(gl.DEPTH_TEST);for(const g of finishProfiles[{'38':'56','39':'57','40':'58','41':'59','42':'60'}[String(s)]]||[])drawGeo(g,gl.LINE_STRIP,c.section,.75);gl.enable(gl.DEPTH_TEST);}}
   if(s>=43){const key=s<=44?'61':s===45?'63':s===46?'64':s===47?'65':'66';for(const g of finishList(key))drawGeo(g,gl.TRIANGLES,c.fg.map(v=>v*.88),1,1);if(s===44||s===48){gl.disable(gl.DEPTH_TEST);drawGeo(rotationAxis,gl.LINE_STRIP,c.section,1);gl.enable(gl.DEPTH_TEST);}}
   if(s===37){gl.disable(gl.DEPTH_TEST);for(const g of finishProfiles['55'])drawGeo(g,gl.LINE_STRIP,c.section,.7);gl.enable(gl.DEPTH_TEST);}
  }
- if(s>=50){const parts=finishList('final'),active=s===51,order=parts.map((_,i)=>i);if(active&&selectedPart!=='all'){const k=Number(selectedPart);order.splice(order.indexOf(k),1);order.push(k);}for(const i of order){const factor=i===4?.5:i===2?.9:.7,shift=partInfo[i].shift.map(v=>v*(active?explode:0)),dim=active&&selectedPart!=='all'&&i!==Number(selectedPart);gl.uniform3fv(U.shift,shift);gl.depthMask(!dim);drawGeo(parts[i],gl.TRIANGLES,c.fg.map(v=>v*factor),dim?.12:1,1);}gl.depthMask(true);gl.uniform3f(U.shift,0,0,0);if(active&&explode>.85){lc.textAlign='left';partInfo.forEach((part,i)=>{const q=project(part.center.map((v,k)=>v+part.shift[k]*explode)),yy=28+i*24;lc.globalAlpha=selectedPart==='all'||Number(selectedPart)===i?1:.4;lc.fillText(part.name,12,yy);lc.strokeStyle=lc.fillStyle;lc.lineWidth=.75;lc.beginPath();lc.moveTo(108,yy-4);lc.lineTo(q[0],q[1]);lc.stroke();});lc.globalAlpha=1;}}
+ if((s>=21&&s<=26)||(s>=34&&s<=41))focusedStep(s,p,c);
+ if(s>=50){const parts=finishList('final'),active=s===51,order=parts.map((_,i)=>i);if(active&&selectedPart!=='all'){const k=Number(selectedPart);order.splice(order.indexOf(k),1);order.push(k);}for(const i of order){const factor=i===4?.5:i===2?.9:.7,shift=partInfo[i].shift.map(v=>v*(active?explode:0)),dim=active&&selectedPart!=='all'&&i!==Number(selectedPart);gl.uniform3fv(U.shift,shift);gl.depthMask(!dim);drawGeo(parts[i],gl.TRIANGLES,c.fg.map(v=>v*factor),dim?.12:1,1);}gl.depthMask(true);gl.uniform3f(U.shift,0,0,0);if(active&&explode>.85)curveLabels(partInfo.map((part,i)=>({q:part.center.map((v,k)=>v+part.shift[k]*explode),name:part.name})));}
+
   if(s===0){lc.textAlign='center';text('長 99 mm',[-30,49.5,0],[-25,15]);text('寬 60 mm',[0,0,0],[0,22]);text('高 39 mm',[30,99,28],[22,0]);}
   if(s>=7&&s<=12){lc.textAlign='left';D.sections.forEach((sec,i)=>{if(s>=thresholds[i]){const q=sec.points[Math.floor(sec.points.length/2)];const names=['後端','後側','中間','前側','前側2','前端'];if(s===12||s===thresholds[i])text(names[i],q,[8,-8]);}});}
  }
@@ -168,7 +211,8 @@
  function persist(){stateRevision=Math.max(Date.now(),stateRevision+1);saveState({modelContent:{preview:'l15-native-history-v3',step:S.step,title:steps[S.step][0],revision:stateRevision},privateContent:{yaw:S.yaw,pitch:S.pitch,zoom:S.zoom,viewRoute:2}}).catch(()=>{});}
  function stop(){playing=false;playAll=false;clearTimeout(timer);cancelAnimationFrame(anim);root.querySelector('[data-play]').textContent='播放';const all=root.querySelector('[data-play-all]');all.disabled=false;all.textContent='全部播放（接續）';all.setAttribute('aria-pressed','false');}
  const longerSteps=new Set([13,15,17,20,23,24,25,26,27,34,36,43,45,46,47,48,50]);
- function stepDuration(index){return index===steps.length-1?4000:longerSteps.has(index)?3000:1900;}
+ const detailedSteps=new Set([21,22,23,24,25,26,34,35,36,37,38,39,40,41]);
+ function stepDuration(index){return index===steps.length-1?4000:detailedSteps.has(index)?4300:longerSteps.has(index)?3000:1900;}
  function schedule(){clearTimeout(timer);if(playing)timer=setTimeout(()=>{if(S.step===steps.length-1){stop();return;}S.step++;update(true);persist();schedule();},stepDuration(S.step));}
  // Camera faces the model from (sin(yaw), cos(yaw), elevation).
  // Original model: front is Y=0; the constructed half is X>0.
@@ -183,14 +227,14 @@
  [21,24,2.05,.55],[25,25,Math.PI*.75,.95],
  [26,28,Math.PI*.75,.65],[29,30,Math.PI*.75,-.80],
  [31,31,1.70,.26],[32,32,Math.PI/2,0],
- [33,33,Math.PI*.75,-.65],[34,36,Math.PI*.75,.85],
- [37,37,2.00,.25],[38,42,Math.PI*.75,-.75],
+ [33,33,Math.PI*.75,-.65],[34,34,Math.PI/2,.12],[35,36,Math.PI*.75,.85],
+ [37,37,Math.PI/2,.10],[38,42,Math.PI*.75,-.75],
  [43,48,Math.PI*.75,.55],[49,49,Math.PI*.75,-.65],
  [50,51,Math.PI*.75,Math.PI/4]
  ];
  let cameraStep=-1;
  function stepView(){return teachingViews.find(v=>S.step>=v[0]&&S.step<=v[1]);}
- function update(animate=false){cancelAnimationFrame(anim);const from={yaw:S.yaw,pitch:S.pitch},target=stepView(),move=cameraStep!==S.step&&cameraStep>=0;cameraStep=S.step;root.querySelector('[data-assembly]').hidden=S.step!==51;root.querySelector('[data-input-sources]').hidden=![14,15].includes(S.step);const cameraStart=performance.now();if(move)root.querySelector('[data-view]').value='free';progress=animate&&!reduced?0:1;last=performance.now();root.querySelector('[data-title]').textContent=steps[S.step][0];root.querySelector('[data-count]').textContent=String(S.step+1).padStart(2,'0')+' / '+steps.length;root.querySelector('[data-why]').textContent=steps[S.step][1];root.querySelector('[data-note]').textContent=steps[S.step][2];root.querySelector('[data-prev]').disabled=S.step===0;root.querySelector('[data-next]').disabled=S.step===steps.length-1;root.querySelector('.progress-bar').style.width=(S.step+1)/steps.length*100+'%';root.querySelector('.progress').setAttribute('aria-valuenow',S.step+1);if(progress===1&&(!move||reduced)){if(move){S.yaw=target[2];S.pitch=target[3];}draw();}else{function tick(t){if(move){let f=Math.min(1,(t-cameraStart)/650);f=f*f*(3-2*f);let delta=((target[2]-from.yaw+Math.PI)%(2*Math.PI)+2*Math.PI)%(2*Math.PI)-Math.PI;S.yaw=from.yaw+delta*f;S.pitch=from.pitch+(target[3]-from.pitch)*f;}progress=animate&&!reduced?Math.min(1,(t-last)/Math.min([13,15,17,20,24,25,26,27,29,34].includes(S.step)?2350:1200,stepDuration(S.step)-550)):1;draw();if(progress<1||(move&&t-cameraStart<650))anim=requestAnimationFrame(tick);else if(move)persist();}anim=requestAnimationFrame(tick);}}
+ function update(animate=false){cancelAnimationFrame(anim);const from={yaw:S.yaw,pitch:S.pitch},target=stepView(),move=cameraStep!==S.step&&cameraStep>=0;cameraStep=S.step;root.querySelector('[data-assembly]').hidden=S.step!==51;root.querySelector('[data-input-sources]').hidden=![14,15].includes(S.step);const cameraStart=performance.now();if(move)root.querySelector('[data-view]').value='free';progress=animate&&!reduced?0:1;last=performance.now();root.querySelector('[data-title]').textContent=steps[S.step][0];root.querySelector('[data-count]').textContent=String(S.step+1).padStart(2,'0')+' / '+steps.length;root.querySelector('[data-why]').textContent=steps[S.step][1];root.querySelector('[data-note]').textContent=steps[S.step][2];root.querySelector('[data-prev]').disabled=S.step===0;root.querySelector('[data-next]').disabled=S.step===steps.length-1;root.querySelector('.progress-bar').style.width=(S.step+1)/steps.length*100+'%';root.querySelector('.progress').setAttribute('aria-valuenow',S.step+1);if(progress===1&&(!move||reduced)){if(move){S.yaw=target[2];S.pitch=target[3];}draw();}else{function tick(t){if(move){let f=Math.min(1,(t-cameraStart)/650);f=f*f*(3-2*f);let delta=((target[2]-from.yaw+Math.PI)%(2*Math.PI)+2*Math.PI)%(2*Math.PI)-Math.PI;S.yaw=from.yaw+delta*f;S.pitch=from.pitch+(target[3]-from.pitch)*f;}progress=animate&&!reduced?Math.min(1,(t-last)/Math.min(detailedSteps.has(S.step)?3500:[13,15,17,20,24,25,26,27,29,34].includes(S.step)?2350:1200,stepDuration(S.step)-550)):1;draw();if(progress<1||(move&&t-cameraStart<650))anim=requestAnimationFrame(tick);else if(move)persist();}anim=requestAnimationFrame(tick);}}
  root.querySelector('[data-play-all]').onclick=()=>{stop();playing=true;playAll=true;const all=root.querySelector('[data-play-all]');all.disabled=true;all.textContent='接續播放中';all.setAttribute('aria-pressed','true');root.querySelector('[data-play]').textContent='暫停';update(true);persist();schedule();};
  root.querySelector('[data-prev]').onclick=()=>{stop();S.step=Math.max(0,S.step-1);update(false);persist();};root.querySelector('[data-next]').onclick=()=>{stop();S.step=Math.min(steps.length-1,S.step+1);update(true);persist();};root.querySelector('[data-play]').onclick=()=>{if(playing){stop();return;}if(S.step===steps.length-1)S.step=0;playing=true;root.querySelector('[data-play]').textContent='暫停';update(true);schedule();};root.querySelector('[data-replay]').onclick=()=>{stop();S.step=0;playing=true;root.querySelector('[data-play]').textContent='暫停';update(true);persist();schedule();};
  for(const[key,factor]of[['plus',1.15],['minus',1/1.15]])root.querySelector('[data-'+key+']').onclick=()=>{S.zoom=Math.max(.6,Math.min(2,S.zoom*factor));draw();persist();};
