@@ -1,7 +1,7 @@
 
 (async()=>{
  const root=document.getElementById('l15-spatial-build');let D;
- try{const response=await fetch('../assets/level-15-data.json?v=20261114-one-minute');if(!response.ok)throw Error('data');D=await response.json();}catch(e){document.querySelector('[data-loading]').textContent='模型資料載入失敗，請重新整理後再試。';return;}
+ try{const response=await fetch('../assets/level-15-data.json?v=20261114-one-minute-layout');if(!response.ok)throw Error('data');D=await response.json();}catch(e){document.querySelector('[data-loading]').textContent='模型資料載入失敗，請重新整理後再試。';return;}
  const canvas=root.querySelector('[data-gl]'),labels=root.querySelector('[data-labels]'),lc=labels.getContext('2d'),gl=canvas.getContext('webgl',{antialias:true,alpha:true});
  async function unzip64(s){const bytes=Uint8Array.from(atob(s),c=>c.charCodeAt(0));return new Response(new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'))).arrayBuffer();}
  async function unpack(m){if(!m.p)return m;const[a,b,c]=await Promise.all([unzip64(m.p),unzip64(m.i),unzip64(m.n)]);const vs=new Int16Array(a),ix=m.it===4?new Uint32Array(b):new Uint16Array(b),ns=new Int8Array(c);m.v=Array.from({length:m.vc},(_,i)=>[vs[i*3]/100,vs[i*3+1]/100,vs[i*3+2]/100]);m.f=Array.from({length:m.tc},(_,i)=>[ix[i*3],ix[i*3+1],ix[i*3+2]]);m.n=Array.from({length:m.vc},(_,i)=>[ns[i*3]/127,ns[i*3+1]/127,ns[i*3+2]/127]);return m;}
@@ -200,7 +200,7 @@
  function stabilizeLayout(){
   const width=root.getBoundingClientRect().width;if(!width||Math.abs(width-measuredWidth)<1)return;measuredWidth=width;
   const measure=document.createElement('div');Object.assign(measure.style,{position:'absolute',visibility:'hidden',pointerEvents:'none',width:width+'px',left:'0',top:'0'});root.append(measure);
-  function reserve(selector,values,variable){const original=root.querySelector(selector),clone=original.cloneNode(true);clone.removeAttribute('hidden');clone.style.minHeight='0';clone.style.height='auto';measure.style.width=original.getBoundingClientRect().width+'px';measure.replaceChildren(clone);let max=0;for(const value of values){if(selector==='.l15-step-heading'){clone.querySelector('[data-count]').textContent='52 / 52';clone.querySelector('h3').textContent=value;}else if(value!==null)clone.textContent=value;max=Math.max(max,clone.getBoundingClientRect().height);}root.style.setProperty(variable,Math.ceil(max)+'px');}
+  function reserve(selector,values,variable){const original=root.querySelector(selector),clone=original.cloneNode(true);clone.removeAttribute('hidden');clone.style.minHeight='0';clone.style.height='auto';let availableWidth=original.getBoundingClientRect().width;for(let parent=original.parentElement;availableWidth<1&&parent;parent=parent.parentElement)availableWidth=parent.getBoundingClientRect().width;measure.style.width=Math.max(1,availableWidth||width)+'px';measure.replaceChildren(clone);let max=0;for(const value of values){if(selector==='.l15-step-heading'){clone.querySelector('[data-count]').textContent='52 / 52';clone.querySelector('h3').textContent=value;}else if(value!==null)clone.textContent=value;max=Math.max(max,clone.getBoundingClientRect().height);}root.style.setProperty(variable,Math.ceil(max)+'px');}
   reserve('.l15-step-heading',steps.map(s=>s[0]),'--step-heading-height');
   reserve('[data-input-sources]',[null],'--source-height');
   reserve('[data-why]',steps.map(s=>s[1]),'--why-height');
