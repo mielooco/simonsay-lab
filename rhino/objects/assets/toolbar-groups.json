@@ -1,0 +1,286 @@
+{
+  "surface_creation": [
+    {
+      "name": "SrfPt",
+      "icon": "assets/toolbar-icons/srfpt.png",
+      "buttonIcon": "assets/toolbar-icons/srfpt.png",
+      "mouse": "left",
+      "source": "https://docs.mcneel.com/rhino/8/help/en-us/toolbarmap/surface_creation_toolbar.htm",
+      "iconSource": "https://docs.mcneel.com/rhino/8/help/en-us/image/command_icons/srfpt.png"
+    },
+    {
+      "name": "PlanarSrf",
+      "icon": "assets/toolbar-icons/planarsrf.png",
+      "buttonIcon": "assets/toolbar-icons/planarsrf.png",
+      "mouse": "left",
+      "source": "https://docs.mcneel.com/rhino/8/help/en-us/toolbarmap/surface_creation_toolbar.htm",
+      "iconSource": "https://docs.mcneel.com/rhino/8/help/en-us/image/command_icons/planarsrf.png"
+    },
+    {
+      "name": "NetworkSrf",
+      "icon": "assets/toolbar-icons/networksrf.png",
+      "buttonIcon": "assets/toolbar-icons/networksrf.png",
+      "mouse": "left",
+      "source": "https://docs.mcneel.com/rhino/8/help/en-us/toolbarmap/surface_creation_toolbar.htm",
+      "iconSource": "https://docs.mcneel.com/rhino/8/help/en-us/image/command_icons/networksrf.png"
+    },
+    {
+      "name": "Loft",
+      "icon": "assets/toolbar-icons/loft.png",
+      "buttonIcon": "assets/toolbar-icons/loft.png",
+      "mouse": "left",
+      "source": "https://docs.mcneel.com/rhino/8/help/en-us/toolbarmap/surface_creation_toolbar.htm",
+      "iconSource": "https://docs.mcneel.com/rhino/8/help/en-us/image/command_icons/loft.png"
+    },
+    {
+      "name": "ExtrudeCrv",
+      "icon": "assets/toolbar-icons/extrudecrv.png",
+      "buttonIcon": "assets/toolbar-icons/extrudecrv.png",
+      "mouse": "left",
+      "source": "https://docs.mcneel.com/rhino/8/help/en-us/toolbarmap/surface_creation_toolbar.htm",
+      "iconSource": "https://docs.mcneel.com/rhino/8/help/en-us/image/command_icons/extrudecrv.png"
+    },
+    {
+      "name": "Sweep1",
+      "icon": "assets/toolbar-icons/sweep1.png",
+      "buttonIcon": "assets/toolbar-icons/sweep1.png",
+      "mouse": "left",
+      "source": "https://docs.mcneel.com/rhino/8/help/en-us/toolbarmap/surface_creation_toolbar.htm",
+      "iconSource": "https://docs.mcneel.com/rhino/8/help/en-us/image/command_icons/sweep1.png"
+    }
+  ],
+  "solid_creation": [
+    {
+      "name": "Box",
+      "icon": "assets/toolbar-icons/box.png",
+      "buttonIcon": "assets/toolbar-icons/box.png",
+      "mouse": "left",
+      "source": "https://docs.mcneel.com/rhino/8/help/en-us/toolbarmap/solid_creation_toolbar.htm",
+      "iconSource": "https://docs.mcneel.com/rhino/8/help/en-us/image/command_icons/box.png"
+    },
+    {
+      "name": "Cone",
+      "icon": "assets/toolbar-icons/cone.png",
+      "buttonIcon": "assets/toolbar-icons/cone.png",
+      "mouse": "left",
+      "source": "https://docs.mcneel.com/rhino/8/help/en-us/toolbarmap/solid_creation_toolbar.htm",
+      "iconSource": "https://docs.mcneel.com/rhino/8/help/en-us/image/command_icons/cone.png"
+    },
+    {
+      "name": "Cylinder",
+      "icon": "assets/toolbar-icons/cylinder.png",
+      "buttonIcon": "assets/toolbar-icons/cylinder.png",
+      "mouse": "left",
+      "source": "https://docs.mcneel.com/rhino/8/help/en-us/toolbarmap/solid_creation_toolbar.htm",
+      "iconSource": "https://docs.mcneel.com/rhino/8/help/en-us/image/command_icons/cylinder.png"
+    },
+    {
+      "name": "Sphere",
+      "icon": "assets/toolbar-icons/sphere.png",
+      "buttonIcon": "assets/toolbar-icons/sphere.png",
+      "mouse": "left",
+      "source": "https://docs.mcneel.com/rhino/8/help/en-us/toolbarmap/solid_creation_toolbar.htm",
+      "iconSource": "https://docs.mcneel.com/rhino/8/help/en-us/image/command_icons/sphere.png"
+    },
+    {
+      "name": "Torus",
+      "icon": "assets/toolbar-icons/torus.png",
+      "buttonIcon": "assets/toolbar-icons/torus.png",
+      "mouse": "left",
+      "source": "https://docs.mcneel.com/rhino/8/help/en-us/toolbarmap/solid_creation_toolbar.htm",
+      "iconSource": "https://docs.mcneel.com/rhino/8/help/en-us/image/command_icons/torus.png"
+    },
+    {
+      "name": "Tube",
+      "icon": "assets/toolbar-icons/tube.png",
+      "buttonIcon": "assets/toolbar-icons/tube.png",
+      "mouse": "left",
+      "source": "https://docs.mcneel.com/rhino/8/help/en-us/toolbarmap/solid_creation_toolbar.htm",
+      "iconSource": "https://docs.mcneel.com/rhino/8/help/en-us/image/command_icons/tube.png"
+    }
+  ],
+  "solid_tools": [
+    {
+      "name": "BooleanUnion",
+      "icon": "assets/toolbar-icons/booleanunion.png",
+      "buttonIcon": "assets/toolbar-icons/booleanunion.png",
+      "mouse": "left",
+      "source": "https://docs.mcneel.com/rhino/8/help/en-us/toolbarmap/solid_tools_toolbar.htm",
+      "iconSource": "https://docs.mcneel.com/rhino/8/help/en-us/image/command_icons/booleanunion.png"
+    },
+    {
+      "name": "BooleanDifference",
+      "icon": "assets/toolbar-icons/booleandifference.png",
+      "buttonIcon": "assets/toolbar-icons/booleandifference.png",
+      "mouse": "left",
+      "source": "https://docs.mcneel.com/rhino/8/help/en-us/toolbarmap/solid_tools_toolbar.htm",
+      "iconSource": "https://docs.mcneel.com/rhino/8/help/en-us/image/command_icons/booleandifference.png"
+    },
+    {
+      "name": "Shell",
+      "icon": "assets/toolbar-icons/shell.png",
+      "buttonIcon": "assets/toolbar-icons/shell.png",
+      "mouse": "left",
+      "source": "https://docs.mcneel.com/rhino/8/help/en-us/toolbarmap/solid_tools_toolbar.htm",
+      "iconSource": "https://docs.mcneel.com/rhino/8/help/en-us/image/command_icons/shell.png"
+    },
+    {
+      "name": "Cap",
+      "icon": "assets/toolbar-icons/cap.png",
+      "buttonIcon": "assets/toolbar-icons/cap.png",
+      "mouse": "left",
+      "source": "https://docs.mcneel.com/rhino/8/help/en-us/toolbarmap/solid_tools_toolbar.htm",
+      "iconSource": "https://docs.mcneel.com/rhino/8/help/en-us/image/command_icons/cap.png"
+    },
+    {
+      "name": "ExtractSrf",
+      "icon": "assets/toolbar-icons/extractsrf.png",
+      "buttonIcon": "assets/toolbar-icons/extractsrf.png",
+      "mouse": "left",
+      "source": "https://docs.mcneel.com/rhino/8/help/en-us/toolbarmap/solid_tools_toolbar.htm",
+      "iconSource": "https://docs.mcneel.com/rhino/8/help/en-us/image/command_icons/extractsrf.png"
+    }
+  ],
+  "surface_tools": [
+    {
+      "name": "FilletSrf",
+      "icon": "assets/toolbar-icons/filletsrf.png",
+      "buttonIcon": "assets/toolbar-icons/filletsrf.png",
+      "mouse": "left",
+      "source": "https://docs.mcneel.com/rhino/8/help/en-us/toolbarmap/surface_tools_toolbar.htm",
+      "iconSource": "https://docs.mcneel.com/rhino/8/help/en-us/image/command_icons/filletsrf.png"
+    },
+    {
+      "name": "OffsetSrf",
+      "icon": "assets/toolbar-icons/offsetsrf.png",
+      "buttonIcon": "assets/toolbar-icons/offsetsrf.png",
+      "mouse": "left",
+      "source": "https://docs.mcneel.com/rhino/8/help/en-us/toolbarmap/surface_tools_toolbar.htm",
+      "iconSource": "https://docs.mcneel.com/rhino/8/help/en-us/image/command_icons/offsetsrf.png"
+    },
+    {
+      "name": "MatchSrf",
+      "icon": "assets/toolbar-icons/matchsrf.png",
+      "buttonIcon": "assets/toolbar-icons/matchsrf.png",
+      "mouse": "left",
+      "source": "https://docs.mcneel.com/rhino/8/help/en-us/toolbarmap/surface_tools_toolbar.htm",
+      "iconSource": "https://docs.mcneel.com/rhino/8/help/en-us/image/command_icons/matchsrf.png"
+    },
+    {
+      "name": "ShowEdges",
+      "icon": "assets/toolbar-icons/showedges.png",
+      "buttonIcon": "assets/toolbar-icons/showedges.png",
+      "mouse": "left",
+      "source": "https://docs.mcneel.com/rhino/8/help/en-us/toolbarmap/surface_tools_toolbar.htm",
+      "iconSource": "https://docs.mcneel.com/rhino/8/help/en-us/image/command_icons/showedges.png"
+    },
+    {
+      "name": "ShowDir",
+      "icon": "assets/toolbar-icons/showdir.png",
+      "buttonIcon": "assets/toolbar-icons/showdir.png",
+      "mouse": "left",
+      "source": "https://docs.mcneel.com/rhino/8/help/en-us/toolbarmap/surface_tools_toolbar.htm",
+      "iconSource": "https://docs.mcneel.com/rhino/8/help/en-us/image/command_icons/showdir.png"
+    }
+  ],
+  "diagnostics": [
+    {
+      "name": "Audit",
+      "icon": "assets/toolbar-icons/audit.png",
+      "buttonIcon": "assets/toolbar-icons/audit.png",
+      "mouse": "left",
+      "source": "https://docs.mcneel.com/rhino/8/help/en-us/toolbarmap/diagnostics_toolbar.htm",
+      "iconSource": "https://docs.mcneel.com/rhino/8/help/en-us/image/command_icons/audit.png"
+    },
+    {
+      "name": "Check",
+      "icon": "assets/toolbar-icons/check.png",
+      "buttonIcon": "assets/toolbar-icons/check.png",
+      "mouse": "left",
+      "source": "https://docs.mcneel.com/rhino/8/help/en-us/toolbarmap/diagnostics_toolbar.htm",
+      "iconSource": "https://docs.mcneel.com/rhino/8/help/en-us/image/command_icons/check.png"
+    },
+    {
+      "name": "List",
+      "icon": "assets/toolbar-icons/list.png",
+      "buttonIcon": "assets/toolbar-icons/list.png",
+      "mouse": "left",
+      "source": "https://docs.mcneel.com/rhino/8/help/en-us/toolbarmap/diagnostics_toolbar.htm",
+      "iconSource": "https://docs.mcneel.com/rhino/8/help/en-us/image/command_icons/list.png"
+    },
+    {
+      "name": "What",
+      "icon": "assets/toolbar-icons/what_rt.png",
+      "buttonIcon": "assets/toolbar-icons/list.png",
+      "mouse": "right",
+      "source": "https://docs.mcneel.com/rhino/8/help/en-us/toolbarmap/diagnostics_toolbar.htm",
+      "iconSource": "https://docs.mcneel.com/rhino/8/help/en-us/image/command_icons/what_rt.png"
+    },
+    {
+      "name": "SelBadObjects",
+      "icon": "assets/toolbar-icons/selbadobjects.png",
+      "buttonIcon": "assets/toolbar-icons/selbadobjects.png",
+      "mouse": "left",
+      "source": "https://docs.mcneel.com/rhino/8/help/en-us/toolbarmap/diagnostics_toolbar.htm",
+      "iconSource": "https://docs.mcneel.com/rhino/8/help/en-us/image/command_icons/selbadobjects.png"
+    },
+    {
+      "name": "ShowEdges",
+      "icon": "assets/toolbar-icons/showedges.png",
+      "buttonIcon": "assets/toolbar-icons/showedges.png",
+      "mouse": "left",
+      "source": "https://docs.mcneel.com/rhino/8/help/en-us/toolbarmap/diagnostics_toolbar.htm",
+      "iconSource": "https://docs.mcneel.com/rhino/8/help/en-us/image/command_icons/showedges.png"
+    }
+  ],
+  "mass_properties": [
+    {
+      "name": "Area",
+      "icon": "assets/toolbar-icons/area.png",
+      "buttonIcon": "assets/toolbar-icons/area.png",
+      "mouse": "left",
+      "source": "https://docs.mcneel.com/rhino/8/help/en-us/toolbarmap/mass_properties_toolbar.htm",
+      "iconSource": "https://docs.mcneel.com/rhino/8/help/en-us/image/command_icons/area.png"
+    },
+    {
+      "name": "AreaCentroid",
+      "icon": "assets/toolbar-icons/areacentroid.png",
+      "buttonIcon": "assets/toolbar-icons/areacentroid.png",
+      "mouse": "left",
+      "source": "https://docs.mcneel.com/rhino/8/help/en-us/toolbarmap/mass_properties_toolbar.htm",
+      "iconSource": "https://docs.mcneel.com/rhino/8/help/en-us/image/command_icons/areacentroid.png"
+    },
+    {
+      "name": "AreaMoments",
+      "icon": "assets/toolbar-icons/areamoments.png",
+      "buttonIcon": "assets/toolbar-icons/areamoments.png",
+      "mouse": "left",
+      "source": "https://docs.mcneel.com/rhino/8/help/en-us/toolbarmap/mass_properties_toolbar.htm",
+      "iconSource": "https://docs.mcneel.com/rhino/8/help/en-us/image/command_icons/areamoments.png"
+    },
+    {
+      "name": "Volume",
+      "icon": "assets/toolbar-icons/volume.png",
+      "buttonIcon": "assets/toolbar-icons/volume.png",
+      "mouse": "left",
+      "source": "https://docs.mcneel.com/rhino/8/help/en-us/toolbarmap/mass_properties_toolbar.htm",
+      "iconSource": "https://docs.mcneel.com/rhino/8/help/en-us/image/command_icons/volume.png"
+    },
+    {
+      "name": "VolumeCentroid",
+      "icon": "assets/toolbar-icons/volumecentroid.png",
+      "buttonIcon": "assets/toolbar-icons/volumecentroid.png",
+      "mouse": "left",
+      "source": "https://docs.mcneel.com/rhino/8/help/en-us/toolbarmap/mass_properties_toolbar.htm",
+      "iconSource": "https://docs.mcneel.com/rhino/8/help/en-us/image/command_icons/volumecentroid.png"
+    },
+    {
+      "name": "VolumeMoments",
+      "icon": "assets/toolbar-icons/volumemoments.png",
+      "buttonIcon": "assets/toolbar-icons/volumemoments.png",
+      "mouse": "left",
+      "source": "https://docs.mcneel.com/rhino/8/help/en-us/toolbarmap/mass_properties_toolbar.htm",
+      "iconSource": "https://docs.mcneel.com/rhino/8/help/en-us/image/command_icons/volumemoments.png"
+    }
+  ]
+}

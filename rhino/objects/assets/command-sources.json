@@ -1,0 +1,146 @@
+[
+  {
+    "name": "Point",
+    "url": "https://docs.mcneel.com/rhino/8/help/en-us/commands/point.htm",
+    "icon": "assets/icons/point.png",
+    "iconSource": "https://docs.mcneel.com/rhino/8/help/en-us/image/command_icons/point.png",
+    "table": "Toolbar Menu Main Main2 Point Curve Point Object > Single Point",
+    "intro": ""
+  },
+  {
+    "name": "Curve",
+    "url": "https://docs.mcneel.com/rhino/8/help/en-us/commands/curve.htm",
+    "icon": "assets/icons/curve.png",
+    "iconSource": "https://docs.mcneel.com/rhino/8/help/en-us/image/command_icons/curve.png",
+    "table": "Toolbar Menu Curve Curve Drawing Main Main2 Curve Free-Form > Control Points",
+    "intro": ""
+  },
+  {
+    "name": "Circle",
+    "url": "https://docs.mcneel.com/rhino/8/help/en-us/commands/circle.htm",
+    "icon": "assets/icons/circle.png",
+    "iconSource": "https://docs.mcneel.com/rhino/8/help/en-us/image/command_icons/circle.png",
+    "table": "Toolbar Menu Circle Curve Drawing Main Main1 Curve Circle > <Options>",
+    "intro": ""
+  },
+  {
+    "name": "Rectangle",
+    "url": "https://docs.mcneel.com/rhino/8/help/en-us/commands/rectangle.htm",
+    "icon": "assets/icons/rectangle.png",
+    "iconSource": "https://docs.mcneel.com/rhino/8/help/en-us/image/command_icons/rectangle_corner.png",
+    "table": "Toolbar Menu Curve Drawing Main Main2 Rectangle Curve Rectangle > <Options>",
+    "intro": ""
+  },
+  {
+    "name": "SrfPt",
+    "url": "https://docs.mcneel.com/rhino/8/help/en-us/commands/srfpt.htm",
+    "icon": "assets/icons/srfpt.png",
+    "iconSource": "https://docs.mcneel.com/rhino/8/help/en-us/image/command_icons/srfpt.png",
+    "table": "Toolbar Menu Main Main1 Surface Creation Surface Sidebar Surface Corner Points",
+    "intro": ""
+  },
+  {
+    "name": "PointsOn",
+    "url": "https://docs.mcneel.com/rhino/8/help/en-us/commands/pointson.htm",
+    "icon": "assets/icons/pointson.png",
+    "iconSource": "https://docs.mcneel.com/rhino/8/help/en-us/image/command_icons/pointson.png",
+    "table": "Toolbar Menu Shortcut Alias Curve Tools Geometry Fix Main Main2 Organic Point Edit STL Tools Surface Tools SubD Sidebar Edit Control Points > Control Points On F10 POn",
+    "intro": ""
+  },
+  {
+    "name": "Gumball",
+    "url": "https://docs.mcneel.com/rhino/8/help/en-us/commands/gumball.htm",
+    "icon": "assets/icons/gumball.png",
+    "iconSource": "https://docs.mcneel.com/rhino/8/help/en-us/image/command_icons/gumball.png",
+    "table": "Toolbar Menu Status bar Gumball Organic Not on menus. Gumball",
+    "intro": ""
+  },
+  {
+    "name": "Move",
+    "url": "https://docs.mcneel.com/rhino/8/help/en-us/commands/move.htm",
+    "icon": "assets/icons/move.png",
+    "iconSource": "https://docs.mcneel.com/rhino/8/help/en-us/image/command_icons/move.png",
+    "table": "Toolbar Menu Alias Collapse Mesh Curve Drawing Extract Mesh Main Main2 Move Organic Render Sidebar Solids Sidebar Surface Sidebar Transform Transform Move m",
+    "intro": ""
+  },
+  {
+    "name": "ExtrudeCrv",
+    "url": "https://docs.mcneel.com/rhino/8/help/en-us/commands/extrudecrv.htm",
+    "icon": "assets/icons/extrudecrv.png",
+    "iconSource": "https://docs.mcneel.com/rhino/8/help/en-us/image/command_icons/extrudecrv.png",
+    "table": "Toolbar Menu Extrude Extrude Solid Solids Sidebar Surface Creation Surface Sidebar Solid Extrude Planar Curve > Straight Surface Extrude Curve > Straight SubD Extrude Curve > Straight",
+    "intro": ""
+  },
+  {
+    "name": "Cap",
+    "url": "https://docs.mcneel.com/rhino/8/help/en-us/commands/cap.htm",
+    "icon": "assets/icons/cap.png",
+    "iconSource": "https://docs.mcneel.com/rhino/8/help/en-us/image/command_icons/cap.png",
+    "table": "Toolbar Menu Solid Tools Solid Cap Planar Holes",
+    "intro": ""
+  },
+  {
+    "name": "Join",
+    "url": "https://docs.mcneel.com/rhino/8/help/en-us/commands/join.htm",
+    "icon": "assets/icons/join.png",
+    "iconSource": "https://docs.mcneel.com/rhino/8/help/en-us/image/command_icons/join.png",
+    "table": "Toolbar Menu Shortcut Curve Drawing Geometry Fix Main Main1 Popup Solids Sidebar STL Tools Surface Sidebar SubD Sidebar Edit Join SubD Edit Tools > Join Ctrl (CMD) + J",
+    "intro": ""
+  },
+  {
+    "name": "Explode",
+    "url": "https://docs.mcneel.com/rhino/8/help/en-us/commands/explode.htm",
+    "icon": "assets/icons/explode.png",
+    "iconSource": "https://docs.mcneel.com/rhino/8/help/en-us/image/command_icons/explode.png",
+    "table": "Toolbar Menu Curve Drawing Geometry Fix Main Main2 Popup Solids Sidebar Surface Sidebar Edit Explode",
+    "intro": ""
+  },
+  {
+    "name": "Box",
+    "url": "https://docs.mcneel.com/rhino/8/help/en-us/commands/box.htm",
+    "icon": "assets/icons/box.png",
+    "iconSource": "https://docs.mcneel.com/rhino/8/help/en-us/image/command_icons/box.png",
+    "table": "Toolbar Menu Box Main Main1 Solid Creation Solids Sidebar Solid Box > <Options>",
+    "intro": ""
+  },
+  {
+    "name": "Sphere",
+    "url": "https://docs.mcneel.com/rhino/8/help/en-us/commands/sphere.htm",
+    "icon": "assets/icons/sphere.png",
+    "iconSource": "https://docs.mcneel.com/rhino/8/help/en-us/image/command_icons/sphere.png",
+    "table": "Toolbar Menu Solid Creation Solids Sidebar Sphere Solid Sphere > <Options>",
+    "intro": ""
+  },
+  {
+    "name": "Torus",
+    "url": "https://docs.mcneel.com/rhino/8/help/en-us/commands/torus.htm",
+    "icon": "assets/icons/torus.png",
+    "iconSource": "https://docs.mcneel.com/rhino/8/help/en-us/image/command_icons/torus.png",
+    "table": "Toolbar Menu Solid Creation Solids Sidebar Solid Torus",
+    "intro": ""
+  },
+  {
+    "name": "ShowEdges",
+    "url": "https://docs.mcneel.com/rhino/8/help/en-us/commands/showedges.htm",
+    "icon": "assets/icons/showedges.png",
+    "iconSource": "https://docs.mcneel.com/rhino/8/help/en-us/image/command_icons/showedges.png",
+    "table": "Toolbar Menu Analyze Diagnostics Edge Tools Geometry Fix Surface Tools Surface and Analyze Edge Tools > Show Edges",
+    "intro": ""
+  },
+  {
+    "name": "What",
+    "url": "https://docs.mcneel.com/rhino/8/help/en-us/commands/what.htm",
+    "icon": "assets/icons/what.png",
+    "iconSource": "https://docs.mcneel.com/rhino/8/help/en-us/image/command_icons/what_rt.png",
+    "table": "Toolbar Menu Diagnostics Not on menus.",
+    "intro": ""
+  },
+  {
+    "name": "Volume",
+    "url": "https://docs.mcneel.com/rhino/8/help/en-us/commands/volume.htm",
+    "icon": "assets/icons/volume.png",
+    "iconSource": "https://docs.mcneel.com/rhino/8/help/en-us/image/command_icons/volume.png",
+    "table": "Toolbar Menu Mass Properties Analyze Mass Properties > Volume",
+    "intro": ""
+  }
+]

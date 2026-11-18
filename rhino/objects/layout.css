@@ -1,0 +1,198 @@
+/* Desktop is one workspace: the model uses the space left by its controls. */
+@media (min-width:851px) {
+  html { height:100%; }
+  body {
+    height:100dvh; min-height:0; overflow:hidden;
+    display:grid; grid-template-rows:58px minmax(0,1fr) 24px;
+  }
+  header { height:auto; min-height:0; padding:0 22px; }
+  .brand { font-size:16px; }
+  .brand small { font-size:9px; line-height:1.5; }
+  footer { height:auto; min-height:0; padding:0 22px; font-size:8px; }
+  main {
+    height:100%; min-height:0; width:100%; max-width:none;
+    grid-template-columns:205px minmax(0,1fr) 315px;
+    overflow:hidden;
+  }
+  .rail,.lab,.lesson { min-height:0; min-width:0; }
+  .rail { padding:20px 17px; display:flex; flex-direction:column; }
+  .rail>.eyebrow { font-size:9px; letter-spacing:1px; }
+  .rail h1 { font-size:23px; line-height:1.45; margin:9px 0; }
+  .intro { font-size:11px; line-height:1.7; margin:4px 0 15px; }
+  nav { gap:3px; }
+  .chapter { padding:6px 10px; gap:10px; }
+  .chapter strong { font-size:13px; line-height:1.5; }
+  .chapter small { font-size:9px; line-height:1.3; }
+  .source { margin-top:auto; padding-top:12px; font-size:10px; }
+  .lab { display:grid; grid-template-rows:auto minmax(0,1fr) auto auto; }
+  .lab-top { padding:12px 20px; gap:10px; min-width:0; }
+  .lab-top>div:first-child { min-width:0; }
+  .lab-top .eyebrow { font-size:9px; line-height:1.3; }
+  .lab-top h2,.catalog-mode .lab-top h2 { font-size:21px; line-height:1.35; margin:3px 0 0; }
+  .view-tabs { padding:0; margin-left:auto; flex-shrink:0; gap:3px; }
+  .view-tabs button { padding:5px 10px; font-size:11px; }
+  .view-tabs>span { display:none; }
+  #reset { flex-shrink:0; padding:5px 8px; font-size:10px; }
+  #viewport,.catalog-mode #viewport,.commands-mode #viewport {
+    min-height:0; height:auto; flex:initial;
+  }
+  #model-tag { left:20px; top:14px; font-size:9px; }
+  .canvas-note { left:20px; bottom:9px; font-size:9px; }
+  .axis-label { right:20px; bottom:9px; }
+  .status { min-height:0; padding:8px 20px; font-size:11px; line-height:1.5; }
+  .controls,.catalog-mode .controls,.commands-mode .controls {
+    min-height:0; padding:12px 20px;
+  }
+  .controls:has(.edit-toolbar) { padding:10px 20px; }
+  .controls[data-editor]:not([data-editor="none"]) {
+    display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:5px 10px;
+  }
+  .controls>.edit-toolbar,.controls>.dimension-grid,.controls>.hint,
+  .controls>.plane-select,.controls>.point-selector,.controls>.assemble-button,
+  .controls>.point-select { grid-column:1 / -1; }
+  .controls[data-editor="2"]>.switches,
+  .controls[data-editor="4"]>.switches { grid-column:1 / -1; }
+  .controls .switches,.controls:has(.edit-toolbar) .switches { margin:0; gap:5px; align-items:center; }
+  .controls .switches button { font-size:11px; line-height:1.5; padding:4px 9px; }
+  .controls .plane-select { margin:0; }
+  .controls .plane-select button { font-size:10px; padding:3px 8px; }
+  .edit-toolbar { margin:0; min-height:24px; }
+  .edit-toolbar>span { font-size:10px; line-height:1.5; }
+  .edit-toolbar button { padding:3px 7px; font-size:10px; }
+  .point-selector { margin:0; font-size:10px; min-height:24px; }
+  .point-selector button { padding:3px 7px; font-size:10px; }
+  .dimension-grid { margin:0; gap:14px; }
+  .dimension-grid input[type=range] { height:18px; margin:2px 0 0; }
+  .spatial-range label { line-height:1.5; }
+  .assemble-button { margin:0; padding:4px 10px; justify-self:start; }
+  .controls .hint,.controls:has(.edit-toolbar) .hint { margin:0; font-size:10px; line-height:1.5; }
+  .gallery-help { margin:0 0 7px; font-size:11px; }
+  .lesson { padding:17px 20px; line-height:1.6; }
+  .lesson>.eyebrow { font-size:9px; }
+  .lesson h3,.commands-mode .lesson h3 {
+    font-size:21px; line-height:1.4; margin:7px 0 11px; flex-shrink:0;
+  }
+  .lesson>p:not(.eyebrow) { font-size:12px; line-height:1.65; margin:0 0 14px; }
+  .try { padding-top:13px; }
+  .try p,.notice p { font-size:12px; line-height:1.6; margin-top:6px; }
+  .try .eyebrow,.notice .eyebrow { font-size:9px; }
+  .notice,.commands-mode .notice { margin:17px 0; padding-left:11px; }
+  #rhino-details { position:relative; font-size:11px; margin:0 0 10px; flex-shrink:0; }
+  #rhino-details summary { padding:3px 0; }
+  #rhino-details #commands {
+    position:absolute; bottom:calc(100% + 7px); right:0; z-index:110;
+    width:100%; max-height:min(330px,60dvh); overflow:auto;
+    margin:0; padding:13px 15px; border:1px solid #496352; border-radius:6px;
+    background:#18271f; box-shadow:0 6px 30px #0009; color:#cbded2; line-height:1.7;
+  }
+  .progress { padding-top:8px; font-size:9px; flex-shrink:0; }
+  .progress>div { margin-top:5px; }
+  .paging { margin-top:12px; flex-shrink:0; }
+  .paging button { padding:7px 11px; font-size:11px; line-height:1.5; }
+  .commands-mode .lab-top { padding-bottom:12px; }
+  .commands-mode #command-guide { padding:16px 20px; }
+  .command-heading h3 { font-size:20px; margin:4px 0; }
+  .command-heading>p { margin:6px 0 9px; font-size:11px; }
+  .command-filters { top:-16px; padding:7px 0; }
+  .command-card { padding:9px; gap:9px; }
+  .command-card strong { font-size:11px; }
+  .command-card span span { font-size:10px; }
+  .command-card small { font-size:9px; }
+  .commands-mode .try>#task,.commands-mode .try>.eyebrow { display:none; }
+  .lesson .command-location { margin:0; padding:0; border:0; }
+  .lesson .command-location>.eyebrow { font-size:9px; }
+  .lesson .menu-strip { margin-top:7px; }
+  .lesson .menu-dropdown>div { padding:4px 6px; }
+  .lesson .location-note { margin-top:7px; }
+  .commands-mode .controls { padding-top:8px; padding-bottom:8px; }
+}
+@media (min-width:851px) and (min-width:1500px) {
+  main { grid-template-columns:225px minmax(0,1fr) 335px; }
+}
+@media (min-width:851px) and (max-width:1100px) {
+  main { grid-template-columns:165px minmax(0,1fr) 280px; }
+  .rail { padding:16px 12px; }
+  .rail h1 { font-size:20px; }
+  .rail .intro { font-size:10px; }
+  .rail>.eyebrow { font-size:8px; }
+  .chapter { gap:7px; padding-left:7px; padding-right:7px; }
+  .lesson { padding-left:15px; padding-right:15px; }
+  .lab-top { flex-wrap:wrap; padding:9px 15px; row-gap:7px; }
+  .lab-top h2 { font-size:19px; }
+  .lab-top>div:first-child { flex:1; }
+  .view-tabs { order:3; margin:0; width:100%; }
+  #reset { order:2; }
+  .controls,.controls:has(.edit-toolbar) { padding-left:15px; padding-right:15px; }
+  .controls .switches button { font-size:10px; padding:3px 7px; }
+  .controls .plane-select button { font-size:9px; padding:3px 6px; }
+  .edit-toolbar>span { font-size:9px; }
+  .controls .hint { font-size:9px; }
+  .status { padding-left:15px; padding-right:15px; font-size:10px; }
+}
+@media (min-width:851px) and (max-height:760px) {
+  body { grid-template-rows:48px minmax(0,1fr) 20px; }
+  header { padding:0 18px; }
+  .brand { font-size:14px; }
+  .brand small { font-size:8px; }
+  .rail { padding-top:12px; padding-bottom:12px; }
+  .rail>.eyebrow,.rail .intro { display:none; }
+  .rail h1 { font-size:20px; line-height:1.35; margin:0 0 12px; }
+  .chapter { padding-top:4px; padding-bottom:4px; }
+  .source { padding-top:8px; }
+  .lab-top { padding-top:9px; padding-bottom:9px; }
+  .lab-top h2,.catalog-mode .lab-top h2 { font-size:19px; }
+  .lesson { padding-top:12px; padding-bottom:12px; }
+  .lesson h3,.commands-mode .lesson h3 { font-size:19px; margin:4px 0 8px; }
+  .lesson>p:not(.eyebrow) { margin-bottom:10px; line-height:1.55; }
+  .try { padding-top:10px; }
+  .try p,.notice p { line-height:1.5; margin-top:5px; }
+  .notice,.commands-mode .notice { margin:12px 0; }
+  .progress { padding-top:5px; }
+  .paging { margin-top:8px; }
+  .paging button { padding-top:5px; padding-bottom:5px; }
+  .command-heading h3 { font-size:18px; }
+  .command-card { padding:7px 8px; }
+}
+/* Keep the touch layout in a natural reading order. */
+@media (max-width:850px) {
+  .lab-top { flex-wrap:wrap; gap:10px; }
+  .lab-top>div:first-child { flex:1; order:1; }
+  #reset { order:2; }
+  .view-tabs { order:3; padding:0; margin:0 0 10px; width:100%; }
+}
+.official-reference { display:none; color:#a2c8b2; }
+.commands-mode .official-reference { display:inline; }
+.commands-mode .footer-tagline { display:none; }
+@media (max-width:850px) {
+  .footer-tagline { display:none; }
+  .commands-mode footer { flex-wrap:wrap; gap:8px; }
+}
+@media (min-width:851px) {
+  .command-heading>.eyebrow { display:none; }
+  .command-heading h3 { font-size:18px; line-height:1.4; margin:0 0 4px; }
+  .command-heading>p { font-size:10px; line-height:1.45; margin:0 0 7px; }
+  .command-list { gap:6px; grid-template-columns:repeat(3,minmax(0,1fr)); }
+  .command-card { padding:7px 8px; gap:8px; line-height:1.35; }
+  .command-card strong { line-height:1.35; }
+  .command-card span span { line-height:1.35; }
+  .command-card small { line-height:1.35; }
+  .command-filters { padding:6px 0; margin-bottom:8px; gap:5px; }
+  .command-filters button { font-size:10px; padding:4px 9px; }
+}
+@media (min-width:1101px) and (max-height:760px) {
+  .command-list { grid-template-columns:repeat(4,minmax(0,1fr)); }
+}
+@media (min-width:851px) and (max-height:650px) {
+  .commands-mode #command-guide { padding-top:12px; padding-bottom:12px; }
+  .command-heading h3 { font-size:16px; }
+  .command-heading>p { font-size:10px; line-height:1.35; margin-bottom:5px; }
+  .command-filters { top:-12px; padding:4px 0; margin-bottom:6px; }
+  .command-list { gap:5px; }
+  .command-card { padding:5px 7px; gap:7px; }
+  .command-card img { width:26px; height:26px; padding:1px; }
+  .command-card strong { font-size:10px; }
+  .command-card span span { font-size:10px; }
+  .command-card small { display:none; }
+}
+
+.related-experiment{display:block;margin-top:10px;padding-top:9px;border-top:1px solid #4b6858}.related-experiment a{color:#a4ebc2;text-decoration:underline}.brand:focus-visible{outline:2px solid #91e9c3;outline-offset:5px}

@@ -1,0 +1,12 @@
+{
+  "interfacePage": "https://docs.mcneel.com/rhino/8/help/en-us/user_interface/rhino_window.htm",
+  "screenshot": "https://docs.mcneel.com/rhino/8/help/en-us/image/localization/rhinowindow_win.png",
+  "imageSize": [
+    1252,
+    866
+  ],
+  "flyoutHelp": "https://docs.mcneel.com/rhino/8/help/en-us/user_interface/using_toolbars.htm",
+  "flyoutAnimation": "https://docs.mcneel.com/rhino/8/help/en-us/image/topic_illustrations/toolbarflyout.gif",
+  "notes": "介面圖與局部放大使用原始官方截圖，以 SVG 疊加橘框。工具群的圖示索引取自官方 toolbarmap，並非固定行列的介面截圖。What 的右鍵對應依 Diagnostics 工具列的 block_Rt 記錄。",
+  "positionReference": "Rhino 8 Windows 官方範例佈局，工具列寬度與排列可自訂。"
+}

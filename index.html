@@ -243,6 +243,7 @@
             .level-num  { min-width: 44px; font-size: 10px; }
         }
     </style>
+    <link rel="stylesheet" href="assets/course-groups.css">
 </head>
 <body>
 
@@ -254,13 +255,29 @@
         <div class="lab-label">Simon Form Lab ／ 造型基礎實驗室</div>
         <h1>從基本幾何中<br>尋找造型的<span>靈魂</span></h1>
         <p class="subtitle">
-            給對於基礎造型有興趣者的互動造型課程。<br>
-            每個 Level 都是一個可以動手玩的造型實驗室，從 R 角開始，理解形體的語言。
+            用互動實驗理解形體，也從零認識 Rhino。<br>
+            選擇一條課程路線，從適合自己的起點開始。
         </p>
     </header>
 
+    <nav class="course-paths" aria-label="課程分組">
+        <a class="path-card" href="#form-labs" data-course="form-labs" aria-controls="form-labs">
+            <span class="path-kicker">FORM EXPLORATIONS <span>15 堂實驗</span></span>
+            <span class="path-title">造型基礎實驗 <span aria-hidden="true">↗</span></span>
+            <span class="path-desc">從圓角、比例到曲面，動手探索形體與建模邏輯。</span>
+        </a>
+        <a class="path-card rhino-path" href="#rhino-basics" data-course="rhino-basics" aria-controls="rhino-basics">
+            <span class="path-kicker">RHINO FOUNDATIONS <span>1 個入門單元</span></span>
+            <span class="path-title">Rhino 基礎認識 <span aria-hidden="true">↗</span></span>
+            <span class="path-desc">給第一次接觸 Rhino 的你，先認識物件，再開始建模。</span>
+        </a>
+    </nav>
+
     <div class="divider"></div>
 
+    <section id="form-labs" class="course-section" aria-labelledby="form-heading">
+        <div class="group-heading"><div><p class="group-kicker">FORM EXPLORATIONS</p><h2 id="form-heading">造型基礎實驗</h2></div><span class="group-count">LEVEL 01–15</span></div>
+        <p class="group-description">從圓角與量體出發，逐步走向曲線、曲面與完整造型。</p>
     <div class="levels-grid">
 
         <!-- LEVEL 1 -->
@@ -453,6 +470,24 @@
         </a>
 
     </div>
+    </section>
+
+    <section id="rhino-basics" class="course-section" aria-labelledby="rhino-heading">
+        <div class="group-heading"><div><p class="group-kicker">RHINO FOUNDATIONS</p><h2 id="rhino-heading">Rhino 基礎認識</h2></div><span class="group-count">從零開始</span></div>
+        <p class="group-description">先認識 Rhino 裡的物件與它們的關係，用圖鑑觀察，也動手改變形狀。</p>
+        <div class="levels-grid rhino-units">
+            <a href="rhino/objects/index.html" class="level-card rhino-unit">
+                <div class="level-num">UNIT 01</div>
+                <div class="level-content">
+                    <div class="level-title">認識 Rhino 物件</div>
+                    <div class="level-desc">點、曲線、曲面、擠出、多重曲面與實體，附 Rhino 指令圖示與位置對照。</div>
+                    <div class="level-tags"><span class="tag">物件圖鑑</span><span class="tag">自由編輯</span><span class="tag">8 節介紹</span></div>
+                </div>
+                <div class="level-arrow"></div>
+            </a>
+        </div>
+        <div class="unit-outline"><p class="outline-label">第一單元裡，你會認識</p><ol><li>點</li><li>曲線</li><li>曲面</li><li>擠出物件</li><li>多重曲面</li><li>實體</li><li>其他物件簡介</li><li>Rhino 指令對照</li></ol><p class="outline-note">先看代表性的物件，再進入三維編輯；最後把觀念對照到 Rhino 的實際工具。</p></div>
+    </section>
 
     <footer>
         <span class="footer-label">SIMON FORM LAB © 2026</span>
@@ -460,5 +495,6 @@
     </footer>
 </div>
 
+<script src="assets/course-groups.js"></script>
 </body>
 </html>

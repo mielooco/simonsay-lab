@@ -17,7 +17,16 @@
 
 ---
 
-## 課程目錄
+## 課程分組
+
+首頁提供兩個獨立入口：
+
+- **造型基礎實驗**：原有 Level 01–15，順序與課程內容不變。
+- **Rhino 基礎認識**：給第一次接觸 Rhino 的學習者；第一單元為 [認識 Rhino 物件](rhino/objects/index.html)，包含八節物件與指令介紹。
+
+可使用首頁的 `#form-labs` 與 `#rhino-basics` 分別連到兩個分組。Rhino 單元左上角可返回首頁，補充說明中也提供相關造型實驗的連結。
+
+## 造型基礎實驗目錄
 
 | Level | 標題 | 副標 |
 |-------|------|------|
@@ -35,6 +44,7 @@
 | [Level 12](https://mielooco.github.io/simonsay-lab/level-12/) | 環帶曲面 | 從三條半輪廓與截面建面，觀察鏡射與接面的切線方向 |
 | [Level 13](https://mielooco.github.io/simonsay-lab/level-13/) | 定位與造型 | 從寬度、高度與前後位置，觀察輪廓如何牽動曲面 |
 | [Level 14](https://mielooco.github.io/simonsay-lab/level-14/) | 曲面銜接 | 選線建立上蓋，比較 G0、G1、G2 與中央拱線的影響 |
+| [Level 15](https://mielooco.github.io/simonsay-lab/level-15/) | 點線成形 | 以滑鼠示範定位、建面與分件 |
 
 ---
 
