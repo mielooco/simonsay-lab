@@ -11,7 +11,52 @@
       "浴山毛髮濾網與潔癖刷於 2020、2022 年金點設計獎入選（IDC 公告）",
       "蒔光縮影於 2020 年臺灣工藝競賽入選（IDC 公告）",
       "2020–2024 KYMCO 設計挑戰盃指導老師；累計 1 金、3 銀、4 銅（IDC 公告）",
-      "2026 年南華大學設計深耕 × 生根設計校園講座受邀講者（IDC 公告）"
+      "2026 年南華大學設計深耕 × 生根設計校園講座受邀講者（IDC 公告）",
+      "南臺科技大學創新產品設計系兼任教師，專長包括產品設計、產品線及生產流程規劃、製造方法、設計溝通（系所兼任師資頁）",
+      "曾任浩漢設計資深設計師、日商帝艾帝設計師，具研發部門管理背景；未沿用舊師資頁對企業職務的迄今說法",
+      "米鹿設計列入 2026 年臺南市 SBIR 成果展績優廠商表揚名單；此為公司認可，非個人獎項（市府 2026-11-11 報導）"
+    ],
+    "faculty": "https://cpd.stust.edu.tw/tc/node/helpers",
+    "sbir": "https://www.tainan.gov.tw/News_Content.aspx?n=13371&s=8846488"
+  },
+  "crowdfunding": {
+    "source": "主理人提供的資料及 IDC 公開講座介紹",
+    "records": [
+      {
+        "platform": "Kickstarter",
+        "year": 2025,
+        "currency": "USD",
+        "amount": 54167,
+        "supporters": 1044
+      },
+      {
+        "platform": "嘖嘖 Zeczec",
+        "year": 2025,
+        "currency": "TWD",
+        "amount": 926423,
+        "supporters": 1075
+      },
+      {
+        "platform": "Camp-fire",
+        "year": 2024,
+        "currency": "JPY",
+        "amount": 432310,
+        "supporters": 137
+      },
+      {
+        "platform": "Camp-fire",
+        "year": 2024,
+        "currency": "JPY",
+        "amount": 764781,
+        "supporters": 253
+      },
+      {
+        "platform": "Wadiz",
+        "year": 2023,
+        "currency": "KRW",
+        "amount": 12000000,
+        "supporters": 400
+      }
     ]
   }
 }
