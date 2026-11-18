@@ -8,7 +8,7 @@
 
 ## 關於這個課程
 
-網站介紹與主理人資料見 [About Us／關於實驗室](about/index.html)，首頁頂部與頁尾均可進入。主理人為方健民（Simon Fang）；公開背景資料依 iF 設計專訪與 IDC 校園講座公告整理，來源見 `assets/about/sources.json`。
+網站介紹與主理人資料見 [About Us／關於實驗室](about/index.html)，首頁大標題下方提供單一入口。主理人為方健民（Simon Fang）；公開背景資料依 iF 設計專訪與 IDC 校園講座公告整理，來源見 `assets/about/sources.json`。
 
 給正在學習造型設計的互動造型課程。  
 每個 Level 都是一個可以動手玩的 3D 實驗室，從 R 角開始，理解形體的語言。
