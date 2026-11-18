@@ -36,3 +36,27 @@ header{margin-bottom:32px}
 @media(prefers-reduced-motion:reduce){.path-card{transition:none}.level-card,.lab-label,h1,.subtitle,.divider,footer{animation:none;opacity:1}}
 
 .rhino-unit{animation:none;opacity:1}
+
+/* Homepage refinement: clearer reading order and a shorter desktop catalogue. */
+.container{max-width:1080px;padding-bottom:64px}
+header{padding-bottom:6px}
+.lab-label{line-height:1.8;letter-spacing:2.8px;margin-bottom:18px}
+h1{font-size:clamp(32px,4.6vw,52px);line-height:1.22}
+.subtitle{max-width:620px;color:#a8b0ab;font-weight:400;font-size:14px}
+.course-paths{gap:20px}
+.path-card{padding:24px 26px}
+.path-kicker{font-size:10px}
+.path-desc{font-size:13px}
+.course-section{scroll-margin-top:28px}
+.group-description{color:#a4afa7}
+.level-card{padding:24px;gap:18px;animation:none;opacity:1}
+.level-card:hover{transform:translateY(-3px)}
+.level-num{min-width:61px;opacity:.85}
+.level-desc{font-weight:400;color:#a3aaa6}
+.tag{color:#929e97;border-color:#35403a;letter-spacing:.7px}
+footer{margin-top:48px;padding-top:24px;gap:18px;flex-wrap:wrap}
+.footer-label{color:#8d9991;letter-spacing:1.5px}
+.footer-tag{font-family:'Noto Sans TC',sans-serif;font-size:12px;color:#a3b8aa;opacity:1}
+@media(min-width:800px){#form-labs .levels-grid{grid-template-columns:repeat(2,minmax(0,1fr))}#form-labs .level-card{min-height:142px}.level-title{font-size:17px}}
+@media(max-width:799px){.container{max-width:720px}.path-kicker{font-size:8px;letter-spacing:.8px}.path-card{padding:21px}.path-title{font-size:20px}}
+@media(max-width:600px){.container{padding:30px 20px 42px}.lab-label{font-size:10px;letter-spacing:1.6px}.subtitle{font-size:13px}.path-card{padding:18px 20px}.path-desc{font-size:12px}.level-card{padding:20px;gap:14px}.level-num{min-width:51px}.group-heading{gap:12px}.group-heading h2{font-size:21px}.unit-outline{margin-top:18px}footer{margin-top:36px}.footer-label{font-size:10px}}
