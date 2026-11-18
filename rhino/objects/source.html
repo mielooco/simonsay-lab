@@ -2,12 +2,12 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>認識 Rhino 物件｜Rhino 基礎認識 — Simon Form Lab</title>
+<title>認識 Rhino 物件｜Rhino 基礎認識 — 形體造型實驗室</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2391e9c3'/%3E%3Ctext x='9' y='24' font-size='24' fill='%23111c1f'%3ES%3C/text%3E%3C/svg%3E"><link rel="stylesheet" href="style.css"><link rel="stylesheet" href="layout.css"><link rel="stylesheet" href="toolbar-guide.css">
 <script type="importmap">{"imports":{"three":"./vendor/three.module.js"}}</script>
 </head>
 <body>
-<header><a class="brand" href="../../index.html#rhino-basics" title="返回 Rhino 基礎認識課程">SIMON <span>FORM LAB</span><small>← 課程首頁</small></a><span class="edition">RHINO 基礎認識 <b>第一單元</b></span></header>
+<header><a class="brand" href="../../index.html#rhino-basics" title="返回 Rhino 基礎認識課程">形體造型<span>實驗室</span><small>← 課程首頁</small></a><span class="edition">RHINO 基礎認識 <b>第一單元</b></span></header>
 <main>
 <aside class="rail"><p class="eyebrow">01 / UNDERSTAND THE OBJECT</p><h1>先認識物件，<br>再開始建模。</h1><p class="intro">從一個位置，到一個封閉的形體。<br>動手看看 Rhino 裡的幾何物件。</p><nav id="chapters" aria-label="物件型態"></nav></aside>
 <section class="lab" aria-label="互動觀察區"><div class="lab-top"><div><span class="eyebrow" id="counter"></span><h2 id="object-title"></h2></div><div class="view-tabs" role="group" aria-label="觀看方式"><button id="gallery-view" aria-pressed="true">物件圖鑑</button><button id="experiment-view" aria-pressed="false">動手觀察</button><span>先看種類，再看結構</span></div><button id="reset" class="quiet">重設本節 ↺</button></div><div id="viewport"><div id="fallback" hidden>3D 畫面無法載入。請使用支援 WebGL 的瀏覽器，重新開啟此預覽。</div><div id="model-tag"></div><div id="object-labels"></div><div id="command-guide"></div><div class="canvas-note">拖曳空白處旋轉 · 滾輪／雙指縮放</div><div class="axis-label">X <span>／</span> Y <span>／</span> Z</div></div><div class="status"><span class="dot"></span><span id="status" role="status" aria-live="polite"></span></div><div class="controls" id="controls"></div></section>

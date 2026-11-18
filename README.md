@@ -1,7 +1,6 @@
-# Simon Fundamental Design Lab
-### 形體造型實驗室
+# 形體造型實驗室
 
-> 設計人，尋找造型的老靈魂
+> 動手觀察形體，理解造型與建模。
 
 **🔗 課程入口 → [https://mielooco.github.io/SimonSay-lab/](https://mielooco.github.io/simonsay-lab/)**
 
@@ -94,7 +93,7 @@ Level 07 先顯示三步課前簡圖，點「開始實驗」進入操作，也�
 
 ---
 
-*Simon Fundamental Design Lab © 2026*
+*形體造型實驗室 © 2026*
 
 第 08 課使用 Evan Wallace 的 MIT 授權 csg.js 進行幾何布林運算；原始授權見 `level-8/CSG-LICENSE.txt`。
 
