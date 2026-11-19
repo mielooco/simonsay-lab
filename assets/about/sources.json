@@ -23,18 +23,26 @@
       "school_teaching_status": "目前已不在學校任教",
       "presentation": "僅列過往教學經歷，不列於目前職稱或簡介開頭",
       "end_date": null
+    },
+    "user_supplied_profile": {
+      "source": "主理人於對話中提供的演講者簡歷與完整募資表",
+      "education": "雲林科技大學",
+      "career_history": [
+        "浩漢產品設計",
+        "日商 DID 設計公司",
+        "歐柏股份有限公司",
+        "威亘企業有限公司",
+        "米鹿設計有限公司"
+      ],
+      "notes": [
+        "僅列學校與公司名稱，不推定未提供的學位、任職期間與職稱",
+        "KYMCO 獎項列為指導學生成果，與設計及工藝獎項分開"
+      ]
     }
   },
   "crowdfunding": {
-    "source": "主理人提供的資料及 IDC 公開講座介紹",
+    "source": "主理人於對話中提供的完整 2019–2025 年募資紀錄",
     "records": [
-      {
-        "platform": "Kickstarter",
-        "year": 2025,
-        "currency": "USD",
-        "amount": 54167,
-        "supporters": 1044
-      },
       {
         "platform": "嘖嘖 Zeczec",
         "year": 2025,
@@ -43,11 +51,11 @@
         "supporters": 1075
       },
       {
-        "platform": "Camp-fire",
-        "year": 2024,
-        "currency": "JPY",
-        "amount": 432310,
-        "supporters": 137
+        "platform": "Kickstarter",
+        "year": 2025,
+        "currency": "USD",
+        "amount": 54167,
+        "supporters": 1044
       },
       {
         "platform": "Camp-fire",
@@ -57,11 +65,154 @@
         "supporters": 253
       },
       {
+        "platform": "Camp-fire",
+        "year": 2024,
+        "currency": "JPY",
+        "amount": 432310,
+        "supporters": 137
+      },
+      {
+        "platform": "Kickstarter",
+        "year": 2023,
+        "currency": "USD",
+        "amount": 35619,
+        "supporters": 1170
+      },
+      {
+        "platform": "machi-ya",
+        "year": 2023,
+        "currency": "JPY",
+        "amount": 1689890,
+        "supporters": 386
+      },
+      {
         "platform": "Wadiz",
         "year": 2023,
         "currency": "KRW",
         "amount": 12000000,
         "supporters": 400
+      },
+      {
+        "platform": "嘖嘖 Zeczec",
+        "year": 2022,
+        "currency": "TWD",
+        "amount": 1571858,
+        "supporters": 1221
+      },
+      {
+        "platform": "Kickstarter",
+        "year": 2022,
+        "currency": "USD",
+        "amount": 175119,
+        "supporters": 2856
+      },
+      {
+        "platform": "Green Funding",
+        "year": 2022,
+        "currency": "JPY",
+        "amount": 1746200,
+        "supporters": 400
+      },
+      {
+        "platform": "Kickstarter",
+        "year": 2021,
+        "currency": "USD",
+        "amount": 89860,
+        "supporters": 5061
+      },
+      {
+        "platform": "Makuake",
+        "year": 2021,
+        "currency": "JPY",
+        "amount": 1500000,
+        "supporters": 500,
+        "amount_approximate": true
+      },
+      {
+        "platform": "嘖嘖 Zeczec",
+        "year": 2021,
+        "currency": "TWD",
+        "amount": 934258,
+        "supporters": 1255
+      },
+      {
+        "platform": "嘖嘖 Zeczec",
+        "year": 2020,
+        "currency": "TWD",
+        "amount": 395972,
+        "supporters": 347
+      },
+      {
+        "platform": "嘖嘖 Zeczec",
+        "year": 2019,
+        "currency": "TWD",
+        "amount": 1403900,
+        "supporters": 1993
+      }
+    ]
+  },
+  "awards": {
+    "source": "主理人於對話中提供的演講者簡歷",
+    "records": [
+      {
+        "year": 2022,
+        "award": "金點設計獎 · 入選",
+        "work": "潔癖刷（米鹿設計）"
+      },
+      {
+        "year": 2021,
+        "award": "iF Design Award",
+        "work": "HUROYAMA"
+      },
+      {
+        "year": 2020,
+        "award": "金點設計獎 · 入選",
+        "work": "浴山 毛髮濾網（米鹿設計）"
+      },
+      {
+        "year": 2020,
+        "award": "臺灣工藝競賽 · 入選",
+        "work": "蒔光縮影"
+      },
+      {
+        "year": 2019,
+        "award": "臺灣工藝競賽 · 入選",
+        "work": "荷塘月色"
+      },
+      {
+        "year": 2018,
+        "award": "金點設計獎 · 入選",
+        "work": "立體皮革名片夾（米鹿設計）"
+      },
+      {
+        "year": 2015,
+        "award": "Red Dot Award",
+        "work": "OPPO Carver Handgelenkstütze"
+      },
+      {
+        "year": 2014,
+        "award": "Red Dot Award",
+        "work": "OPPO ELite Genu Adjustor"
+      },
+      {
+        "year": 2014,
+        "award": "Red Dot Award",
+        "work": "OPPO Force-in-One"
+      },
+      {
+        "year": 2012,
+        "award": "Red Dot Award",
+        "work": "OPPO cervical collar"
+      },
+      {
+        "year": 2010,
+        "award": "Red Dot Award",
+        "work": "OA Knee"
+      },
+      {
+        "year": 2009,
+        "award": "Red Dot Award",
+        "work": "ACL Knee"
       }
     ]
   }
