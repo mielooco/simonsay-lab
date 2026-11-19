@@ -22,12 +22,12 @@ export function createSoftwareRenderer(){
       const color=mat.color||new THREE.Color('#8296ae');
       if(obj.userData.handle){
         const center=project(0,0,0,obj.matrixWorld),edge=project(.075,0,0,obj.matrixWorld);
-        items.push({type:'point',depth:center[2]-.0004,p:center,r:Math.max(4,Math.hypot(edge[0]-center[0],edge[1]-center[1])),color:'#'+color.getHexString()});continue;
+        items.push({type:'point',layer:obj.renderOrder,depth:center[2]-.0004,p:center,r:Math.max(5,Math.hypot(edge[0]-center[0],edge[1]-center[1])),color:'#'+color.getHexString()});continue;
       }
       const points=Array.from({length:pos.count},(_,i)=>project(pos.getX(i),pos.getY(i),pos.getZ(i),obj.matrixWorld));
       if(obj.isLine){
         const step=obj.isLineSegments?2:1;
-        for(let i=0;i<points.length-1;i+=step){const a=points[i],b=points[i+1];if(a[2]>1||b[2]>1)continue;const vc=geo.getAttribute('color'),lineColor=vc?new THREE.Color().fromBufferAttribute(vc,i).getHexString():color.getHexString();items.push({type:'line',depth:obj.type==='GridHelper'?2:(a[2]+b[2])/2-.00008,a,b,color:'#'+lineColor,width:obj.userData.lineWidth||1,dashed:mat.isLineDashedMaterial});}
+        for(let i=0;i<points.length-1;i+=step){const a=points[i],b=points[i+1];if(a[2]>1||b[2]>1)continue;const vc=geo.getAttribute('color'),lineColor=vc?new THREE.Color().fromBufferAttribute(vc,i).getHexString():color.getHexString();items.push({type:'line',layer:obj.renderOrder,depth:obj.type==='GridHelper'?2:(a[2]+b[2])/2-.00008,a,b,color:'#'+lineColor,width:obj.userData.lineWidth||1,dashed:mat.isLineDashedMaterial});}
         continue;
       }
       if(!obj.isMesh)continue;
@@ -42,7 +42,8 @@ export function createSoftwareRenderer(){
         items.push({type:'triangle',depth:p.reduce((a,b)=>a+b[2],0)/3,p,color:`rgb(${rgb.join(',')})`,opacity:mat.transparent?mat.opacity:1});
       }
     }
-    items.sort((a,b)=>b.depth-a.depth);
+    // Draw teaching curves and handles after surfaces, including points behind the model.
+    items.sort((a,b)=>(a.layer??0)-(b.layer??0)||b.depth-a.depth);
     for(const it of items){
       ctx.globalAlpha=it.opacity??1;
       if(it.type==='triangle'){
@@ -51,7 +52,7 @@ export function createSoftwareRenderer(){
       }else if(it.type==='line'){
         ctx.beginPath();ctx.moveTo(it.a[0],it.a[1]);ctx.lineTo(it.b[0],it.b[1]);ctx.strokeStyle=it.color;ctx.lineWidth=it.width;ctx.setLineDash(it.dashed?[5,4]:[]);ctx.stroke();
       }else{
-        ctx.beginPath();ctx.arc(it.p[0],it.p[1],it.r,0,Math.PI*2);ctx.fillStyle=it.color;ctx.fill();ctx.strokeStyle='#f7eed2';ctx.lineWidth=.7;ctx.setLineDash([]);ctx.stroke();
+        ctx.beginPath();ctx.arc(it.p[0],it.p[1],it.r,0,Math.PI*2);ctx.fillStyle=it.color;ctx.fill();ctx.strokeStyle='#f7eed2';ctx.lineWidth=1.5;ctx.setLineDash([]);ctx.stroke();
       }
     }
     ctx.globalAlpha=1;ctx.setLineDash([]);
