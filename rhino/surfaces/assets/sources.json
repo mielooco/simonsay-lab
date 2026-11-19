@@ -1,0 +1,42 @@
+[
+  {
+    "file": "icon-edgesrf.png",
+    "url": "https://docs.mcneel.com/rhino/8/help/en-us/image/command_icons/edgesrf.png",
+    "bytes": 7976
+  },
+  {
+    "file": "icon-extrudecrv.png",
+    "url": "https://docs.mcneel.com/rhino/8/help/en-us/image/command_icons/extrudecrv.png",
+    "bytes": 2479
+  },
+  {
+    "file": "icon-loft.png",
+    "url": "https://docs.mcneel.com/rhino/8/help/en-us/image/command_icons/loft.png",
+    "bytes": 5714
+  },
+  {
+    "file": "icon-revolve.png",
+    "url": "https://docs.mcneel.com/rhino/8/help/en-us/image/command_icons/revolve.png",
+    "bytes": 9702
+  },
+  {
+    "file": "icon-railrevolve_rt.png",
+    "url": "https://docs.mcneel.com/rhino/8/help/en-us/image/command_icons/railrevolve_rt.png",
+    "bytes": 11706
+  },
+  {
+    "file": "icon-sweep1.png",
+    "url": "https://docs.mcneel.com/rhino/8/help/en-us/image/command_icons/sweep1.png",
+    "bytes": 7066
+  },
+  {
+    "file": "icon-sweep2.png",
+    "url": "https://docs.mcneel.com/rhino/8/help/en-us/image/command_icons/sweep2.png",
+    "bytes": 6849
+  },
+  {
+    "file": "rhino-window.png",
+    "url": "https://docs.mcneel.com/rhino/8/help/en-us/image/localization/rhinowindow_win.png",
+    "use": "Windows 工具群入口定位；橘框為課程標記"
+  }
+]
