@@ -38,6 +38,20 @@
         "僅列學校與公司名稱，不推定未提供的學位、任職期間與職稱",
         "KYMCO 獎項列為指導學生成果，與設計及工藝獎項分開"
       ]
+    },
+    "campus_exchange": {
+      "source": "主理人最新補充",
+      "since": 2019,
+      "universities": [
+        "雲林科技大學",
+        "成功大學",
+        "南華大學"
+      ],
+      "activities": [
+        "設計評圖",
+        "講座"
+      ],
+      "presentation": "以內文概述多校交流經歷，不獨立列單場活動"
     }
   },
   "crowdfunding": {
@@ -214,6 +228,34 @@
         "award": "Red Dot Award",
         "work": "ACL Knee"
       }
+    ]
+  },
+  "research_projects": {
+    "source": "政府官方獲補助名單與核定計畫公告",
+    "records": [
+      {
+        "year": 2022,
+        "program": "CITD",
+        "record": "111年度第2梯次獲補助名單，第17筆：米鹿設計有限公司",
+        "url": "https://keid.nat.gov.tw/citdweb/Web/UpWebload/523fdc23-d9b1-4697-85f9-cf6a7a031567.pdf"
+      },
+      {
+        "year": 2023,
+        "program": "臺南市地方型 SBIR",
+        "project": "乾・淨・刮｜多工集水刮水器開發計畫",
+        "id": "112SBIR-設計02",
+        "url": "https://w3fs.tainan.gov.tw/Download.ashx?n=MTEy5bm06Ie65Y2X5biCU0JJUuaguOWumuS4gOimveihqC5wZGY%3D&u=LzAwMS9VcGxvYWQvMjIvcmVsZmlsZS8xMDA4MS8xNDU3Mi81NTlmNmRlZS1lY2UxLTQ4ZjQtYjkwYi1hZmYzM2VlYTNmN2IucGRm"
+      },
+      {
+        "year": 2025,
+        "program": "臺南市地方型 SBIR",
+        "project": "浴山｜廚房水槽快排濾網",
+        "url": "https://w3fs.tainan.gov.tw/Download.ashx?n=MTE05bm0U0JJUuaguOWumuS4gOimveihqC01M%2BahiDYx5a62KOWQq%2BS4u%2BmhjOW8jzLmoYg45a62KS5wZGY%3D&u=LzAwMS9VcGxvYWQvMjIvcmVsZmlsZS8xMDA4MS8xNDU3Mi8zZDhjZDE2Zi1kYjRjLTRiZDUtOWVhMi1mMTM5ZmZhNTY5NWYucGRm"
+      }
+    ],
+    "notes": [
+      "依核定年度列示；後續年度經費明細不重複計為新案",
+      "屬公司研發計畫參與紀錄，非個人設計獎項"
     ]
   }
 }
