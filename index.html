@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="互動造型課程：15 堂造型基礎實驗，以及從零開始的 Rhino 物件認識與曲面建立。直接在瀏覽器觀察、操作與理解形體。">
+    <meta name="description" content="互動造型課程：15 堂造型基礎實驗，以及從零開始的 Rhino 物件認識、曲面建立與 Grasshopper 入門。直接在瀏覽器觀察、操作與理解形體。">
     <title>形體造型實驗室｜互動造型課程</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Noto+Sans+TC:wght@300;400;700&display=swap" rel="stylesheet">
@@ -310,6 +310,10 @@ footer{margin-top:48px;padding-top:24px;gap:18px;flex-wrap:wrap}
 
 /* One secondary entry sits directly below the homepage title. */
 .about-link,.about-link:link,.about-link:visited{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:34px;margin-top:15px;padding:5px 12px;border:1px solid #3a5545;border-radius:6px;background:#102018;color:#b9dac8;font:12px/1.7 'Noto Sans TC',sans-serif;letter-spacing:.5px;text-decoration:none;white-space:nowrap;transition:background .15s,border-color .15s}.about-link span{color:#80dcb0;font-size:13px;line-height:1}.about-link:hover{background:#183426;border-color:#77c9a2;color:#e2f5e9}.about-link:focus-visible{outline:2px solid #b6efcf;outline-offset:5px}.about-link+.subtitle{margin-top:16px}@media(max-width:600px){.about-link,.about-link:link,.about-link:visited{font-size:11px;min-height:40px;margin-top:12px;padding:7px 11px;gap:7px}.about-link+.subtitle{margin-top:14px}}@media(prefers-reduced-motion:reduce){.about-link{transition:none}}
+
+/* Grasshopper starts a separate learning path alongside form and Rhino studies. */
+.course-paths{grid-template-columns:repeat(3,minmax(0,1fr))}.grasshopper-path:hover,.grasshopper-path[aria-current="true"]{border-color:#a4d993;background:#1a2919}.grasshopper-path .path-kicker{color:#a4d993}#grasshopper-basics .group-kicker,#grasshopper-basics .group-count{color:#a4d993}.grasshopper-units{grid-template-columns:1fr}.grasshopper-unit{border-color:#3d563b;background:#111d12}.grasshopper-unit .level-num{color:#a4d993;min-width:65px}.grasshopper-unit::before{background:#a4d993}.grasshopper-unit:hover{border-color:#a4d993;box-shadow:0 8px 40px #91b87c0c}.grasshopper-unit:hover .level-arrow{border-left-color:#a4d993}.grasshopper-unit .tag{color:#a0b697;border-color:#40533a;font-family:'Noto Sans TC',sans-serif;letter-spacing:.5px}.grasshopper-unit .level-title{font-size:20px}
+@media(max-width:900px){.course-paths{grid-template-columns:1fr}.path-title{font-size:21px}}@media(max-width:600px){.grasshopper-unit .level-num{min-width:52px;font-size:10px}.grasshopper-unit .level-title{font-size:16px}}
 </style>
 </head>
 <body>
@@ -323,7 +327,7 @@ footer{margin-top:48px;padding-top:24px;gap:18px;flex-wrap:wrap}
         <h1>形體造型<span>實驗室</span></h1>
         <a class="about-link" href="about/index.html" aria-label="About Us 關於實驗室">關於實驗室 <span aria-hidden="true">↗</span></a>
         <p class="subtitle">
-            用互動實驗理解形體，也從零認識 Rhino。<br>
+            用互動實驗理解形體，從零認識 Rhino 與 Grasshopper。<br>
             選擇一條課程路線，從適合自己的起點開始。
         </p>
     </header>
@@ -338,6 +342,11 @@ footer{margin-top:48px;padding-top:24px;gap:18px;flex-wrap:wrap}
             <span class="path-kicker">RHINO FOUNDATIONS <span>2 個入門單元</span></span>
             <span class="path-title">Rhino 基礎認識 <span aria-hidden="true">↗</span></span>
             <span class="path-desc">給第一次接觸 Rhino 的你，先認識物件，再開始建模。</span>
+        </a>
+        <a class="path-card grasshopper-path" href="#grasshopper-basics" data-course="grasshopper-basics" aria-controls="grasshopper-basics">
+            <span class="path-kicker">GRASSHOPPER NOTES <span>1 個入門單元</span></span>
+            <span class="path-title">Grasshopper 學習筆記</span>
+            <span class="path-desc">從介面與資料流程開始，邊操作、邊累積自己的理解。</span>
         </a>
     </nav>
 
@@ -567,6 +576,23 @@ footer{margin-top:48px;padding-top:24px;gap:18px;flex-wrap:wrap}
         <div class="unit-outline"><p class="outline-label">第二單元裡，你會練習</p><ol><li>邊緣建面</li><li>擠出曲線</li><li>曲線放樣</li><li>旋轉成形</li><li>沿路徑旋轉</li><li>單軌掃掠</li><li>雙軌掃掠</li><li>方法對照</li></ol><p class="outline-note">用畫面中的模型觀察曲面的生成，再直接修改曲線，理解每種方法的控制條件。</p></div>
     </section>
 
+    <section id="grasshopper-basics" class="course-section" aria-labelledby="grasshopper-heading">
+        <div class="group-heading"><div><p class="group-kicker">GRASSHOPPER NOTES</p><h2 id="grasshopper-heading">Grasshopper 學習筆記</h2></div><span class="group-count">從介面開始</span></div>
+        <p class="group-description">一次認識一個觀念，透過操作理解參數、單元與連線，記下自己的學習歷程。</p>
+        <div class="levels-grid grasshopper-units">
+            <a href="grasshopper/interface/index.html" class="level-card grasshopper-unit">
+                <div class="level-num">UNIT 01</div>
+                <div class="level-content">
+                    <div class="level-title">認識 Grasshopper 介面</div>
+                    <div class="level-desc">從工具圖示、選單與畫布開始，沿著一條簡單流程理解參數、單元、連線與預覽。</div>
+                    <div class="level-tags"><span class="tag">介面導覽</span><span class="tag">操作示意</span><span class="tag">5 頁入門</span></div>
+                </div>
+                <div class="level-arrow"></div>
+            </a>
+        </div>
+        <div class="unit-outline"><p class="outline-label">第一單元裡，你會認識</p><ol><li>開啟與視窗</li><li>介面地圖與選單</li><li>分類與找工具</li><li>畫布操作</li><li>參數、單元與連線</li></ol><p class="outline-note">附可儲存在目前瀏覽器的學習筆記，隨著自己的進度逐步累積。</p></div>
+    </section>
+
     <footer>
         <span class="footer-label">形體造型實驗室 © 2026</span>
     </footer>
@@ -577,7 +603,8 @@ footer{margin-top:48px;padding-top:24px;gap:18px;flex-wrap:wrap}
   const links = [...document.querySelectorAll('[data-course]')];
   const groups = [...document.querySelectorAll('[data-course-section], .course-section')];
   function showGroup() {
-    const group = location.hash === '#rhino-basics' ? 'rhino-basics' : 'form-labs';
+    const requested = location.hash.slice(1);
+    const group = ['form-labs', 'rhino-basics', 'grasshopper-basics'].includes(requested) ? requested : 'form-labs';
     for (const section of groups) section.hidden = section.id !== group;
     for (const link of links) {
       if (link.dataset.course === group) link.setAttribute('aria-current', 'true');

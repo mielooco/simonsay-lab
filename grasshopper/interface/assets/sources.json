@@ -1,0 +1,21 @@
+{
+  "interface_reference": {
+    "page": "https://ddm.arch.ethz.ch/docs/tutorial/grasshopper-basics/interface",
+    "files": [
+      "interface-reference.png",
+      "windows-reference.png"
+    ],
+    "credit": "ETH Zurich · Grasshopper Basics · Interface",
+    "notes": "Windows Grasshopper 1 介面；參照圖含原始註記及額外外掛標籤，教學以版面裁切顯示主視窗，未改動原圖"
+  },
+  "technical_references": [
+    "https://www.rhino3d.com/it/docs/guides/grasshopper/intro-to-grasshopper/",
+    "https://wiki.mcneel.com/workshops/grasshopper"
+  ],
+  "scope": "介面辨認與簡化連線示意；非完整 Grasshopper 執行環境",
+  "grasshopper_icon": {
+    "page": "https://docs.mcneel.com/rhino/8/help/en-us/commands/grasshopper.htm",
+    "image": "https://docs.mcneel.com/rhino/8/help/en-us/image/command_icons/grasshopper.png",
+    "credit": "Robert McNeel & Associates · Rhino 8 command documentation"
+  }
+}

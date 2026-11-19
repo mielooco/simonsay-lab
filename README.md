@@ -20,12 +20,14 @@
 
 ## 課程分組
 
-首頁提供兩個獨立入口：
+首頁提供三個獨立入口：
 
 - **造型基礎實驗**：原有 Level 01–15，順序與課程內容不變。
 - **Rhino 基礎認識**：給第一次接觸 Rhino 的學習者；第一單元為 [認識 Rhino 物件](rhino/objects/index.html)，第二單元為 [從曲線建立曲面](rhino/surfaces/index.html)，各含八節介紹。第一單元最後可直接進入第二單元。
 
-可使用首頁的 `#form-labs` 與 `#rhino-basics` 分別連到兩個分組。Rhino 單元左上角可返回首頁，補充說明中也提供相關造型實驗的連結。
+- **Grasshopper 學習筆記**：第一單元為 [認識 Grasshopper 介面](grasshopper/interface/index.html)，以五頁介紹介面、找工具、畫布操作與資料流程，附瀏覽器內的個人學習筆記。
+
+可使用首頁的 `#form-labs`、`#rhino-basics` 與 `#grasshopper-basics` 分別連到三個分組。Rhino 單元左上角可返回首頁，補充說明中也提供相關造型實驗的連結。
 
 ## 造型基礎實驗目錄
 

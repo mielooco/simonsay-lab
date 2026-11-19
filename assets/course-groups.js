@@ -2,7 +2,8 @@
   const links = [...document.querySelectorAll('[data-course]')];
   const groups = [...document.querySelectorAll('[data-course-section], .course-section')];
   function showGroup() {
-    const group = location.hash === '#rhino-basics' ? 'rhino-basics' : 'form-labs';
+    const requested = location.hash.slice(1);
+    const group = ['form-labs', 'rhino-basics', 'grasshopper-basics'].includes(requested) ? requested : 'form-labs';
     for (const section of groups) section.hidden = section.id !== group;
     for (const link of links) {
       if (link.dataset.course === group) link.setAttribute('aria-current', 'true');
