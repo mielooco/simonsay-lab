@@ -166,12 +166,25 @@
     ]
   },
   "awards": {
-    "source": "主理人於對話中提供的演講者簡歷",
+    "source": "主理人提供的演講者簡歷；金點紀錄依官方作品頁與標章得主名單核對",
     "records": [
       {
+        "year": 2026,
+        "award": "金點設計獎標章",
+        "work": "乾淨刮－居家浴廁刮刀",
+        "source_url": "https://goldenpin.org.tw/goldenpin/zh-TW/winners/3020"
+      },
+      {
+        "year": 2026,
+        "award": "金點設計獎標章",
+        "work": "廚房水槽快排濾網",
+        "source_url": "https://goldenpin.org.tw/goldenpin/zh-TW/winners/3021"
+      },
+      {
         "year": 2022,
-        "award": "金點設計獎 · 入選",
-        "work": "潔癖刷（米鹿設計）"
+        "award": "金點設計獎標章",
+        "work": "潔癖刷（米鹿設計）",
+        "source_url": "https://goldenpin.org.tw/goldenpin/zh-TW/winners/577"
       },
       {
         "year": 2021,
@@ -179,9 +192,16 @@
         "work": "HUROYAMA"
       },
       {
+        "year": 2021,
+        "award": "金點設計獎標章",
+        "work": "ORIGAMAT 好摺墊",
+        "source_url": "https://www2.goldenpin.org.tw/en/project/origamat/"
+      },
+      {
         "year": 2020,
-        "award": "金點設計獎 · 入選",
-        "work": "浴山 毛髮濾網（米鹿設計）"
+        "award": "金點設計獎標章",
+        "work": "浴山 毛髮濾網（米鹿設計）",
+        "source_url": "https://www2.goldenpin.org.tw/en/project/huroyama/"
       },
       {
         "year": 2020,
@@ -195,8 +215,9 @@
       },
       {
         "year": 2018,
-        "award": "金點設計獎 · 入選",
-        "work": "立體皮革名片夾（米鹿設計）"
+        "award": "金點設計獎標章",
+        "work": "立體革名片夾－經典條紋（米鹿設計）",
+        "source_url": "https://www2.goldenpin.org.tw/en/file/2018/09/Golden-Pin-Design-Award-2018-Design-Mark-Recipients.pdf"
       },
       {
         "year": 2015,
@@ -228,6 +249,12 @@
         "award": "Red Dot Award",
         "work": "ACL Knee"
       }
+    ],
+    "verification_notes": [
+      "2026 年兩件作品的年度與標章狀態已由金點官網作品頁確認",
+      "2021 ORIGAMAT 依官方歷年作品頁及標章名單補入",
+      "2023、2024 年查得的晉級複審資料不列入得獎紀錄",
+      "2018、2020、2022 年依官方標章資料統一稱呼"
     ]
   },
   "research_projects": {
